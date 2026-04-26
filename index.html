@@ -312,7 +312,7 @@ const COLOR_LIST=['#e53935','#d81b60','#8e24aa','#5e35b1','#1565c0','#0288d1','#
 
 let TXS=[];
 function loadTxs(){try{TXS=JSON.parse(localStorage.getItem('fb_txs9')||'[]');}catch{TXS=[];}
-  if(!TXS.length){const n=Date.now();TXS=[{id:1,desc:'Salário',val:3500,cat:'salario',type:'rec',ts:n-86400000*20,scheduled:false},{id:2,desc:'Aluguel',val:1200,cat:'moradia',type:'desp',ts:n-86400000*18,scheduled:false},{id:3,desc:'Mercado',val:320,cat:'alimentacao',type:'desp',ts:n-86400000*14,scheduled:false},{id:4,desc:'iFood',val:85,cat:'alimentacao',type:'desp',ts:n-86400000*10,scheduled:false},{id:5,desc:'Combustível',val:150,cat:'transporte',type:'desp',ts:n-86400000*8,scheduled:false},{id:6,desc:'Netflix',val:55,cat:'streaming',type:'desp',ts:n-86400000*6,scheduled:false},{id:7,desc:'Rações',val:140,cat:'pets',type:'desp',ts:n-86400000*3,scheduled:false},{id:8,desc:'Freelance site',val:800,cat:'freelance',type:'rec',ts:n-86400000*2,scheduled:false},{id:9,desc:'Cinema',val:90,cat:'lazer',type:'desp',ts:n-86400000},{id:10,desc:'Aluguel próximo',val:1200,cat:'moradia',type:'desp',ts:n+86400000*10,scheduled:true},];saveTxs();}}
+  if(!TXS.length){const n=Date.now();TXS=[{id:1,desc:'Salário',val:1,cat:'salario',type:'rec',ts:n-86400000*20,scheduled:false},];saveTxs();}}
 const saveTxs=()=>localStorage.setItem('fb_txs9',JSON.stringify(TXS));
 
 let curMonth=new Date().getMonth(),curYear=new Date().getFullYear();
@@ -361,11 +361,48 @@ const mainMenu=()=>[
   {label:'📅 Saldo hoje',value:'saldo_hoje_now'},{label:'❓ Ajuda',value:'help'}
 ];
 
+// ==================== NOVA FUNÇÃO: Verificar agendados ====================
+async function checkScheduledTransactions() {
+    const today = todayStr();
+    
+    const dueScheduled = TXS.filter(t => 
+        t.scheduled && tsToDate(t.ts) <= today
+    );
+
+    if (dueScheduled.length === 0) return;
+
+    if (!document.getElementById('pg-chat').classList.contains('on')) return;
+
+    await botBubble(`📅 <strong>${dueScheduled.length} lançamento(s) agendado(s) chegou(ram) na data ou venceu(ram)!</strong>`, 'blue');
+
+    for (const tx of dueScheduled) {
+        const ci = catInfo(tx.cat);
+        const isToday = tsToDate(tx.ts) === today;
+        
+        const html = `
+            <strong>${tx.type === 'rec' ? '💚 Receita' : '❤️ Despesa'}</strong><br>
+            📝 ${esc(tx.desc)}<br>
+            💰 ${tx.type === 'rec' ? '+' : '-'}${fmt(tx.val)}<br>
+            ${ci.emoji} ${ci.l}<br>
+            📅 ${isToday ? '<strong>Hoje!</strong>' : 'Vencido em ' + new Date(tx.ts).toLocaleDateString('pt-BR')}
+        `;
+
+        await botBubble(html, 'blue');
+
+        addQR([
+            {label: '✅ Realizar agora', value: `confirm_sched|${tx.id}`},
+            {label: '⏳ Manter agendado', value: `keep_sched|${tx.id}`},
+            {label: '🗑️ Excluir', value: `delete_sched|${tx.id}`}
+        ]);
+        
+        await new Promise(r => setTimeout(r, 900));
+    }
+}
+
 async function handleInput(raw){
   const t=raw.toLowerCase().trim();
   if(/^(reiniciar|menu|voltar)$/i.test(t)&&STATE!=='idle'){DRAFT={};NC_DRAFT={};STATE='idle';removeEmojiPicker();removeColorPicker();await botBubble('🔄 Reiniciado!');setTimeout(()=>addQR(mainMenu()),300);return;}
   
-  // Comando de saldo em data específica
   if(STATE==='idle'&&/\b(saldo.*data|saldo.*dia|proje(c|ç)ão|até dia)\b/i.test(raw)){
     STATE='saldo_date';
     await botBubble('📅 Para qual data quer ver o saldo?<br><small>Ex: "25/12" ou "25/12/2024"</small>');
@@ -415,7 +452,6 @@ async function handleQR(val,label=''){
   if(val==='saldo'){STATE='idle';await flowSummary();return;}
   if(val==='del'){STATE='idle';await flowDelete();return;}
   
-  // Saldo em data
   if(val==='saldo_hoje_now'){STATE='idle';await flowSaldoDate(new Date());return;}
   if(val==='saldo_date'){STATE='saldo_date';await botBubble('📅 Para qual data?<br><small>Ex: "25/12" ou "25/12/2024"</small>');addQR([{label:'📅 Hoje',value:'sd_hoje'},{label:'📅 Amanhã',value:'sd_amanha'},{label:'📅 Digitar data',value:'sd_digitar'}]);return;}
   if(val==='sd_hoje'){STATE='idle';await flowSaldoDate(new Date());return;}
@@ -447,6 +483,35 @@ async function handleQR(val,label=''){
   if(val==='nc_type_desp'){NC_DRAFT.type='desp';STATE='nc_confirm';await showNcConfirm();return;}
   if(val==='nc_yes'){await saveNewCat();return;}
   if(val==='nc_no'){NC_DRAFT={};STATE='idle';removeEmojiPicker();removeColorPicker();await botBubble('Cancelado.');addQR(mainMenu());return;}
+
+  // ==================== NOVAS AÇÕES PARA AGENDADOS ====================
+  if (val.startsWith('confirm_sched|')) {
+    const id = parseInt(val.split('|')[1]);
+    const tx = TXS.find(t => t.id === id);
+    if (!tx) return;
+    tx.scheduled = false;
+    saveTxs();
+    updateHeader();
+    await botBubble(`✅ Lançamento realizado com sucesso!<br><strong>${esc(tx.desc)}</strong>`, 'ok');
+    setTimeout(() => addQR(mainMenu()), 1000);
+    return;
+  }
+
+  if (val.startsWith('keep_sched|')) {
+    await botBubble('⏳ Lançamento mantido como agendado.', 'blue');
+    setTimeout(() => addQR(mainMenu()), 800);
+    return;
+  }
+
+  if (val.startsWith('delete_sched|')) {
+    const id = parseInt(val.split('|')[1]);
+    TXS = TXS.filter(t => t.id !== id);
+    saveTxs();
+    updateHeader();
+    await botBubble('🗑️ Lançamento agendado excluído.', 'ok');
+    setTimeout(() => addQR(mainMenu()), 800);
+    return;
+  }
 }
 
 async function askDesc(){await botBubble(`Registrando <strong>${DRAFT.type==='rec'?'Receita 💚':'Despesa ❤️'}</strong>.<br>Qual a descrição?`);}
@@ -472,7 +537,6 @@ async function buildDeleteList(list,title){
 }
 function confirmDelItem(id){TXS=TXS.filter(t=>t.id!==id);saveTxs();updateHeader();removeQR();botBubble('✅ Excluído!','ok').then(()=>addQR(mainMenu()));}
 
-// Resumo do mês
 async function flowSummary(){
   const list=confirmedTxs();const{rec,desp,saldo}=calcM(list);const taxa=rec>0?Math.round(desp/rec*100):0;
   const sched=scheduledTxs();const futRec=sched.filter(t=>t.type==='rec').reduce((s,t)=>s+t.val,0);const futDesp=sched.filter(t=>t.type==='desp').reduce((s,t)=>s+t.val,0);
@@ -484,7 +548,6 @@ async function flowSummary(){
   await botBubble(html);addQR([{label:'📅 Saldo em data',value:'saldo_date'},{label:'💚 Receita',value:'rec'},{label:'❤️ Despesa',value:'desp'}]);
 }
 
-// Saldo em data específica (melhorado)
 async function flowSaldoDate(targetDate){
   const lbl=targetDate.toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
   const ts=targetDate.getTime();const isPast=ts<=Date.now();
@@ -526,7 +589,11 @@ function renderHist(){
 }
 function txRow(t){
   const ci=catInfo(t.cat);const isRec=ci.t==='rec';const isFuture=t.scheduled&&t.ts>Date.now();const isToday=tsToDate(t.ts)===todayStr();
-  const badge=t.scheduled?(t.ts<Date.now()?'<span class="badge badge-o">vencido</span>':isToday?'<span class="badge badge-due">hoje!</span>':'<span class="badge badge-s">agendado</span>'):'';
+  const isDue = t.scheduled && tsToDate(t.ts) <= todayStr();
+  const badge=t.scheduled ? 
+    (isDue ? '<span class="badge badge-o">VENCIDO!</span>' : 
+     (isToday ? '<span class="badge badge-due">HOJE</span>' : 
+      '<span class="badge badge-s">agendado</span>')) : '';
   const bgColor=t.scheduled?(isFuture?'#e3f2fd':'#fff8e1'):'transparent';
   return`<div class="tx-item" style="background:${bgColor};padding:6px 8px;border-radius:8px;margin-bottom:2px"><div class="tx-ic" style="background:${ci.c}">${ci.emoji||ci.l.split(' ')[0]}</div><div class="tx-info"><div class="tx-desc">${esc(t.desc)}${badge}</div><div class="tx-sub">${ci.l} · ${new Date(t.ts).toLocaleDateString('pt-BR')}${t.repeat?' 🔁':''}</div></div><span class="tx-amt" style="color:${isRec?'#2e7d32':'var(--red)'}">${isRec?'+':'-'}${fmt(t.val)}</span><button class="tx-del" onclick="delFromHist(${t.id})">✕</button></div>`;
 }
@@ -581,13 +648,27 @@ function restoreBackup(){
 function goTab(name){
   ['chat','hist','graf','export'].forEach(t=>{document.getElementById('pg-'+t).classList.toggle('on',t===name);document.getElementById('tab-'+t).classList.toggle('on',t===name);});
   if(name==='hist')renderHist();if(name==='graf')renderGraf();if(name==='export')renderExportPage();
+  if(name==='chat') setTimeout(checkScheduledTransactions, 600);
 }
+
 function chMonth(d){curMonth+=d;if(curMonth>11){curMonth=0;curYear++;}if(curMonth<0){curMonth=11;curYear--;}if(document.getElementById('pg-hist').classList.contains('on'))renderHist();if(document.getElementById('pg-graf').classList.contains('on'))renderGraf();updateHeader();}
 
 function initApp(){
   loadTxs();updateHeader();
-  setTimeout(async()=>{await botBubble(`Olá, <strong>${getUserName()}</strong>! 👋 Bem-vindo ao FinBot.<br><br>O que quer fazer?`);addQR(mainMenu());},400);
+  
+  setTimeout(async()=>{
+    await botBubble(`Olá, <strong>${getUserName()}</strong>! 👋 Bem-vindo ao FinBot.<br><br>O que quer fazer?`);
+    
+    // Verifica agendados automaticamente ao abrir o app
+    await checkScheduledTransactions();
+    
+    // Se não apareceu nenhuma pergunta de agendado, mostra o menu principal
+    if (!document.getElementById('qr-active')) {
+      addQR(mainMenu());
+    }
+  }, 400);
 }
+
 checkActivation();
 </script>
 </body>
