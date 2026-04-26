@@ -1,12 +1,12 @@
-const CACHE = 'finbot-v5';
+const CACHE = 'finbot-v6';
 
 // Cache only local files - never external URLs
 const LOCAL_FILES = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png'
+  '/finbot/',
+  '/finbot/index.html',
+  '/finbot/manifest.json',
+  '/finbot/icons/icon-192.png',
+  '/finbot/icons/icon-512.png'
 ];
 
 self.addEventListener('install', e => {
@@ -26,20 +26,29 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
-  // Only handle same-origin requests
-  if (!e.request.url.startsWith(self.location.origin)) return;
+  // Handle navigation requests for PWA scope
+  if (e.request.mode === 'navigate') {
+    e.respondWith(
+      caches.match('/finbot/index.html')
+        .then(cached => cached || fetch(e.request))
+    );
+    return;
+  }
+  
+  // Only handle same-origin requests within finbot scope
+  if (!e.request.url.includes('/finbot/')) return;
+  
   e.respondWith(
     caches.match(e.request)
       .then(cached => cached || fetch(e.request)
         .then(res => {
-          // Cache successful same-origin responses
           if (res && res.status === 200) {
             const clone = res.clone();
             caches.open(CACHE).then(c => c.put(e.request, clone));
           }
           return res;
         })
-        .catch(() => caches.match('/index.html'))
+        .catch(() => caches.match('/finbot/index.html'))
       )
   );
 });
