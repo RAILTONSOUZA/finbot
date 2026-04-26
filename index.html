@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#075e54">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="FinBot">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>FinBot</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --gd:#075e54;--gm:#128c7e;--gl:#25d366;
+  --bg:#f0f2f5;--win:#fff;--wout:#d9fdd3;
+  --txt:#111b21;--txt2:#667781;--txt3:#aaa;
+  --bdr:#e9edef;--red:#e53935;--amb:#f57c00;
+  --sh:0 1px 2px rgba(0,0,0,.13);
+}
+html,body{height:100%;overflow:hidden;background:var(--bg);font-family:'Nunito',sans-serif;color:var(--txt)}
+body{display:flex;flex-direction:column;max-width:480px;margin:0 auto}
+#app{display:flex;flex-direction:column;height:100%;background-color:var(--bg);background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23075e54' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E")}
+
+.hdr{background:var(--gd);padding:10px 14px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.hdr-av{width:40px;height:40px;border-radius:50%;background:var(--gl);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.hdr-info{flex:1}
+.hdr-info h1{font-size:16px;font-weight:700;color:#fff}
+.hdr-info p{font-size:11px;color:#b2dfdb;margin-top:1px}
+.hdr-bal{text-align:right}
+.hdr-val{font-size:14px;font-weight:800;padding:3px 10px;border-radius:20px;background:var(--gl);color:#fff;display:inline-block}
+.hdr-lbl{font-size:9px;color:#b2dfdb;text-align:center;margin-top:2px}
+
+.tabs{background:var(--gd);display:flex;border-top:1px solid rgba(255,255,255,.1);flex-shrink:0}
+.tab{flex:1;padding:7px 0 5px;cursor:pointer;opacity:.55;border-bottom:2px solid transparent;display:flex;flex-direction:column;align-items:center;gap:1px;transition:opacity .15s}
+.tab.on{opacity:1;border-bottom-color:var(--gl)}
+.tab-ic{font-size:14px}
+.tab-lb{font-size:8px;color:#fff;font-weight:700;letter-spacing:.2px}
+
+.pages{flex:1;overflow:hidden;position:relative}
+.pg{position:absolute;inset:0;display:none;flex-direction:column}
+.pg.on{display:flex}
+
+.chat-scroll{flex:1;overflow-y:auto;padding:10px 10px 0}
+.chat-scroll::-webkit-scrollbar{width:0}
+.input-bar{background:var(--bg);padding:6px 8px 10px;display:flex;gap:6px;align-items:flex-end;flex-shrink:0;border-top:1px solid var(--bdr)}
+.input-wrap{flex:1;background:var(--win);border-radius:22px;display:flex;align-items:center;padding:0 14px;min-height:44px;box-shadow:var(--sh)}
+.input-wrap input{flex:1;border:none;outline:none;font-size:14px;font-family:'Nunito',sans-serif;color:var(--txt);background:transparent;padding:8px 0}
+.input-wrap input::placeholder{color:var(--txt3)}
+.send-btn{width:44px;height:44px;border-radius:50%;background:var(--gm);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;box-shadow:var(--sh)}
+.send-btn:active{background:var(--gd);transform:scale(.93)}
+
+.bubble{max-width:86%;border-radius:10px;padding:7px 10px 5px;box-shadow:var(--sh);margin-bottom:3px;animation:pop .16s ease-out}
+@keyframes pop{from{opacity:0;transform:scale(.95) translateY(4px)}to{opacity:1;transform:scale(1)}}
+.b-in{background:var(--win);align-self:flex-start;border-top-left-radius:2px}
+.b-out{background:var(--wout);align-self:flex-end;border-top-right-radius:2px}
+.b-warn{background:#fff8e1;border:1px solid #ffe082;align-self:flex-start;border-top-left-radius:2px;max-width:93%}
+.b-danger{background:#fce4ec;border:1px solid #f48fb1;align-self:flex-start;border-top-left-radius:2px;max-width:93%}
+.b-ok{background:#e8f5e9;border:1px solid #a5d6a7;align-self:flex-start;border-top-left-radius:2px;max-width:93%}
+.b-blue{background:#e3f2fd;border:1px solid #90caf9;align-self:flex-start;border-top-left-radius:2px;max-width:93%}
+.b-txt{font-size:13px;line-height:1.55;color:var(--txt)}
+.b-time{font-size:10px;color:var(--txt3);text-align:right;margin-top:3px;display:flex;align-items:center;justify-content:flex-end;gap:3px}
+.b-ticks{color:var(--gl)}
+.b-sender{font-size:11px;font-weight:700;color:var(--gm);margin-bottom:3px}
+
+.qr-wrap{display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 8px;align-self:flex-start;max-width:96%}
+.qr{background:var(--win);border:1.5px solid var(--gm);color:var(--gm);border-radius:20px;padding:6px 13px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .12s}
+.qr:active{background:var(--gm);color:#fff;transform:scale(.96)}
+
+.emoji-picker{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0;align-self:flex-start;max-width:96%}
+.emoji-btn{width:40px;height:40px;border-radius:10px;background:var(--win);border:2px solid var(--bdr);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.emoji-btn:hover,.emoji-btn.selected{border-color:var(--gm);background:#e8f5e9;transform:scale(1.1)}
+
+.color-picker{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0;align-self:flex-start;max-width:96%}
+.color-btn{width:32px;height:32px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:all .15s}
+.color-btn:hover,.color-btn.selected{border-color:var(--txt);transform:scale(1.15)}
+
+.typing{display:flex;align-items:center;gap:4px;padding:10px 14px;background:var(--win);border-radius:10px;border-top-left-radius:2px;width:66px;box-shadow:var(--sh);align-self:flex-start;margin-bottom:4px}
+.typing span{width:7px;height:7px;border-radius:50%;background:var(--txt3);animation:bn 1.2s infinite}
+.typing span:nth-child(2){animation-delay:.2s}
+.typing span:nth-child(3){animation-delay:.4s}
+@keyframes bn{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+
+.m-row{display:flex;gap:8px;margin:6px 0 2px}
+.mc{flex:1;background:#f0f9f6;border-radius:10px;padding:8px 10px;text-align:center;border:1px solid #c8e6c9}
+.mc.neg{background:#fff0f0;border-color:#ffcdd2}
+.mc.blue{background:#e3f2fd;border-color:#90caf9}
+.mc-val{font-size:15px;font-weight:800;color:var(--gm)}
+.mc.neg .mc-val{color:var(--red)}
+.mc.blue .mc-val{color:#1565c0}
+.mc-lbl{font-size:10px;color:var(--txt2);margin-top:2px}
+
+.del-item{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--bdr)}
+.del-item:last-child{border-bottom:none}
+.del-ic{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.del-info{flex:1;min-width:0}
+.del-desc{font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.del-sub{font-size:10px;color:var(--txt2);margin-top:1px}
+.del-amt{font-size:12px;font-weight:800;flex-shrink:0}
+.del-btn{background:var(--red);color:#fff;border:none;border-radius:8px;padding:4px 9px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif}
+
+.hist-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--win);border-bottom:1px solid var(--bdr);flex-shrink:0;gap:6px}
+.hist-header select{padding:7px 10px;border:1.5px solid var(--bdr);border-radius:10px;font-size:12px;font-family:'Nunito',sans-serif;background:var(--win);color:var(--txt);outline:none;min-width:90px}
+
+.page-hdr{background:var(--win);display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--bdr);flex-shrink:0}
+.page-hdr span{font-size:14px;font-weight:700}
+.mnav{background:none;border:none;font-size:22px;color:var(--gm);cursor:pointer;padding:0 6px;font-weight:700}
+.scrollable{flex:1;overflow-y:auto;padding:8px 12px 20px}
+.scrollable::-webkit-scrollbar{width:0}
+
+.sec-title{font-size:11px;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px;margin:10px 0 6px;padding:4px 0;border-bottom:1px solid var(--bdr)}
+.tx-item{display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid var(--bdr)}
+.tx-item:last-child{border-bottom:none}
+.tx-ic{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;color:#fff}
+.tx-info{flex:1;min-width:0}
+.tx-desc{font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tx-sub{font-size:11px;color:var(--txt2);margin-top:1px}
+.tx-amt{font-size:13px;font-weight:800;flex-shrink:0}
+.tx-del{background:none;border:none;color:var(--txt3);font-size:13px;cursor:pointer;padding:4px 7px}
+.badge{display:inline-block;font-size:9px;font-weight:700;padding:1px 6px;border-radius:10px;margin-left:4px}
+.badge-s{background:#e3f2fd;color:#1565c0}
+.badge-o{background:#fce4ec;color:#c62828}
+.badge-due{background:#fff8e1;color:#f57c00}
+.empty-state{text-align:center;padding:40px 20px;color:var(--txt2)}
+.empty-state .big{font-size:48px;margin-bottom:10px}
+
+.c-card{background:var(--win);border-radius:12px;padding:12px 14px;box-shadow:var(--sh);margin-bottom:10px}
+.c-title{font-size:11px;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.leg-i{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--txt2)}
+.leg-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+
+.exp-card{background:var(--win);border-radius:12px;padding:14px;box-shadow:var(--sh);margin-bottom:10px}
+.exp-title{font-size:13px;font-weight:700;margin-bottom:8px}
+.fc-lbl{font-size:11px;font-weight:700;color:var(--gm);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px}
+.fc-sel{width:100%;padding:9px 12px;border:1.5px solid var(--bdr);border-radius:10px;font-size:13px;font-family:'Nunito',sans-serif;background:var(--win);color:var(--txt);outline:none;margin-bottom:10px}
+.filter-row{display:flex;gap:8px}
+.filter-row>div{flex:1}
+.btn-exp{width:100%;padding:11px;border:none;border-radius:10px;font-size:14px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px}
+.btn-exp:active{opacity:.8}
+.btn-xl{background:#217346;color:#fff}
+.btn-pdf{background:#c62828;color:#fff}
+.btn-backup{background:#00897b;color:#fff}
+.btn-restore{background:#f57c00;color:#fff}
+
+#act-screen{position:fixed;inset:0;z-index:9999;background:var(--gd);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;max-width:480px;margin:0 auto}
+#act-screen.hidden{display:none}
+.act-logo{font-size:64px;margin-bottom:8px;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.act-title{font-size:22px;font-weight:800;color:#fff;margin-bottom:4px}
+.act-sub{font-size:13px;color:#b2dfdb;margin-bottom:28px;text-align:center;line-height:1.5}
+.act-card{background:#fff;border-radius:16px;padding:22px;width:100%;max-width:340px;box-shadow:0 8px 32px rgba(0,0,0,.25)}
+.act-lbl{font-size:11px;font-weight:700;color:var(--gm);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;display:block}
+.act-input{width:100%;padding:12px 14px;border:2px solid var(--bdr);border-radius:10px;font-size:15px;font-family:'Nunito',sans-serif;font-weight:700;letter-spacing:2px;text-transform:uppercase;outline:none;transition:border .2s;text-align:center}
+.act-input:focus{border-color:var(--gm)}
+.act-input.err{border-color:var(--red);animation:shake .3s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.act-name-input{letter-spacing:0!important;text-transform:none!important;font-size:16px!important}
+.act-btn{width:100%;padding:13px;background:var(--gm);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer;margin-top:12px}
+.act-btn:active{opacity:.85}
+.act-err{font-size:12px;color:var(--red);text-align:center;margin-top:8px;min-height:16px;font-weight:600}
+</style>
+</head>
+<body>
+<div id="app">
+
+<div id="act-screen">
+  <div class="act-logo" id="act-logo">💰</div>
+  <div class="act-title" id="act-title">FinBot Pessoal</div>
+  <div class="act-sub" id="act-sub">Seu assistente financeiro pessoal.<br>Digite sua chave de acesso para continuar.</div>
+  <div class="act-card" id="act-step1">
+    <label class="act-lbl">Chave de ativação</label>
+    <input class="act-input" id="act-key" type="text" maxlength="20" placeholder="FINBOT-DEMO-0001" autocomplete="off" oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')tryActivate()">
+    <button class="act-btn" onclick="tryActivate()">Continuar →</button>
+    <div class="act-err" id="act-err"></div>
+  </div>
+  <div class="act-card" id="act-step2" style="display:none">
+    <label class="act-lbl">Qual o seu nome?</label>
+    <input class="act-input act-name-input" id="act-name" type="text" maxlength="30" placeholder="Ex: João" onkeydown="if(event.key==='Enter')trySetName()">
+    <button class="act-btn" onclick="trySetName()">Entrar no FinBot →</button>
+    <div class="act-err" id="act-name-err"></div>
+  </div>
+</div>
+
+<div class="hdr">
+  <div class="hdr-av">💰</div>
+  <div class="hdr-info"><h1>FinBot Pessoal</h1><p id="hd-st">finanças saudáveis ✔</p></div>
+  <div class="hdr-bal"><div class="hdr-val" id="hd-val">R$ 0</div><div class="hdr-lbl">saldo</div></div>
+</div>
+
+<div class="tabs">
+  <div class="tab on" onclick="goTab('chat')" id="tab-chat"><div class="tab-ic">💬</div><div class="tab-lb">Chat</div></div>
+  <div class="tab" onclick="goTab('hist')" id="tab-hist"><div class="tab-ic">📋</div><div class="tab-lb">Extrato</div></div>
+  <div class="tab" onclick="goTab('graf')" id="tab-graf"><div class="tab-ic">📊</div><div class="tab-lb">Gráficos</div></div>
+  <div class="tab" onclick="goTab('export')" id="tab-export"><div class="tab-ic">📤</div><div class="tab-lb">Exportar</div></div>
+</div>
+
+<div class="pages">
+  <div class="pg on" id="pg-chat">
+    <div class="chat-scroll" id="chat-scroll"><div id="chat-msgs" style="display:flex;flex-direction:column;gap:0"></div></div>
+    <div class="input-bar">
+      <div class="input-wrap"><input id="chat-input" type="text" placeholder="Digite uma mensagem..." onkeydown="if(event.key==='Enter')sendMsg()"></div>
+      <button class="send-btn" onclick="sendMsg()">➤</button>
+    </div>
+  </div>
+
+  <div class="pg" id="pg-hist" style="overflow:hidden">
+    <div class="hist-header">
+      <button class="mnav" onclick="chMonth(-1)">‹</button>
+      <span id="m-lbl" style="font-weight:700;text-transform:capitalize">—</span>
+      <button class="mnav" onclick="chMonth(1)">›</button>
+      <select id="hf-type" onchange="renderHist()">
+        <option value="all">Todos</option>
+        <option value="rec">Receitas</option>
+        <option value="desp">Despesas</option>
+        <option value="sched">Agendados</option>
+      </select>
+    </div>
+    <div class="scrollable" id="hist-list"></div>
+  </div>
+
+  <div class="pg" id="pg-graf" style="overflow:hidden">
+    <div class="page-hdr" style="flex-shrink:0"><button class="mnav" onclick="chMonth(-1)">‹</button><span id="m-lbl2">—</span><button class="mnav" onclick="chMonth(1)">›</button></div>
+    <div class="scrollable">
+      <div class="c-card"><div class="c-title">Receitas vs Despesas</div><div style="position:relative;height:190px"><canvas id="c-bar"></canvas></div><div class="legend" id="bar-leg"></div></div>
+      <div class="c-card"><div class="c-title">Distribuição de Despesas</div><div style="position:relative;height:190px"><canvas id="c-pie"></canvas></div><div class="legend" id="pie-leg"></div></div>
+    </div>
+  </div>
+
+  <div class="pg" id="pg-export" style="overflow:hidden">
+    <div class="scrollable">
+      <div class="exp-card"><div class="exp-title">🔍 Filtros</div><div class="filter-row"><div><label class="fc-lbl">Mês</label><select class="fc-sel" id="exp-month"></select></div><div><label class="fc-lbl">Tipo</label><select class="fc-sel" id="exp-type"><option value="all">Todos</option><option value="rec">Receitas</option><option value="desp">Despesas</option></select></div></div><label class="fc-lbl">Categoria</label><select class="fc-sel" id="exp-cat"><option value="all">Todas</option></select><div id="exp-preview" style="font-size:12px;color:var(--txt2);padding:8px;background:#f9f9f9;border-radius:8px"></div></div>
+      <div class="exp-card"><div class="exp-title">📊 Excel (.xlsx)</div><button class="btn-exp btn-xl" onclick="exportExcel()">📊 Baixar Excel</button></div>
+      <div class="exp-card"><div class="exp-title">📄 PDF</div><button class="btn-exp btn-pdf" onclick="exportPDF()">📄 Gerar PDF</button></div>
+      <div class="exp-card"><div class="exp-title">💾 Backup</div><button class="btn-exp btn-backup" onclick="exportBackup()">💾 Fazer Backup</button></div>
+      <div class="exp-card"><div class="exp-title">🔄 Restaurar</div><button class="btn-exp btn-restore" onclick="restoreBackup()">🔄 Restaurar Backup</button></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+'use strict';
+
+const VALID_KEYS=[
+  {key:'FINBOT-2025-ALPHA', expires:null},
+  {key:'FINBOT-DEMO-0001', expires:'2026-05-31'},
+  {key:'FINBOT-DEMO-0002', expires:'2026-05-31'},
+  {key:'FINBOT-DEMO-0003', expires:'2026-05-31'},
+];
+const ACT_KEY='fb_activated_key9';
+const _findKey=k=>VALID_KEYS.find(v=>v.key===k);
+function _keyStatus(k){const e=_findKey(k);if(!e)return'invalid';if(!e.expires)return'valid';return new Date().toISOString().split('T')[0]<=e.expires?'valid':'expired';}
+function isActivated(){const s=localStorage.getItem(ACT_KEY);if(!s)return false;if(_keyStatus(s)==='expired'){localStorage.removeItem(ACT_KEY);localStorage.removeItem('fb_user_name9');return false;}return _keyStatus(s)==='valid';}
+const getUserName=()=>localStorage.getItem('fb_user_name9')||'você';
+
+function tryActivate(){
+  const inp=document.getElementById('act-key'),err=document.getElementById('act-err');
+  const key=inp.value.trim().toUpperCase();err.textContent='';
+  if(!key){err.textContent='Digite sua chave.';return;}
+  const st=_keyStatus(key);
+  if(st==='valid'){localStorage.setItem(ACT_KEY,key);document.getElementById('act-step1').style.display='none';document.getElementById('act-step2').style.display='block';document.getElementById('act-title').textContent='Quase lá! 🎉';setTimeout(()=>document.getElementById('act-name').focus(),100);}
+  else if(st==='expired'){inp.classList.add('err');err.textContent='⏰ Chave vencida.';setTimeout(()=>inp.classList.remove('err'),400);}
+  else{inp.classList.add('err');err.textContent='❌ Chave inválida.';setTimeout(()=>inp.classList.remove('err'),400);}
+}
+function trySetName(){
+  const inp=document.getElementById('act-name'),err=document.getElementById('act-name-err');
+  const name=inp.value.trim();err.textContent='';
+  if(name.length<2){err.textContent='Digite pelo menos 2 letras.';return;}
+  localStorage.setItem('fb_user_name9',name);
+  document.getElementById('act-screen').classList.add('hidden');
+  initApp();
+}
+function checkActivation(){
+  if(isActivated()){
+    if(!localStorage.getItem('fb_user_name9')){document.getElementById('act-step1').style.display='none';document.getElementById('act-step2').style.display='block';document.getElementById('act-title').textContent='Quase lá!';setTimeout(()=>document.getElementById('act-name').focus(),100);return;}
+    document.getElementById('act-screen').classList.add('hidden');initApp();
+  }
+}
+
+const DEF_CATS={
+  salario:{l:'💼 Salário',emoji:'💼',c:'#2e7d32',t:'rec'},
+  freelance:{l:'💻 Freelance',emoji:'💻',c:'#388e3c',t:'rec'},
+  investimento:{l:'📈 Investimentos',emoji:'📈',c:'#1565c0',t:'rec'},
+  bonus:{l:'🎁 Bônus',emoji:'🎁',c:'#00897b',t:'rec'},
+  outros_rec:{l:'➕ Outras receitas',emoji:'➕',c:'#26a69a',t:'rec'},
+  alimentacao:{l:'🍔 Alimentação',emoji:'🍔',c:'#e53935',t:'desp'},
+  moradia:{l:'🏠 Moradia',emoji:'🏠',c:'#6d4c41',t:'desp'},
+  transporte:{l:'🚗 Transporte',emoji:'🚗',c:'#f57c00',t:'desp'},
+  saude:{l:'❤️ Saúde',emoji:'❤️',c:'#d81b60',t:'desp'},
+  lazer:{l:'🎉 Lazer',emoji:'🎉',c:'#8e24aa',t:'desp'},
+  educacao:{l:'📚 Educação',emoji:'📚',c:'#0288d1',t:'desp'},
+  pets:{l:'🐾 Pets',emoji:'🐾',c:'#43a047',t:'desp'},
+  roupas:{l:'👕 Roupas',emoji:'👕',c:'#5e35b1',t:'desp'},
+  streaming:{l:'📺 Streaming',emoji:'📺',c:'#e64a19',t:'desp'},
+  outros_desp:{l:'📦 Outros gastos',emoji:'📦',c:'#757575',t:'desp'},
+};
+
+let CUSTOM_CATS=()=>{try{return JSON.parse(localStorage.getItem('fb_custom_cats9')||'{}')}catch{return{}}};
+const allCats=()=>({...DEF_CATS,...CUSTOM_CATS()});
+const catInfo=k=>allCats()[k]||{l:'📦 '+k,emoji:'📦',c:'#888',t:'desp'};
+const saveCustom=c=>localStorage.setItem('fb_custom_cats9',JSON.stringify(c));
+
+const EMOJI_LIST=['💰','💼','💻','📈','🎁','➕','🍔','🏠','🚗','❤️','🎉','📚','🐾','👕','📺','📦','💊','✈️','🎮','🏋️','💄','📱','⚡','🌍','🎵','🍕','☕','🐶','🎂','💡','🛒','🎓','🔧','🏥','⚽','🎨','🌿','🚀','🍺','💅'];
+const COLOR_LIST=['#e53935','#d81b60','#8e24aa','#5e35b1','#1565c0','#0288d1','#00897b','#2e7d32','#43a047','#f57c00','#ef6c00','#6d4c41','#757575','#37474f','#e64a19','#388e3c','#00acc1','#039be5','#f06292','#aed581'];
+
+let TXS=[];
+function loadTxs(){try{TXS=JSON.parse(localStorage.getItem('fb_txs9')||'[]');}catch{TXS=[];}
+  if(!TXS.length){const n=Date.now();TXS=[{id:1,desc:'Salário',val:3500,cat:'salario',type:'rec',ts:n-86400000*20,scheduled:false},{id:2,desc:'Aluguel',val:1200,cat:'moradia',type:'desp',ts:n-86400000*18,scheduled:false},{id:3,desc:'Mercado',val:320,cat:'alimentacao',type:'desp',ts:n-86400000*14,scheduled:false},{id:4,desc:'iFood',val:85,cat:'alimentacao',type:'desp',ts:n-86400000*10,scheduled:false},{id:5,desc:'Combustível',val:150,cat:'transporte',type:'desp',ts:n-86400000*8,scheduled:false},{id:6,desc:'Netflix',val:55,cat:'streaming',type:'desp',ts:n-86400000*6,scheduled:false},{id:7,desc:'Rações',val:140,cat:'pets',type:'desp',ts:n-86400000*3,scheduled:false},{id:8,desc:'Freelance site',val:800,cat:'freelance',type:'rec',ts:n-86400000*2,scheduled:false},{id:9,desc:'Cinema',val:90,cat:'lazer',type:'desp',ts:n-86400000},{id:10,desc:'Aluguel próximo',val:1200,cat:'moradia',type:'desp',ts:n+86400000*10,scheduled:true},];saveTxs();}}
+const saveTxs=()=>localStorage.setItem('fb_txs9',JSON.stringify(TXS));
+
+let curMonth=new Date().getMonth(),curYear=new Date().getFullYear();
+let barChart=null,pieChart=null;
+const fmt=v=>'R$ '+Math.abs(v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const tNow=()=>new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+const mName=(m,y)=>new Date(y,m,1).toLocaleDateString('pt-BR',{month:'long',year:'numeric'}).replace(/^\w/,c=>c.toUpperCase());
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const todayStr=()=>new Date().toISOString().split('T')[0];
+const tsToDate=ts=>new Date(ts).toISOString().split('T')[0];
+const confirmedTxs=()=>TXS.filter(t=>{const d=new Date(t.ts);return d.getMonth()===curMonth&&d.getFullYear()===curYear&&!t.scheduled;});
+const scheduledTxs=()=>TXS.filter(t=>t.scheduled);
+const calcM=list=>{let r=0,d=0;list.forEach(t=>t.type==='rec'?r+=t.val:d+=t.val);return{rec:r,desp:d,saldo:r-d};};
+function parseDateStr(str){const s=str.trim();const r=s.match(/^(\d{1,2})[\/\-\.](\d{1,2})(?:[\/\-\.](\d{2,4}))?$/);if(!r)return null;const d=parseInt(r[1]),m=parseInt(r[2])-1,y=r[3]?(r[3].length===2?2000+parseInt(r[3]):parseInt(r[3])):new Date().getFullYear();const dt=new Date(y,m,d,23,59,59);return(isNaN(dt.getTime())||m<0||m>11||d<1||d>31)?null:dt;}
+
+function updateHeader(){
+  const{rec,desp,saldo}=calcM(confirmedTxs());
+  const el=document.getElementById('hd-val');if(el){el.textContent=fmt(saldo);el.style.background=saldo>=0?'var(--gl)':'var(--red)';}
+  const taxa=rec>0?Math.round(desp/rec*100):0;const st=document.getElementById('hd-st');if(!st)return;
+  if(saldo<0){st.textContent='saldo negativo ⚠';st.style.color='#ffcdd2';}
+  else if(taxa>80){st.textContent='gastos altos 🚨';st.style.color='#ffe082';}
+  else if(taxa>60){st.textContent='atenção nos gastos ⚠';st.style.color='#ffe082';}
+  else{st.textContent='finanças saudáveis ✔';st.style.color='#b2dfdb';}
+}
+
+let STATE='idle',DRAFT={},NC_DRAFT={};
+const chatMsgs=()=>document.getElementById('chat-msgs');
+const scrollBottom=()=>{const s=document.getElementById('chat-scroll');if(s)s.scrollTop=s.scrollHeight;};
+function addBubble(html,side='in'){const cls={out:'b-out',warn:'b-warn',danger:'b-danger',ok:'b-ok',blue:'b-blue'}[side]||'b-in';const d=document.createElement('div');d.className=`bubble ${cls}`;d.innerHTML=html;chatMsgs().appendChild(d);scrollBottom();return d;}
+function userBubble(t){addBubble(`<div class="b-txt">${esc(t)}</div><div class="b-time">${tNow()} <span class="b-ticks">✓✓</span></div>`,'out');}
+function botBubble(html,side='in',delay=500){const msgs=chatMsgs();const tp=document.createElement('div');tp.className='typing';tp.innerHTML='<span></span><span></span><span></span>';msgs.appendChild(tp);scrollBottom();return new Promise(res=>setTimeout(()=>{tp.remove();addBubble(`<div class="b-sender">💰 FinBot</div>${html}<div class="b-time">${tNow()}</div>`,side);res();},delay));}
+function addQR(opts){removeQR();const w=document.createElement('div');w.className='qr-wrap';w.id='qr-active';opts.forEach(o=>{const b=document.createElement('button');b.className='qr';b.textContent=o.label;b.onclick=function(e){e.preventDefault();removeQR();userBubble(o.label);handleQR(o.value,o.label);};w.appendChild(b);});chatMsgs().appendChild(w);scrollBottom();}
+function removeQR(){const e=document.getElementById('qr-active');if(e)e.remove();}
+
+function addEmojiPicker(){removeEmojiPicker();const w=document.createElement('div');w.className='emoji-picker';w.id='emoji-picker-active';EMOJI_LIST.forEach(e=>{const b=document.createElement('button');b.className='emoji-btn'+(NC_DRAFT.emoji===e?' selected':'');b.textContent=e;b.onclick=function(ev){ev.preventDefault();NC_DRAFT.emoji=e;document.querySelectorAll('.emoji-btn').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');};w.appendChild(b);});chatMsgs().appendChild(w);scrollBottom();}
+function removeEmojiPicker(){const e=document.getElementById('emoji-picker-active');if(e)e.remove();}
+function addColorPicker(){removeColorPicker();const w=document.createElement('div');w.className='color-picker';w.id='color-picker-active';COLOR_LIST.forEach(c=>{const b=document.createElement('button');b.className='color-btn'+(NC_DRAFT.color===c?' selected':'');b.style.background=c;b.onclick=function(ev){ev.preventDefault();NC_DRAFT.color=c;document.querySelectorAll('.color-btn').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');};w.appendChild(b);});chatMsgs().appendChild(w);scrollBottom();}
+function removeColorPicker(){const e=document.getElementById('color-picker-active');if(e)e.remove();}
+
+function sendMsg(){const inp=document.getElementById('chat-input');const text=inp.value.trim();if(!text)return;inp.value='';removeQR();userBubble(text);handleInput(text);}
+
+const mainMenu=()=>[
+  {label:'💚 Receita',value:'rec'},{label:'❤️ Despesa',value:'desp'},
+  {label:'📊 Resumo do mês',value:'saldo'},{label:'📅 Saldo em data',value:'saldo_date'},
+  {label:'🗑️ Excluir',value:'del'},{label:'🏷️ Nova categoria',value:'new_cat'},
+  {label:'📅 Saldo hoje',value:'saldo_hoje_now'},{label:'❓ Ajuda',value:'help'}
+];
+
+async function handleInput(raw){
+  const t=raw.toLowerCase().trim();
+  if(/^(reiniciar|menu|voltar)$/i.test(t)&&STATE!=='idle'){DRAFT={};NC_DRAFT={};STATE='idle';removeEmojiPicker();removeColorPicker();await botBubble('🔄 Reiniciado!');setTimeout(()=>addQR(mainMenu()),300);return;}
+  
+  // Comando de saldo em data específica
+  if(STATE==='idle'&&/\b(saldo.*data|saldo.*dia|proje(c|ç)ão|até dia)\b/i.test(raw)){
+    STATE='saldo_date';
+    await botBubble('📅 Para qual data quer ver o saldo?<br><small>Ex: "25/12" ou "25/12/2024"</small>');
+    addQR([{label:'📅 Hoje',value:'sd_hoje'},{label:'📅 Amanhã',value:'sd_amanha'},{label:'📅 Digitar data',value:'sd_digitar'}]);
+    return;
+  }
+  
+  if(STATE==='idle'){
+    if(/\b(receita|recebi|ganhei|salário|entrou)\b/i.test(raw)){DRAFT={type:'rec'};STATE='desc';await askDesc();}
+    else if(/\b(despesa|gastei|paguei|comprei|gasto|pagar)\b/i.test(raw)){DRAFT={type:'desp'};STATE='desc';await askDesc();}
+    else if(/\b(excluir|deletar|remover|apagar)\b/i.test(raw)){await flowDelete();}
+    else if(/\b(saldo|resumo|quanto)\b/i.test(raw)){await flowSummary();}
+    else if(/\b(categoria|criar cat|nova cat)\b/i.test(raw)){await flowNewCat();}
+    else{STATE='type';await botBubble('Oi! 👋 O que quer fazer?');addQR(mainMenu());}
+    return;
+  }
+  
+  if(STATE==='saldo_date'){
+    if(/hoje/i.test(t)){STATE='idle';await flowSaldoDate(new Date());return;}
+    if(/amanhã|amanha/i.test(t)){const amanha=new Date();amanha.setDate(amanha.getDate()+1);STATE='idle';await flowSaldoDate(amanha);return;}
+    const d=parseDateStr(raw);
+    if(!d){await botBubble('❌ Data inválida. Tente: <strong>25/12</strong> ou <strong>25/12/2024</strong>','warn');return;}
+    STATE='idle';await flowSaldoDate(d);return;
+  }
+  
+  if(STATE==='type'){if(/rec|receita/i.test(t))handleQR('rec','Receita');else if(/desp|gasto/i.test(t))handleQR('desp','Despesa');else if(/excluir/i.test(t))handleQR('del','Excluir');else if(/data|dia|projeção/i.test(t))handleQR('saldo_date','Saldo em data');else if(/saldo/i.test(t))handleQR('saldo','Resumo');else if(/categ/i.test(t))handleQR('new_cat','Nova categoria');else await botBubble('Escolha uma opção acima 👆','warn');return;}
+  if(STATE==='desc'){DRAFT.desc=raw;STATE='val';await botBubble('💰 Qual o valor? (ex: 150)');return;}
+  if(STATE==='val'){const n=parseFloat(t.replace(',','.'));if(isNaN(n)||n<=0){await botBubble('Inválido. Tenta: 150','warn');return;}DRAFT.val=n;STATE='cat';const opts=Object.entries(allCats()).filter(([,v])=>v.t===DRAFT.type).map(([k,v])=>({label:v.l,value:'cat|'+k}));await botBubble('Qual categoria?');addQR(opts);return;}
+  if(STATE==='cat'){const m=Object.entries(allCats()).find(([k,v])=>v.l.toLowerCase().includes(t)||k.includes(t));if(m)handleQR('cat|'+m[0],catInfo(m[0]).l);else await botBubble('Toque em uma categoria 👆');return;}
+  if(STATE==='sched'){if(/hoje/i.test(t))handleQR('sched_hoje','Hoje');else handleQR('sched_future','Outra data');return;}
+  if(STATE==='sched_date_tx'){const d=parseDateStr(raw);if(!d){await botBubble('Data inválida. Tente: 25/06','warn');return;}DRAFT.ts=d.getTime();DRAFT.scheduled=true;await askRepeat();return;}
+  if(STATE==='repeat'){if(/sim|mensal/i.test(t))handleQR('repeat_monthly','Mensal');else handleQR('repeat_none','Não repetir');return;}
+  if(STATE==='repeat_qty'){const n=parseInt(t);if(!isNaN(n)&&n>0)handleQR('rq|'+n,n+'x');else await botBubble('Digite um número (ex: 3)','warn');return;}
+  if(STATE==='confirm_tx'){if(/sim|ok|conf/i.test(t))handleQR('confirm_yes','Confirmar');else if(/não|nao|corrig/i.test(t))handleQR('confirm_no','Corrigir');else{await botBubble('Confirma?');addQR([{label:'✅ Confirmar',value:'confirm_yes'},{label:'✏️ Corrigir',value:'confirm_no'}]);}return;}
+  if(STATE==='nc_name'){NC_DRAFT.name=raw;STATE='nc_emoji';await botBubble('🎨 Escolha um <strong>ícone</strong>:');
+    addEmojiPicker();addQR([{label:'✅ Confirmar ícone',value:'nc_emoji_ok'}]);return;}
+  if(STATE==='nc_emoji'){if(t==='✅ confirmar ícone'){if(!NC_DRAFT.emoji){await botBubble('Escolha um ícone primeiro!');return;}STATE='nc_color';await botBubble('🎨 Agora escolha uma <strong>cor</strong>:');
+    addColorPicker();addQR([{label:'✅ Confirmar cor',value:'nc_color_ok'}]);}return;}
+  if(STATE==='nc_color'){if(t==='✅ confirmar cor'){if(!NC_DRAFT.color){await botBubble('Escolha uma cor primeiro!');return;}STATE='nc_type';await botBubble('É <strong>Receita</strong> ou <strong>Despesa</strong>?');addQR([{label:'💚 Receita',value:'nc_type_rec'},{label:'❤️ Despesa',value:'nc_type_desp'}]);}return;}
+  if(STATE==='nc_type'){if(t.includes('Receita')||t.includes('receita'))handleQR('nc_type_rec','Receita');else if(t.includes('Despesa')||t.includes('despesa'))handleQR('nc_type_desp','Despesa');return;}
+  if(STATE==='nc_confirm'){if(/sim|ok|conf/i.test(t))handleQR('nc_yes','Criar');else handleQR('nc_no','Cancelar');return;}
+  if(STATE==='del_date'){if(/hoje/i.test(t)){STATE='idle';await flowDelete('today');return;}const d=parseDateStr(raw);if(!d){await botBubble('Data inválida.','warn');return;}STATE='idle';await flowDelete(null,d);return;}
+}
+
+async function handleQR(val,label=''){
+  if(val==='rec'||val==='desp'){DRAFT={type:val};STATE='desc';await askDesc();return;}
+  if(val==='saldo'){STATE='idle';await flowSummary();return;}
+  if(val==='del'){STATE='idle';await flowDelete();return;}
+  
+  // Saldo em data
+  if(val==='saldo_hoje_now'){STATE='idle';await flowSaldoDate(new Date());return;}
+  if(val==='saldo_date'){STATE='saldo_date';await botBubble('📅 Para qual data?<br><small>Ex: "25/12" ou "25/12/2024"</small>');addQR([{label:'📅 Hoje',value:'sd_hoje'},{label:'📅 Amanhã',value:'sd_amanha'},{label:'📅 Digitar data',value:'sd_digitar'}]);return;}
+  if(val==='sd_hoje'){STATE='idle';await flowSaldoDate(new Date());return;}
+  if(val==='sd_amanha'){const amanha=new Date();amanha.setDate(amanha.getDate()+1);STATE='idle';await flowSaldoDate(amanha);return;}
+  if(val==='sd_digitar'){STATE='saldo_date';await botBubble('📅 Digite a data (<em>DD/MM ou DD/MM/AAAA</em>):');return;}
+  
+  if(val==='new_cat'){STATE='idle';await flowNewCat();return;}
+  if(val==='help'){STATE='idle';await flowHelp();return;}
+  if(val.startsWith('cat|')){DRAFT.cat=val.split('|')[1];STATE='sched';await botBubble('Quando é esse lançamento?');addQR([{label:'📅 Hoje',value:'sched_hoje'},{label:'🕐 Outra data',value:'sched_future'}]);return;}
+  if(val==='sched_hoje'){DRAFT.scheduled=false;DRAFT.ts=Date.now();STATE='confirm_tx';await showConfirmTx();return;}
+  if(val==='sched_future'){STATE='sched_date_tx';await botBubble('📅 Qual a data? (DD/MM)');return;}
+  if(val==='repeat_monthly'){DRAFT.repeat='monthly';STATE='repeat_qty';await botBubble('🔁 Quantos meses?');addQR([{label:'2x',value:'rq|2'},{label:'3x',value:'rq|3'},{label:'6x',value:'rq|6'},{label:'12x',value:'rq|12'}]);return;}
+  if(val==='repeat_none'){DRAFT.repeat='none';STATE='confirm_tx';await showConfirmTx();return;}
+  if(val.startsWith('rq|')){DRAFT.repeatQty=parseInt(val.split('|')[1]);STATE='confirm_tx';await showConfirmTx();return;}
+  if(val==='confirm_yes'){await saveTx();return;}
+  if(val==='confirm_no'){DRAFT={};STATE='type';await botBubble('Vamos recomeçar.');addQR([{label:'💚 Receita',value:'rec'},{label:'❤️ Despesa',value:'desp'}]);return;}
+  if(val.startsWith('del_tx|')){const id=parseInt(val.split('|')[1]);TXS=TXS.filter(t=>t.id!==id);saveTxs();updateHeader();await botBubble('✅ Excluído!','ok');STATE='idle';setTimeout(()=>addQR(mainMenu()),800);return;}
+  if(val==='del_cancel'){STATE='idle';await botBubble('Cancelado.');addQR(mainMenu());return;}
+  if(val==='del_date'){STATE='del_date';await botBubble('📅 Qual data?');addQR([{label:'📅 Hoje',value:'del_today_now'},{label:'📅 Digitar',value:'del_type_date'}]);return;}
+  if(val==='del_today_now'){STATE='idle';await flowDelete('today');return;}
+  if(val==='del_type_date'){STATE='del_date';await botBubble('Digite a data (DD/MM):');return;}
+  if(val==='del_recent'){STATE='idle';await buildDeleteList(TXS.slice().sort((a,b)=>b.ts-a.ts).slice(0,10),'Recentes');return;}
+  if(val==='del_scheduled'){STATE='idle';const list=TXS.filter(t=>t.scheduled);if(!list.length){await botBubble('Nenhum agendado.','warn');addQR(mainMenu());return;}await buildDeleteList(list,'Agendados');return;}
+  if(val==='restart_conv'){DRAFT={};NC_DRAFT={};STATE='idle';removeEmojiPicker();removeColorPicker();await botBubble('🔄 Reiniciado!');addQR(mainMenu());return;}
+  if(val==='nc_emoji_ok'){if(!NC_DRAFT.emoji){await botBubble('Escolha um ícone!');return;}removeEmojiPicker();STATE='nc_color';await botBubble('🎨 Escolha uma <strong>cor</strong>:');
+    addColorPicker();addQR([{label:'✅ Confirmar cor',value:'nc_color_ok'}]);return;}
+  if(val==='nc_color_ok'){if(!NC_DRAFT.color){await botBubble('Escolha uma cor!');return;}removeColorPicker();STATE='nc_type';await botBubble('É <strong>Receita</strong> ou <strong>Despesa</strong>?');addQR([{label:'💚 Receita',value:'nc_type_rec'},{label:'❤️ Despesa',value:'nc_type_desp'}]);return;}
+  if(val==='nc_type_rec'){NC_DRAFT.type='rec';STATE='nc_confirm';await showNcConfirm();return;}
+  if(val==='nc_type_desp'){NC_DRAFT.type='desp';STATE='nc_confirm';await showNcConfirm();return;}
+  if(val==='nc_yes'){await saveNewCat();return;}
+  if(val==='nc_no'){NC_DRAFT={};STATE='idle';removeEmojiPicker();removeColorPicker();await botBubble('Cancelado.');addQR(mainMenu());return;}
+}
+
+async function askDesc(){await botBubble(`Registrando <strong>${DRAFT.type==='rec'?'Receita 💚':'Despesa ❤️'}</strong>.<br>Qual a descrição?`);}
+async function askRepeat(){STATE='repeat';await botBubble('🔁 Quer que repita?');addQR([{label:'🔁 Mensalmente',value:'repeat_monthly'},{label:'Não repetir',value:'repeat_none'}]);}
+async function showConfirmTx(){const ci=catInfo(DRAFT.cat);const dl=DRAFT.scheduled?`📅 ${new Date(DRAFT.ts).toLocaleDateString('pt-BR')}`:'📅 Hoje';await botBubble(`Confira:<br><br><strong>${DRAFT.type==='rec'?'Receita 💚':'Despesa ❤️'}</strong><br>📝 ${esc(DRAFT.desc)}<br>💰 ${fmt(DRAFT.val)}<br>${ci.l} ${dl}<br><br>Confirma?`);addQR([{label:'✅ Confirmar',value:'confirm_yes'},{label:'✏️ Corrigir',value:'confirm_no'}]);}
+
+async function saveTx(){
+  const base=DRAFT.ts||Date.now();
+  const tx={id:Date.now(),desc:DRAFT.desc,val:DRAFT.val,cat:DRAFT.cat,type:DRAFT.type,ts:base,scheduled:DRAFT.scheduled||false,repeat:DRAFT.repeat||'none',repeatQty:DRAFT.repeatQty||0};
+  TXS.push(tx);
+  if(DRAFT.repeat==='monthly'&&DRAFT.repeatQty>0){for(let i=1;i<DRAFT.repeatQty;i++){const d=new Date(base);d.setMonth(d.getMonth()+i);TXS.push({id:Date.now()+i,desc:DRAFT.desc,val:DRAFT.val,cat:DRAFT.cat,type:DRAFT.type,ts:d.getTime(),scheduled:true,repeat:'instance',repeatQty:0});}}
+  saveTxs();updateHeader();DRAFT={};STATE='idle';await botBubble('✅ Salvo!',tx.scheduled?'blue':'ok');setTimeout(()=>{botBubble('Mais alguma coisa?');addQR(mainMenu());},800);
+}
+
+async function flowDelete(filter=null,filterDate=null){
+  STATE='idle';
+  if(filter==='today'||filterDate){const target=filterDate?tsToDate(filterDate.getTime()):todayStr();const list=TXS.filter(t=>tsToDate(t.ts)===target).sort((a,b)=>b.ts-a.ts);const label=filterDate?new Date(filterDate).toLocaleDateString('pt-BR'):'hoje';if(!list.length){await botBubble(`Nenhum em <strong>${label}</strong>.`,'warn');addQR([{label:'📅 Outra data',value:'del_date'},{label:'📋 Recentes',value:'del_recent'},{label:'❌ Cancelar',value:'del_cancel'}]);return;}await buildDeleteList(list,label);}
+  else{await botBubble('🗑️ Quais excluir?');addQR([{label:'📅 Hoje',value:'del_today_now'},{label:'📅 Escolher data',value:'del_date'},{label:'📋 Recentes',value:'del_recent'},{label:'📅 Agendados',value:'del_scheduled'},{label:'❌ Cancelar',value:'del_cancel'}]);}
+}
+async function buildDeleteList(list,title){
+  const rows=list.slice(0,12).map(t=>{const ci=catInfo(t.cat);return`<div class="del-item"><div class="del-ic" style="background:${ci.c+'22'}">${ci.emoji||ci.l.split(' ')[0]}</div><div class="del-info"><div class="del-desc">${esc(t.desc)}${t.scheduled?' <span class="badge badge-s">ag.</span>':''}</div><div class="del-sub">${ci.l} · ${new Date(t.ts).toLocaleDateString('pt-BR')}</div></div><span class="del-amt" style="color:${t.type==='rec'?'#2e7d32':'var(--red)'}">${t.type==='rec'?'+':'-'}${fmt(t.val)}</span><button class="del-btn" onclick="event.stopPropagation();confirmDelItem(${t.id})">🗑️</button></div>`;}).join('');
+  await botBubble(`<strong>${title}</strong><br><br>${rows}`);addQR([{label:'❌ Cancelar',value:'del_cancel'}]);
+}
+function confirmDelItem(id){TXS=TXS.filter(t=>t.id!==id);saveTxs();updateHeader();removeQR();botBubble('✅ Excluído!','ok').then(()=>addQR(mainMenu()));}
+
+// Resumo do mês
+async function flowSummary(){
+  const list=confirmedTxs();const{rec,desp,saldo}=calcM(list);const taxa=rec>0?Math.round(desp/rec*100):0;
+  const sched=scheduledTxs();const futRec=sched.filter(t=>t.type==='rec').reduce((s,t)=>s+t.val,0);const futDesp=sched.filter(t=>t.type==='desp').reduce((s,t)=>s+t.val,0);
+  const catSummary={};list.forEach(t=>{if(!catSummary[t.cat])catSummary[t.cat]={rec:0,desp:0,cat:catInfo(t.cat)};if(t.type==='rec')catSummary[t.cat].rec+=t.val;else catSummary[t.cat].desp+=t.val;});
+  let catList='';Object.values(catSummary).forEach(({cat,rec:r,desp:d})=>{if(r>0)catList+=`${cat.l}: <span style="color:#2e7d32;font-weight:700">+ ${fmt(r)}</span><br>`;if(d>0)catList+=`${cat.l}: <span style="color:#e53935;font-weight:700">- ${fmt(d)}</span><br>`;});
+  let html=`<strong>📊 Resumo Financeiro</strong><br><br><strong>📅 ${mName(curMonth,curYear)}</strong><br>`+(!catList?'<small>Nenhuma transação</small><br>':catList)+`<br>📥 Receitas: <span style="color:#2e7d32;font-weight:700">+ ${fmt(rec)}</span><br>📤 Despesas: <span style="color:#e53935;font-weight:700">- ${fmt(desp)}</span><br><strong>Saldo do mês:</strong> <span style="font-size:16px">${fmt(saldo)}</span>`;
+  const geral=calcM(TXS.filter(t=>!t.scheduled));html+=`<br><br><strong>💰 Saldo Geral:</strong> <span style="font-size:18px">${fmt(geral.saldo)}</span>`;
+  if(sched.length){html+=`<br><br><small style="color:#f57c00">📅 Agendamentos futuros:<br>`;if(futRec>0)html+=`✅ Receitas: +${fmt(futRec)}<br>`;if(futDesp>0)html+=`📤 Despesas: -${fmt(futDesp)}<br>`;html+=`Total: ${fmt(futRec-futDesp)}</small>`;}
+  await botBubble(html);addQR([{label:'📅 Saldo em data',value:'saldo_date'},{label:'💚 Receita',value:'rec'},{label:'❤️ Despesa',value:'desp'}]);
+}
+
+// Saldo em data específica (melhorado)
+async function flowSaldoDate(targetDate){
+  const lbl=targetDate.toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
+  const ts=targetDate.getTime();const isPast=ts<=Date.now();
+  const past=TXS.filter(t=>!t.scheduled&&t.ts<=ts);const{rec:pR,desp:pD,saldo:pS}=calcM(past);
+  const sched=TXS.filter(t=>t.scheduled&&t.ts<=ts);const{rec:sR,desp:sD}=calcM(sched);
+  const totalRec=pR+sR;const totalDesp=pD+sD;const proj=pS+(sR-sD);
+  const catSummary={};[...past,...sched].forEach(t=>{if(!catSummary[t.cat])catSummary[t.cat]={rec:0,desp:0,cat:catInfo(t.cat)};if(t.type==='rec')catSummary[t.cat].rec+=t.val;else catSummary[t.cat].desp+=t.val;});
+  let catList='';Object.values(catSummary).forEach(({cat,rec:r,desp:d})=>{if(r>0)catList+=`${cat.emoji||''} ${cat.l}: <span style="color:#2e7d32;font-weight:700">+ ${fmt(r)}</span><br>`;if(d>0)catList+=`${cat.emoji||''} ${cat.l}: <span style="color:#e53935;font-weight:700">- ${fmt(d)}</span><br>`;});
+  let html=`<strong>📅 Saldo em ${lbl}</strong><br><br>`+(catList?catList+'<br>':'')+`<div class="m-row"><div class="mc"><div class="mc-val">${fmt(totalRec)}</div><div class="mc-lbl">Receitas</div></div><div class="mc neg"><div class="mc-val">${fmt(totalDesp)}</div><div class="mc-lbl">Despesas</div></div></div>`;
+  if(sched.length>0)html+=`<br><small style="color:#1565c0">📅 Inclui ${sched.length} agendamento(s): +${fmt(sR)} / -${fmt(sD)}</small>`;
+  html+=`<br><div style="display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:1px solid #eee;margin-top:8px"><span style="font-size:12px;font-weight:600">${isPast?'Saldo realizado':'Saldo projetado'}</span><span style="font-size:20px;font-weight:800;color:${proj>=0?'#2e7d32':'var(--red)'}">${proj>=0?'+':''}${fmt(proj)}</span></div>`;
+  await botBubble(html,isPast?'ok':'blue');
+  if(proj<0)await botBubble(`⚠️ Projeção negativa de ${fmt(-proj)} nessa data!`,'danger');
+  else if(!isPast&&proj>0)await botBubble(`✅ Projeção positiva! Se tudo correr bem, terá ${fmt(proj)} até lá.`,'ok');
+  addQR([{label:'📅 Outra data',value:'saldo_date'},{label:'📅 Hoje',value:'saldo_hoje_now'},{label:'📊 Resumo do mês',value:'saldo'},{label:'💚 Receita',value:'rec'},{label:'❤️ Despesa',value:'desp'}]);
+}
+
+async function flowHelp(){await botBubble('<strong>💰 Comandos:</strong><br>💚 "Recebi salário"<br>❤️ "Gastei no mercado"<br>📊 "Saldo"<br>📅 "Saldo no dia 25/12"<br>🗑️ "Excluir"<br>🏷️ "Criar categoria"');addQR(mainMenu());}
+
+async function flowNewCat(){NC_DRAFT={};STATE='nc_name';removeEmojiPicker();removeColorPicker();await botBubble('🏷️ Qual o <strong>nome</strong> da nova categoria?');}
+async function showNcConfirm(){await botBubble(`Confirma?<br><br><span style="font-size:28px">${NC_DRAFT.emoji}</span> <strong>${esc(NC_DRAFT.name)}</strong><br>Tipo: ${NC_DRAFT.type==='rec'?'Receita 💚':'Despesa ❤️'}<br>Cor: <span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:${NC_DRAFT.color};vertical-align:middle"></span>`);addQR([{label:'✅ Criar',value:'nc_yes'},{label:'Cancelar',value:'nc_no'}]);}
+async function saveNewCat(){const customs=CUSTOM_CATS();const key='c_'+Date.now();customs[key]={l:NC_DRAFT.emoji+' '+NC_DRAFT.name,emoji:NC_DRAFT.emoji,c:NC_DRAFT.color,t:NC_DRAFT.type};saveCustom(customs);NC_DRAFT={};STATE='idle';removeEmojiPicker();removeColorPicker();await botBubble('✅ Categoria criada!','ok');setTimeout(()=>{botBubble('O que mais?');addQR(mainMenu());},800);}
+
+function renderHist(){
+  document.getElementById('m-lbl').textContent=mName(curMonth,curYear);
+  const typeF=document.getElementById('hf-type').value;
+  let allList=TXS.filter(t=>{const d=new Date(t.ts);return d.getMonth()===curMonth&&d.getFullYear()===curYear;}).sort((a,b)=>b.ts-a.ts);
+  if(typeF==='rec')allList=allList.filter(t=>t.type==='rec');
+  if(typeF==='desp')allList=allList.filter(t=>t.type==='desp');
+  const conf=allList.filter(t=>!t.scheduled);const sched=allList.filter(t=>t.scheduled);
+  if(typeF==='sched')allList=sched;
+  const el=document.getElementById('hist-list');
+  if(!allList.length){el.innerHTML='<div class="empty-state"><div class="big">📭</div><strong>Nenhum lançamento</strong></div>';return;}
+  let html='';
+  if(sched.length&&typeF!=='rec'&&typeF!=='desp'){html+=`<div class="sec-title">📅 Agendados (${sched.length})</div>`;sched.forEach(t=>html+=txRow(t));}
+  if(conf.length&&typeF!=='sched'){html+=`<div class="sec-title" style="margin-top:${sched.length?12:4}px">✅ Realizados (${conf.length})</div>`;conf.forEach(t=>html+=txRow(t));}
+  if(conf.length&&typeF!=='sched'){let tR=0,tD=0;conf.forEach(t=>{const ci=catInfo(t.cat);if(ci.t==='rec')tR+=t.val;else tD+=t.val;});html+=`<div style="margin-top:12px;padding:12px;background:#f5f5f5;border-radius:12px"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>📥 Receitas</span><span style="color:#2e7d32;font-weight:700">+ ${fmt(tR)}</span></div><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>📤 Despesas</span><span style="color:#e53935;font-weight:700">- ${fmt(tD)}</span></div><div style="display:flex;justify-content:space-between;border-top:1px solid #ddd;padding-top:4px;font-weight:800"><span>Saldo</span><span>${fmt(tR-tD)}</span></div></div>`;}
+  el.innerHTML=html;
+}
+function txRow(t){
+  const ci=catInfo(t.cat);const isRec=ci.t==='rec';const isFuture=t.scheduled&&t.ts>Date.now();const isToday=tsToDate(t.ts)===todayStr();
+  const badge=t.scheduled?(t.ts<Date.now()?'<span class="badge badge-o">vencido</span>':isToday?'<span class="badge badge-due">hoje!</span>':'<span class="badge badge-s">agendado</span>'):'';
+  const bgColor=t.scheduled?(isFuture?'#e3f2fd':'#fff8e1'):'transparent';
+  return`<div class="tx-item" style="background:${bgColor};padding:6px 8px;border-radius:8px;margin-bottom:2px"><div class="tx-ic" style="background:${ci.c}">${ci.emoji||ci.l.split(' ')[0]}</div><div class="tx-info"><div class="tx-desc">${esc(t.desc)}${badge}</div><div class="tx-sub">${ci.l} · ${new Date(t.ts).toLocaleDateString('pt-BR')}${t.repeat?' 🔁':''}</div></div><span class="tx-amt" style="color:${isRec?'#2e7d32':'var(--red)'}">${isRec?'+':'-'}${fmt(t.val)}</span><button class="tx-del" onclick="delFromHist(${t.id})">✕</button></div>`;
+}
+function delFromHist(id){if(!confirm('Excluir?'))return;TXS=TXS.filter(t=>t.id!==id);saveTxs();renderHist();updateHeader();}
+
+function renderGraf(){
+  document.getElementById('m-lbl2').textContent=mName(curMonth,curYear);const list=confirmedTxs();
+  const cR={},cD={};list.forEach(t=>t.type==='rec'?cR[t.cat]=(cR[t.cat]||0)+t.val:cD[t.cat]=(cD[t.cat]||0)+t.val);
+  const allC=[...new Set([...Object.keys(cR),...Object.keys(cD)])];
+  if(barChart)barChart.destroy();
+  barChart=new Chart(document.getElementById('c-bar'),{type:'bar',data:{labels:allC.map(c=>catInfo(c).l),datasets:[{label:'Receita',data:allC.map(c=>cR[c]||0),backgroundColor:'#43a04788',borderRadius:4},{label:'Despesa',data:allC.map(c=>cD[c]||0),backgroundColor:'#e5393588',borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:8},maxRotation:45}},y:{ticks:{callback:v=>'R$'+Math.round(v)}}}}});
+  document.getElementById('bar-leg').innerHTML='<div class="leg-i"><div class="leg-dot" style="background:#43a047"></div>Receita</div><div class="leg-i"><div class="leg-dot" style="background:#e53935"></div>Despesa</div>';
+  const dE=Object.entries(cD).sort((a,b)=>b[1]-a[1]);if(pieChart)pieChart.destroy();
+  if(dE.length){pieChart=new Chart(document.getElementById('c-pie'),{type:'doughnut',data:{labels:dE.map(([c])=>catInfo(c).l),datasets:[{data:dE.map(([,v])=>v),backgroundColor:dE.map(([c])=>catInfo(c).c||'#888'),borderWidth:2,borderColor:'#fff'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}});
+  document.getElementById('pie-leg').innerHTML=dE.map(([c,v])=>`<div class="leg-i"><div class="leg-dot" style="background:${catInfo(c).c}"></div>${catInfo(c).l} ${fmt(v)}</div>`).join('');}
+}
+
+function renderExportPage(){
+  const mSel=document.getElementById('exp-month');mSel.innerHTML='';
+  for(let i=0;i<12;i++){const o=document.createElement('option');o.value=i;o.text=new Date(curYear,i,1).toLocaleDateString('pt-BR',{month:'long'});if(i===curMonth)o.selected=true;mSel.appendChild(o);}
+  const cSel=document.getElementById('exp-cat');cSel.innerHTML='<option value="all">Todas</option>';Object.entries(allCats()).forEach(([k,v])=>{const o=document.createElement('option');o.value=k;o.text=v.l;cSel.appendChild(o);});
+  updatePreview();['exp-month','exp-type','exp-cat'].forEach(id=>document.getElementById(id).onchange=updatePreview);
+}
+function getExpTxs(){const m=parseInt(document.getElementById('exp-month').value),type=document.getElementById('exp-type').value,cat=document.getElementById('exp-cat').value;return TXS.filter(t=>{const d=new Date(t.ts);return d.getMonth()===m&&d.getFullYear()===curYear&&(type==='all'||t.type===type)&&(cat==='all'||t.cat===cat)&&!t.scheduled;});}
+function updatePreview(){const list=getExpTxs();const{rec,desp,saldo}=calcM(list);document.getElementById('exp-preview').innerHTML=`<strong>${list.length}</strong> lançamentos · <strong style="color:#2e7d32">${fmt(rec)}</strong> entradas · <strong style="color:var(--red)">${fmt(desp)}</strong> saídas · Saldo: <strong>${fmt(saldo)}</strong>`;}
+
+function exportExcel(){
+  const list=getExpTxs().sort((a,b)=>a.ts-b.ts);if(!list.length){alert('Nenhum dado.');return;}
+  const wb=XLSX.utils.book_new();const rows=[['Data','Descrição','Tipo','Categoria','Valor']];
+  list.forEach(t=>rows.push([new Date(t.ts).toLocaleDateString('pt-BR'),t.desc,t.type==='rec'?'Receita':'Despesa',catInfo(t.cat).l,(t.type==='rec'?1:-1)*t.val]));
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(rows),'Movimentações');XLSX.writeFile(wb,`FinBot-${mName(curMonth,curYear)}.xlsx`);
+}
+function exportPDF(){
+  const list=getExpTxs().sort((a,b)=>a.ts-b.ts);if(!list.length){alert('Nenhum dado.');return;}
+  const{rec,desp,saldo}=calcM(list);const ml=mName(curMonth,curYear);
+  const txRows=list.map(t=>`<tr><td>${new Date(t.ts).toLocaleDateString('pt-BR')}</td><td>${esc(t.desc)}</td><td>${catInfo(t.cat).l}</td><td style="text-align:right;color:${t.type==='rec'?'#2e7d32':'#c62828'}">${t.type==='rec'?'+':'-'}${fmt(t.val)}</td></tr>`).join('');
+  const html=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>FinBot - ${ml}</title><style>body{font-family:Arial;padding:30px}h1{color:#075e54}table{width:100%;border-collapse:collapse}th{background:#075e54;color:#fff;padding:8px}td{padding:6px;border-bottom:1px solid #ddd}</style></head><body><h1>💰 FinBot - ${ml}</h1><h3>Receitas: ${fmt(rec)} | Despesas: ${fmt(desp)} | Saldo: ${fmt(saldo)}</h3><table><tr><th>Data</th><th>Descrição</th><th>Categoria</th><th>Valor</th></tr>${txRows}</table></body></html>`;
+  const w=window.open('','_blank');w.document.write(html);w.document.close();setTimeout(()=>w.print(),500);
+}
+function exportBackup(){
+  const data={txs:TXS,customCats:CUSTOM_CATS(),date:new Date().toISOString(),version:'9'};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`finbot-backup-${todayStr()}.json`;a.click();
+}
+function restoreBackup(){
+  const inp=document.createElement('input');inp.type='file';inp.accept='.json';inp.onchange=function(){
+    const file=inp.files[0];if(!file)return;const reader=new FileReader();
+    reader.onload=function(e){try{const data=JSON.parse(e.target.result);if(!data.txs){alert('Arquivo inválido!');return;}if(!confirm(`Restaurar ${data.txs.length} transações?`))return;TXS=data.txs;saveTxs();if(data.customCats)saveCustom(data.customCats);updateHeader();renderHist();alert('✅ Restaurado!');}catch(ex){alert('❌ Erro ao ler arquivo.');}};
+    reader.readAsText(file);};inp.click();
+}
+
+function goTab(name){
+  ['chat','hist','graf','export'].forEach(t=>{document.getElementById('pg-'+t).classList.toggle('on',t===name);document.getElementById('tab-'+t).classList.toggle('on',t===name);});
+  if(name==='hist')renderHist();if(name==='graf')renderGraf();if(name==='export')renderExportPage();
+}
+function chMonth(d){curMonth+=d;if(curMonth>11){curMonth=0;curYear++;}if(curMonth<0){curMonth=11;curYear--;}if(document.getElementById('pg-hist').classList.contains('on'))renderHist();if(document.getElementById('pg-graf').classList.contains('on'))renderGraf();updateHeader();}
+
+function initApp(){
+  loadTxs();updateHeader();
+  setTimeout(async()=>{await botBubble(`Olá, <strong>${getUserName()}</strong>! 👋 Bem-vindo ao FinBot.<br><br>O que quer fazer?`);addQR(mainMenu());},400);
+}
+checkActivation();
+</script>
+</body>
+</html>
