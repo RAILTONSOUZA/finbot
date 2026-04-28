@@ -404,16 +404,7 @@ function loadTxs() {
   if (!TXS.length) {
     const n = Date.now();
     TXS = [
-      {id:1, desc:'Salário',          val:3500, cat:'salario',    type:'rec',  ts:n-86400000*20, scheduled:false},
-      {id:2, desc:'Aluguel',          val:1200, cat:'moradia',    type:'desp', ts:n-86400000*18, scheduled:false},
-      {id:3, desc:'Mercado',          val:320,  cat:'alimentacao',type:'desp', ts:n-86400000*14, scheduled:false},
-      {id:4, desc:'iFood',            val:85,   cat:'alimentacao',type:'desp', ts:n-86400000*10, scheduled:false},
-      {id:5, desc:'Combustível',      val:150,  cat:'transporte', type:'desp', ts:n-86400000*8,  scheduled:false},
-      {id:6, desc:'Netflix',          val:55,   cat:'streaming',  type:'desp', ts:n-86400000*6,  scheduled:false},
-      {id:7, desc:'Rações Shopelo',   val:140,  cat:'pets',       type:'desp', ts:n-86400000*3,  scheduled:false},
-      {id:8, desc:'Freelance site',   val:800,  cat:'freelance',  type:'rec',  ts:n-86400000*2,  scheduled:false},
-      {id:9, desc:'Cinema',           val:90,   cat:'lazer',      type:'desp', ts:n-86400000,     scheduled:false},
-      {id:10,desc:'Próximo aluguel',  val:1200, cat:'moradia',    type:'desp', ts:n+86400000*10,  scheduled:true, repeat:'monthly', repeatQty:0},
+      {id:1, desc:'Salário',          val:1, cat:'salario',    type:'rec',  ts:n-86400000*20, scheduled:false},
     ];
     saveTxs();
   }
