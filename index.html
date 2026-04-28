@@ -7,12 +7,11 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="FinBot">
+<meta name="apple-mobile-web-app-title" content="FinBot IA">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
-<meta name="apple-itunes-app" content="app-id=0000000000">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-<title>FinBot</title>
+<title>FinBot IA</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{--gd:#075e54;--gm:#128c7e;--gl:#25d366;--bg:#f0f2f5;--win:#fff;--wout:#d9fdd3;--txt:#111b21;--txt2:#667781;--txt3:#aaa;--bdr:#e9edef;--red:#e53935;--amb:#f57c00;--sh:0 1px 2px rgba(0,0,0,.13)}
@@ -265,7 +264,7 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto}
 <div class="hdr">
   <div class="hdr-av">💰</div>
   <div class="hdr-info">
-    <h1>FinBot Pessoal</h1>
+    <h1>FinBot IA 🤖</h1>
     <p id="hd-st">finanças saudáveis ✔</p>
   </div>
   <div class="hdr-bal">
@@ -292,7 +291,7 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto}
     </div>
     <div class="input-bar">
       <div class="input-wrap">
-        <input id="chat-input" type="text" placeholder="Mensagem ou 'menu'..." autocomplete="off"
+        <input id="chat-input" type="text" placeholder="Fale comigo em linguagem natural..." autocomplete="off"
           onkeydown="if(event.key==='Enter')sendMsg()">
       </div>
       <button class="send-btn" onclick="sendMsg()">➤</button>
@@ -405,13 +404,26 @@ function loadTxs() {
   if (!TXS.length) {
     const n = Date.now();
     TXS = [
-      {id:1, desc:'Salário',          val:1, cat:'salario',    type:'rec',  ts:n-86400000*20, scheduled:false},
-      
+      {id:1, desc:'Salário',          val:3500, cat:'salario',    type:'rec',  ts:n-86400000*20, scheduled:false},
+      {id:2, desc:'Aluguel',          val:1200, cat:'moradia',    type:'desp', ts:n-86400000*18, scheduled:false},
+      {id:3, desc:'Mercado',          val:320,  cat:'alimentacao',type:'desp', ts:n-86400000*14, scheduled:false},
+      {id:4, desc:'iFood',            val:85,   cat:'alimentacao',type:'desp', ts:n-86400000*10, scheduled:false},
+      {id:5, desc:'Combustível',      val:150,  cat:'transporte', type:'desp', ts:n-86400000*8,  scheduled:false},
+      {id:6, desc:'Netflix',          val:55,   cat:'streaming',  type:'desp', ts:n-86400000*6,  scheduled:false},
+      {id:7, desc:'Rações Shopelo',   val:140,  cat:'pets',       type:'desp', ts:n-86400000*3,  scheduled:false},
+      {id:8, desc:'Freelance site',   val:800,  cat:'freelance',  type:'rec',  ts:n-86400000*2,  scheduled:false},
+      {id:9, desc:'Cinema',           val:90,   cat:'lazer',      type:'desp', ts:n-86400000,     scheduled:false},
+      {id:10,desc:'Próximo aluguel',  val:1200, cat:'moradia',    type:'desp', ts:n+86400000*10,  scheduled:true, repeat:'monthly', repeatQty:0},
     ];
     saveTxs();
   }
 }
 const saveTxs = () => save(SK.txs, TXS);
+// Global helpers for onclick handlers inside innerHTML templates
+function delItem(id)         { bot._delTx(id); }
+function schedLiquidar(id)   { bot._do('sched_liquidar|'+id); }
+function schedProrrogar(id)  { bot._do('sched_prorrogar|'+id); }
+function confirmProrrogarBtn(id){ bot.confirmProrrogar('sched_confirmprorrogar|'+id+'|_'); }
 
 // ════════════════════════════════════════════
 // HELPERS
@@ -808,15 +820,136 @@ const bot = {
   },
 
   async _intent(raw, t) {
-    if (/\b(receita|recebi|ganhei|salário|entrou|renda)\b/i.test(raw))          { this._d={type:'rec'};  this._setState('desc'); await _bot(`<div class="b-txt">💚 <strong>Receita</strong>! Qual a descrição? <em>ex: Salário, Freelance...</em></div>`); _qr([]); }
-    else if (/\b(despesa|gastei|paguei|comprei|gasto|saída|pagar)\b/i.test(raw)) { this._d={type:'desp'}; this._setState('desc'); await _bot(`<div class="b-txt">❤️ <strong>Despesa</strong>! Qual a descrição? <em>ex: Mercado, iFood, Aluguel...</em></div>`); _qr([]); }
-    else if (/\b(excluir|deletar|remover|apagar)\b/i.test(raw))  await this.delFlow();
-    else if (/\b(saldo|resumo|quanto|situação)\b/i.test(raw))     await this.summary();
-    else if (/\b(agendad|agenda)\b/i.test(raw))                   await this.scheduled();
-    else if (/\b(categoria|criar cat|nova cat)\b/i.test(raw))     await this._startCat();
-    else if (/\b(ajuda|help)\b/i.test(raw))                       await this.help();
-    else if (/\b(detalh|detail|categoria.*ver|ver.*categoria)\b/i.test(raw)) await this.detalhar();
-    else { await _bot(`<div class="b-txt">Oi! 👋 O que quer fazer?</div>`); this.showMenu(); }
+    // First try local shortcuts for speed
+    if (/\b(excluir|deletar|remover|apagar)\b/i.test(raw))  { await this.delFlow(); return; }
+    if (/\b(saldo|resumo|quanto|situação)\b/i.test(raw))     { await this.summary(); return; }
+    if (/\b(agendad|agenda)\b/i.test(raw))                   { await this.scheduled(); return; }
+    if (/\b(detalh)\b/i.test(raw))                           { await this.detalhar(); return; }
+    if (/\b(ajuda|help)\b/i.test(raw))                       { await this.help(); return; }
+    // For everything else — call Claude IA
+    await this._askClaude(raw);
+  },
+
+  // ── CLAUDE IA — interprets free-form messages ──
+  async _askClaude(userMsg) {
+    const name = load(SK.name) || 'você';
+    const list = confirmedTxs();
+    const {rec, desp, saldo} = calcM(list);
+    const taxa = rec > 0 ? Math.round(desp/rec*100) : 0;
+    const sched = TXS.filter(t=>t.scheduled);
+    const overdue = sched.filter(t=>t.ts < Date.now() - 86400000);
+
+    // Build context summary for Claude
+    const ctx = `
+Você é o FinBot IA, assistente financeiro pessoal do usuário ${name}.
+Dados financeiros ATUAIS do usuário (${mName(curMonth, curYear)}):
+- Receitas confirmadas: ${fmt(rec)}
+- Despesas confirmadas: ${fmt(desp)}
+- Saldo: ${fmt(saldo)}
+- Renda comprometida: ${taxa}%
+- Lançamentos agendados: ${sched.length} (${overdue.length} vencidos)
+
+Categorias disponíveis:
+${Object.entries(getCats()).map(([k,v])=>`- ${v.l} (${v.t==='rec'?'receita':'despesa'})`).join('\n')}
+
+AÇÕES QUE VOCÊ PODE EXECUTAR (responda com JSON quando detectar intenção):
+- Registrar receita: {"action":"rec","desc":"descrição","val":valor,"cat":"chave_categoria"}
+- Registrar despesa: {"action":"desp","desc":"descrição","val":valor,"cat":"chave_categoria"}
+- Ver saldo: {"action":"saldo"}
+- Ver agendados: {"action":"agendados"}
+- Detalhar categorias: {"action":"detalhar"}
+- Excluir lançamento: {"action":"excluir"}
+
+REGRAS:
+1. Se o usuário quiser registrar algo E você tiver TODOS os dados (descrição, valor, categoria), responda com o JSON acima.
+2. Se faltar algum dado, pergunte de forma natural e amigável em PT-BR.
+3. Para perguntas sobre finanças pessoais, análises ou dicas, responda de forma útil e direta.
+4. Seja conciso, amigável e use emojis com moderação.
+5. Resposta em texto simples (sem markdown) quando não for JSON.
+6. Chaves de categoria válidas: ${Object.keys(getCats()).join(', ')}
+`;
+
+    // Show typing
+    const tp = document.createElement('div'); tp.className='typing'; tp.innerHTML='<span></span><span></span><span></span>';
+    M.appendChild(tp); scrollB();
+
+    try {
+      // Chama o proxy Netlify Function (evita CORS e esconde a chave)
+      const resp = await fetch('/.netlify/functions/ai', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+          messages:[
+            {role:'system', content: ctx},
+            {role:'user',   content: userMsg}
+          ]
+        })
+      });
+      tp.remove();
+      const data = await resp.json();
+      const reply = data.choices?.[0]?.message?.content || '';
+
+      // Try to parse as action JSON
+      const jsonMatch = reply.match(/\{[\s\S]*"action"[\s\S]*\}/);
+      if (jsonMatch) {
+        try {
+          const action = JSON.parse(jsonMatch[0]);
+          await this._executeAIAction(action, reply);
+          return;
+        } catch(e) {}
+      }
+
+      // Plain text response
+      const safe = reply.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+      addBubble(`<div class="b-sender">🤖 FinBot IA</div><div class="b-txt">${safe}</div><div class="b-time">${tNow()}</div>`,'in');
+      scrollB();
+      this.showMenu();
+
+    } catch(err) {
+      tp.remove();
+      // Fallback to local intent on error
+      console.warn('AI error, falling back:', err);
+      await _bot(`<div class="b-txt">🤔 Não entendi bem. Use os botões abaixo ou tente de outra forma!</div>`,'warn');
+      this.showMenu();
+    }
+  },
+
+  async _executeAIAction(action, rawReply) {
+    switch(action.action) {
+      case 'saldo':    await this.summary(); return;
+      case 'agendados': await this.scheduled(); return;
+      case 'detalhar': await this.detalhar(); return;
+      case 'excluir':  await this.delFlow(); return;
+      case 'rec':
+      case 'desp': {
+        const type = action.action;
+        const desc = action.desc;
+        const val  = parseFloat(action.val);
+        const cat  = action.cat;
+        // Validate
+        if (!desc || !val || val <= 0 || !getCats()[cat]) {
+          // Missing data — ask naturally
+          const safe = rawReply.replace(/\{[\s\S]*\}/,'').trim()
+            .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+          addBubble(`<div class="b-sender">🤖 FinBot IA</div><div class="b-txt">${safe||'Pode me dar mais detalhes?'}</div><div class="b-time">${tNow()}</div>`,'in');
+          // Fall into normal flow
+          this._d = { type };
+          this._setState('desc');
+          _qr([]);
+          return;
+        }
+        // All data present — confirm with user
+        this._d = { type, desc, val, cat, scheduled:false, ts:Date.now(), repeat:'none', repeatQty:0 };
+        this._setState('confirm');
+        const ci = getCats()[cat];
+        addBubble(`<div class="b-sender">🤖 FinBot IA</div><div class="b-txt">Entendi! Vou registrar:<br><br><strong>${type==='rec'?'💚 Receita':'❤️ Despesa'}</strong><br>📝 ${esc(desc)}<br>💰 ${fmt(val)}<br>${ci.l} 📅 Hoje<br><br>Confirma?</div><div class="b-time">${tNow()}</div>`,'in');
+        _qr([{l:'✅ Confirmar',v:'confirm_yes'},{l:'✏️ Corrigir',v:'confirm_no'}]);
+        return;
+      }
+      default:
+        await _bot(`<div class="b-txt">🤖 ${rawReply.replace(/\{[\s\S]*\}/,'').trim()||'Como posso ajudar?'}</div>`,'in');
+        this.showMenu();
+    }
   },
 
   async _pickCat(key) {
@@ -984,11 +1117,11 @@ const bot = {
           : new Date(t.ts).toLocaleDateString('pt-BR');
       const actions = showActions ? `
         <div style="display:flex;gap:6px;margin-top:8px">
-          <button onclick="bot._do('sched_liquidar|${t.id}')"
+          <button onclick="schedLiquidar(${t.id})"
             style="flex:1;padding:7px 0;background:var(--gm);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer">
             ✅ Liquidar
           </button>
-          <button onclick="bot._do('sched_prorrogar|${t.id}')"
+          <button onclick="schedProrrogar(${t.id})"
             style="flex:1;padding:7px 0;background:var(--amb);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer">
             📅 Prorrogar
           </button>
@@ -1066,7 +1199,7 @@ const bot = {
         <div class="del-sub">${catLabel(t.cat)} · ${new Date(t.ts).toLocaleDateString('pt-BR')}</div>
       </div>
       <span class="del-amt" style="color:${t.type==='rec'?'#2e7d32':'var(--red)'}">${t.type==='rec'?'+':'-'}${fmt(t.val)}</span>
-      <button class="del-btn" onclick="bot._do('del|${t.id}')">🗑️</button>
+      <button class="del-btn" onclick="delItem(${t.id})">🗑️</button>
     </div>`).join('');
     await _bot(`<div class="b-txt"><strong>${title}</strong>:<br><br>${rows}</div>`);
     _qr([{l:'📅 Outra data',v:'del_data'},{l:'📋 Recentes',v:'del_rec'},{l:'❌ Cancelar',v:'del_cancel',r:1}]);
@@ -1132,7 +1265,7 @@ const bot = {
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:4px">
         <input type="date" id="prorrogar-date-${id}" min="${minDate}" value="${defDate}"
           style="flex:1;padding:9px 12px;border:1.5px solid var(--bdr);border-radius:10px;font-size:14px;font-family:'Nunito',sans-serif;outline:none;min-width:160px">
-        <button onclick="bot._do('sched_confirmprorrogar|${id}|_')"
+        <button onclick="confirmProrrogarBtn(${id})"
           style="padding:9px 16px;background:var(--gm);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer">
           Confirmar 📅
         </button>
@@ -1288,11 +1421,11 @@ function txRow(t) {
   const needsAction = t.scheduled && (ov || isToday);
   const actionBtns = needsAction ? `
     <div style="display:flex;gap:5px;margin-top:7px;margin-left:43px">
-      <button onclick="goTab('chat');setTimeout(()=>bot._do('sched_liquidar|${t.id}'),200)"
+      <button onclick="goTab('chat');setTimeout(()=>schedLiquidar(${t.id}),200)"
         style="flex:1;padding:6px 0;background:var(--gm);color:#fff;border:none;border-radius:8px;font-size:11px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer">
         ✅ Liquidar
       </button>
-      <button onclick="goTab('chat');setTimeout(()=>bot._do('sched_prorrogar|${t.id}'),200)"
+      <button onclick="goTab('chat');setTimeout(()=>schedProrrogar(${t.id}),200)"
         style="flex:1;padding:6px 0;background:var(--amb);color:#fff;border:none;border-radius:8px;font-size:11px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer">
         📅 Prorrogar
       </button>
@@ -1464,7 +1597,7 @@ function initApp() {
 
   const name = load(SK.name) || 'você';
   setTimeout(async () => {
-    await _bot(`<div class="b-txt">Olá, <strong>${name}</strong>! 👋 Bem-vindo ao <strong>FinBot</strong>.<br><br>O que quer fazer hoje?<br><br><small style="color:var(--txt2)">💡 Digite <strong>menu</strong> a qualquer momento para voltar ao início.</small></div>`);
+    await _bot(`<div class="b-txt">Olá, <strong>${name}</strong>! 👋 Sou o <strong>FinBot IA</strong> — seu assistente financeiro com inteligência artificial.<br><br>Pode me dizer o que quiser em linguagem natural:<br><em>"Gastei 50 reais no mercado hoje"<br>"Quanto estou gastando em alimentação?"<br>"Recebi meu salário de 3000"</em><br><br><small style="color:var(--txt2)">💡 Digite <strong>menu</strong> a qualquer momento para ver as opções.</small></div>`);
     bot.showMenu();
   }, 400);
 }
