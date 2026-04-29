@@ -19,36 +19,30 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:'Nunito',
 body{display:flex;flex-direction:column;max-width:480px;margin:0 auto}
 #app{display:flex;flex-direction:column;height:100%;background:var(--bg) url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23075e54' fill-opacity='.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E")}
 
-/* ── HEADER ── */
 .hdr{background:var(--gd);padding:10px 14px;display:flex;align-items:center;gap:10px;flex-shrink:0}
-.hdr-av{width:40px;height:40px;border-radius:50%;background:var(--gl);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.hdr-av{width:40px;height:40px;border-radius:50%;background:var(--gl);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;position:relative}
+.hdr-av::after{content:'';position:absolute;bottom:1px;right:1px;width:10px;height:10px;background:#4caf50;border-radius:50%;border:2px solid var(--gd)}
 .hdr-info{flex:1}
 .hdr-info h1{font-size:16px;font-weight:700;color:#fff}
 .hdr-info p{font-size:11px;color:#b2dfdb;margin-top:1px}
 .hdr-bal{text-align:right}
 .hdr-val{font-size:14px;font-weight:800;padding:3px 10px;border-radius:20px;background:var(--gl);color:#fff;display:inline-block;cursor:pointer}
 .hdr-lbl{font-size:9px;color:#b2dfdb;text-align:center;margin-top:2px}
-
-/* ── INSTALL BAR ── */
 #inst-bar{display:none;background:#e8f5e9;border-bottom:1px solid #a5d6a7;padding:8px 12px;align-items:center;gap:8px;flex-shrink:0}
 #inst-bar.show{display:flex}
 #inst-bar p{flex:1;font-size:12px;color:#2e7d32;font-weight:600;margin:0}
 #inst-btn{background:var(--gm);color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif}
-
-/* ── TABS ── */
 .tabs{background:var(--gd);display:flex;border-top:1px solid rgba(255,255,255,.1);flex-shrink:0}
 .tab{flex:1;padding:7px 0 5px;cursor:pointer;opacity:.55;border-bottom:2px solid transparent;display:flex;flex-direction:column;align-items:center;gap:1px;transition:opacity .15s}
 .tab.on{opacity:1;border-bottom-color:var(--gl)}
 .tab-ic{font-size:14px}
 .tab-lb{font-size:8px;color:#fff;font-weight:700}
-
-/* ── PAGES ── */
 .pages{flex:1;overflow:hidden;position:relative}
 .pg{position:absolute;inset:0;display:none;flex-direction:column}
 .pg.on{display:flex}
 
-/* ── CHAT ── */
-.chat-scroll{flex:1;overflow-y:auto;padding:10px 10px 0}
+/* CHAT */
+.chat-scroll{flex:1;overflow-y:auto;padding:10px 10px 4px}
 .chat-scroll::-webkit-scrollbar{width:0}
 .input-bar{background:var(--bg);padding:6px 8px 10px;display:flex;gap:6px;align-items:flex-end;flex-shrink:0;border-top:1px solid var(--bdr)}
 .input-wrap{flex:1;background:var(--win);border-radius:22px;display:flex;align-items:center;padding:0 14px;min-height:44px;box-shadow:var(--sh)}
@@ -57,7 +51,7 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto}
 .send-btn{width:44px;height:44px;border-radius:50%;background:var(--gm);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;box-shadow:var(--sh)}
 .send-btn:active{background:var(--gd)}
 
-/* ── BUBBLES ── */
+/* BUBBLES */
 .bubble{max-width:86%;border-radius:10px;padding:7px 10px 5px;box-shadow:var(--sh);margin-bottom:3px;animation:pop .15s ease-out}
 @keyframes pop{from{opacity:0;transform:scale(.95) translateY(4px)}to{opacity:1;transform:scale(1)}}
 .b-in   {background:var(--win);align-self:flex-start;border-top-left-radius:2px}
@@ -70,26 +64,18 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto}
 .b-time{font-size:10px;color:var(--txt3);text-align:right;margin-top:3px;display:flex;align-items:center;justify-content:flex-end;gap:3px}
 .b-ticks{color:var(--gl)}
 .b-sender{font-size:11px;font-weight:700;color:var(--gm);margin-bottom:3px}
-
-/* ── QUICK REPLIES ── */
 .qr-wrap{display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 8px;align-self:flex-start;max-width:96%}
 .qr{background:var(--win);border:1.5px solid var(--gm);color:var(--gm);border-radius:20px;padding:6px 13px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .12s;white-space:nowrap}
 .qr.red{border-color:var(--red);color:var(--red)}
-.qr.amber{border-color:var(--amb);color:var(--amb)}
 .qr:active{background:var(--gm);color:#fff}
 .qr.red:active{background:var(--red);color:#fff}
-.qr.amber:active{background:var(--amb);color:#fff}
-
-
-
-/* ── TYPING ── */
 .typing{display:flex;align-items:center;gap:4px;padding:10px 14px;background:var(--win);border-radius:10px;border-top-left-radius:2px;width:66px;box-shadow:var(--sh);align-self:flex-start;margin-bottom:4px}
 .typing span{width:7px;height:7px;border-radius:50%;background:var(--txt3);animation:bn 1.2s infinite}
 .typing span:nth-child(2){animation-delay:.2s}
 .typing span:nth-child(3){animation-delay:.4s}
 @keyframes bn{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
 
-/* ── METRICS ── */
+/* METRICS */
 .m-row{display:flex;gap:8px;margin:6px 0 2px}
 .mc{flex:1;background:#f0f9f6;border-radius:10px;padding:8px 10px;text-align:center;border:1px solid #c8e6c9}
 .mc.neg{background:#fff0f0;border-color:#ffcdd2}
@@ -103,7 +89,7 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto}
 .prog-bg{background:#e0e0e0;border-radius:6px;height:7px;overflow:hidden}
 .prog-fill{height:100%;border-radius:6px;transition:width .5s}
 
-/* ── DEL ITEMS ── */
+/* DELETE ITEMS */
 .del-item{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--bdr)}
 .del-item:last-child{border-bottom:none}
 .del-ic{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
@@ -113,16 +99,16 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto}
 .del-amt{font-size:12px;font-weight:800;flex-shrink:0}
 .del-btn{background:var(--red);color:#fff;border:none;border-radius:8px;padding:4px 9px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;flex-shrink:0}
 
-/* ── HISTORY ── */
+/* HISTORY */
 .page-hdr{background:var(--win);display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--bdr);flex-shrink:0}
 .page-hdr-title{font-size:14px;font-weight:700}
 .mnav{background:none;border:none;font-size:22px;color:var(--gm);cursor:pointer;padding:0 6px;font-weight:700}
-.hist-filters{display:flex;gap:6px;padding:8px 10px;background:var(--bg);border-bottom:1px solid var(--bdr);flex-shrink:0;flex-wrap:wrap}
-.hist-filters select{flex:1;min-width:80px;padding:6px 8px;border:1.5px solid var(--bdr);border-radius:10px;font-size:11px;font-family:'Nunito',sans-serif;background:var(--win);color:var(--txt);outline:none}
+.hist-filters{display:flex;gap:6px;padding:8px 10px;background:var(--bg);border-bottom:1px solid var(--bdr);flex-shrink:0}
+.hist-filters select{flex:1;min-width:70px;padding:6px 8px;border:1.5px solid var(--bdr);border-radius:10px;font-size:11px;font-family:'Nunito',sans-serif;background:var(--win);color:var(--txt);outline:none}
 .scrollable{flex:1;overflow-y:auto;padding:8px 12px 20px}
 .scrollable::-webkit-scrollbar{width:0}
 .sec-lbl{font-size:10px;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px;margin:10px 0 5px}
-.tx-item{display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid var(--bdr)}
+.tx-item{display:flex;align-items:center;gap:9px;padding:8px 4px;border-bottom:1px solid var(--bdr);border-radius:8px}
 .tx-item:last-child{border-bottom:none}
 .tx-ic{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
 .tx-info{flex:1;min-width:0}
@@ -137,7 +123,7 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto}
 .empty-st{text-align:center;padding:40px 16px;color:var(--txt2)}
 .empty-st .big{font-size:48px;margin-bottom:10px}
 
-/* ── CHARTS ── */
+/* CHARTS */
 .c-card{background:var(--win);border-radius:12px;padding:12px 14px;box-shadow:var(--sh);margin-bottom:10px}
 .c-title{font-size:10px;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
 .legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
@@ -151,7 +137,7 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto}
 .cat-bf2{height:100%;border-radius:4px}
 .cat-am2{font-size:12px;font-weight:800;min-width:70px;text-align:right}
 
-/* ── EXPORT ── */
+/* EXPORT */
 .exp-card{background:var(--win);border-radius:12px;padding:14px;box-shadow:var(--sh);margin-bottom:10px}
 .exp-title{font-size:13px;font-weight:700;margin-bottom:6px}
 .exp-desc{font-size:12px;color:var(--txt2);line-height:1.5;margin-bottom:10px}
@@ -166,13 +152,14 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto}
 .btn-bk{background:#5e35b1;color:#fff}
 .btn-rb{background:#0288d1;color:#fff}
 
-/* ── DUE MODAL ── */
+/* DUE MODAL */
 #due-modal{position:fixed;inset:0;z-index:7000;background:rgba(0,0,0,.5);display:none;align-items:flex-end;justify-content:center;max-width:480px;margin:0 auto}
 #due-modal.show{display:flex}
 .dmod{background:var(--win);border-radius:20px 20px 0 0;width:100%;padding:20px 16px 32px;max-height:80vh;overflow-y:auto}
 .dmod::-webkit-scrollbar{width:0}
 .dmod-title{font-size:15px;font-weight:800;margin-bottom:14px}
 .dmod-item{background:#fff8e1;border:1px solid #ffe082;border-radius:12px;padding:12px;margin-bottom:10px}
+.dmod-item.overdue{background:#fce4ec;border-color:#f48fb1}
 .dmod-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
 .dmod-ic{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
 .dmod-info{flex:1}
@@ -182,9 +169,13 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto}
 .dmod-btns{display:flex;gap:8px}
 .dmod-btn{flex:1;padding:10px;border:none;border-radius:10px;font-size:13px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer}
 .dmod-btn.yes{background:var(--gm);color:#fff}
-.dmod-btn.no{background:#eee;color:var(--txt2)}
+.dmod-btn.no{background:var(--amb);color:#fff}
+.dmod-btn.skip{background:#eee;color:var(--txt2)}
+.postpone-form{margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.postpone-form input{flex:1;padding:8px 10px;border:1.5px solid var(--bdr);border-radius:10px;font-size:13px;font-family:'Nunito',sans-serif;outline:none;min-width:140px}
+.postpone-form button{padding:8px 14px;border:none;border-radius:10px;font-size:13px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer}
 
-/* ── INSTALL MODAL ── */
+/* INSTALL MODAL */
 #install-modal{position:fixed;inset:0;z-index:8000;background:rgba(0,0,0,.55);display:none;align-items:flex-end;justify-content:center;max-width:480px;margin:0 auto}
 #install-modal.show{display:flex}
 .imod{background:var(--win);border-radius:20px 20px 0 0;width:100%;padding:20px 16px 36px;max-height:88vh;overflow-y:auto}
@@ -202,15 +193,6 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto}
 .imod-step p{font-size:12px;color:var(--txt2);line-height:1.5}
 .imod-pill{display:inline-block;background:#f0f2f5;border:1px solid var(--bdr);border-radius:6px;padding:2px 7px;font-size:12px;font-weight:700}
 .imod-note{font-size:11px;color:var(--txt2);text-align:center;padding:10px 0 0;border-top:1px solid var(--bdr);margin-top:10px;line-height:1.5}
-.imod-screen{background:#1a1a2e;border-radius:12px;padding:10px;margin:8px 0}
-.imod-bar{background:rgba(255,255,255,.12);border-radius:8px;padding:5px 10px;display:flex;align-items:center;gap:6px;margin-bottom:6px}
-.imod-url{font-size:10px;color:rgba(255,255,255,.8);flex:1}
-.imod-dots span{width:12px;height:2px;background:rgba(255,255,255,.8);border-radius:1px;display:block;margin:2px 0}
-.imod-hl{border:2px solid #FFD700;border-radius:6px;animation:plHL 1s infinite}
-@keyframes plHL{0%,100%{opacity:1}50%{opacity:.3}}
-.imod-menu{background:#2a2a3e;border-radius:10px;padding:5px;margin-top:4px}
-.imod-mi{padding:7px 10px;font-size:11px;color:rgba(255,255,255,.85);border-radius:6px;display:flex;align-items:center;gap:8px}
-.imod-mi.act{background:rgba(37,211,102,.2);color:#25d366;font-weight:700}
 </style>
 </head>
 <body>
@@ -221,14 +203,14 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto}
   <div class="dmod">
     <div class="dmod-title">📅 Lançamentos pendentes</div>
     <div id="due-items"></div>
-    <button style="width:100%;padding:10px;border:none;border-radius:10px;background:#eee;color:var(--txt2);font-size:13px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer" onclick="closeDueModal()">Fechar</button>
+    <button style="width:100%;padding:10px;border:none;border-radius:10px;background:#eee;color:var(--txt2);font-size:13px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;margin-top:4px" onclick="closeDueModal()">Fechar</button>
   </div>
 </div>
 
 <!-- INSTALL MODAL -->
 <div id="install-modal" onclick="if(event.target===this)closeIM()">
   <div class="imod">
-    <div class="imod-hdr"><h2>📲 Instalar o FinBot</h2><button class="imod-close" onclick="closeIM()">✕</button></div>
+    <div class="imod-hdr"><h2>📲 Instalar o FinBot IA</h2><button class="imod-close" onclick="closeIM()">✕</button></div>
     <div class="imod-tabs">
       <button class="imod-tab on" onclick="switchIT('android')" id="itab-android">🤖 Android</button>
       <button class="imod-tab"    onclick="switchIT('ios')"     id="itab-ios">🍎 iPhone</button>
@@ -236,47 +218,39 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto}
     </div>
     <div id="it-android" class="imod-steps" style="display:flex">
       <div class="imod-step"><div class="imod-num">1</div><div><h3>Abra no Chrome</h3><p>Use o <strong>Google Chrome</strong> no Android.</p></div></div>
-      <div class="imod-step"><div class="imod-num">2</div><div><h3>Toque no menu <span class="imod-pill">⋮</span></h3><p>Três pontos no canto superior direito.</p>
-        <div class="imod-screen"><div style="font-size:9px;color:rgba(255,255,255,.4);display:flex;justify-content:space-between;margin-bottom:5px"><span>9:41</span><span>📶 🔋</span></div>
-        <div class="imod-bar" style="position:relative"><div class="imod-url">finbot.netlify.app</div><div class="imod-dots"><span></span><span></span><span></span></div><div class="imod-hl" style="position:absolute;right:8px;top:3px;width:24px;height:24px"></div></div></div></div></div>
-      <div class="imod-step"><div class="imod-num">3</div><div><h3>Toque em "Adicionar à tela inicial"</h3>
-        <div class="imod-menu"><div class="imod-mi">🔖 Favoritos</div><div class="imod-mi act">➕ Adicionar à tela inicial ◄</div><div class="imod-mi">⋯ Mais</div></div></div></div>
-      <div class="imod-step"><div class="imod-num">4</div><div><h3>Confirme tocando em "Adicionar"</h3><p>O ícone do FinBot aparece na tela inicial! 🎉</p></div></div>
-      <div class="imod-note">💡 Se aparecer o banner <strong>Instalar</strong> no topo, é só tocar nele!</div>
+      <div class="imod-step"><div class="imod-num">2</div><div><h3>Menu <span class="imod-pill">⋮</span> → "Adicionar à tela inicial"</h3><p>Três pontos no canto superior direito.</p></div></div>
+      <div class="imod-step"><div class="imod-num">3</div><div><h3>Confirme tocando em "Adicionar"</h3><p>O FinBot IA aparece na tela inicial! 🎉</p></div></div>
+      <div class="imod-note">💡 Se aparecer o banner <strong>Instalar</strong> no topo, basta tocar nele!</div>
     </div>
     <div id="it-ios" class="imod-steps" style="display:none">
-      <div class="imod-step"><div class="imod-num">1</div><div><h3>Abra no Safari</h3><p>Use o <strong>Safari</strong> — único navegador iOS que suporta instalação de PWA.</p></div></div>
+      <div class="imod-step"><div class="imod-num">1</div><div><h3>Abra no Safari</h3><p>Somente o <strong>Safari</strong> suporta instalação no iPhone/iPad.</p></div></div>
       <div class="imod-step"><div class="imod-num">2</div><div><h3>Toque em Compartilhar <span class="imod-pill">⬆</span></h3><p>Ícone na barra inferior do Safari.</p></div></div>
-      <div class="imod-step"><div class="imod-num">3</div><div><h3>Toque em "Adicionar à Tela de Início"</h3><p>Role a lista e toque na opção com o ícone ➕.</p></div></div>
-      <div class="imod-step"><div class="imod-num">4</div><div><h3>Toque em "Adicionar" no canto direito</h3><p>O FinBot aparece na tela inicial como app! 🎉</p></div></div>
-      <div class="imod-note">⚠️ Use apenas o <strong>Safari</strong> no iPhone/iPad.</div>
+      <div class="imod-step"><div class="imod-num">3</div><div><h3>"Adicionar à Tela de Início" → Adicionar</h3><p>O FinBot IA aparece como app! 🎉</p></div></div>
     </div>
     <div id="it-desktop" class="imod-steps" style="display:none">
-      <div class="imod-step"><div class="imod-num">1</div><div><h3>Chrome ou Edge no computador</h3><p>Abra o FinBot no <strong>Chrome</strong> ou <strong>Edge</strong>.</p></div></div>
-      <div class="imod-step"><div class="imod-num">2</div><div><h3>Clique no ícone <span class="imod-pill">⊕</span> na barra de endereço</h3><p>Aparece no canto direito da barra de endereço quando o site é instalável.</p></div></div>
-      <div class="imod-step"><div class="imod-num">3</div><div><h3>Clique em "Instalar"</h3><p>O FinBot abre como app separado, sem barra do navegador! 🎉</p></div></div>
-      <div class="imod-note">💡 Também: menu <span class="imod-pill">⋮</span> → "Instalar FinBot..."</div>
+      <div class="imod-step"><div class="imod-num">1</div><div><h3>Chrome ou Edge</h3><p>Abra o FinBot IA no <strong>Chrome</strong> ou <strong>Edge</strong>.</p></div></div>
+      <div class="imod-step"><div class="imod-num">2</div><div><h3>Ícone <span class="imod-pill">⊕</span> na barra de endereço</h3><p>Clique nele e depois em <strong>Instalar</strong>. 🎉</p></div></div>
     </div>
   </div>
 </div>
 
 <!-- HEADER -->
 <div class="hdr">
-  <div class="hdr-av">💰</div>
+  <div class="hdr-av">🤖</div>
   <div class="hdr-info">
-    <h1>FinBot IA 🤖</h1>
-    <p id="hd-st">finanças saudáveis ✔</p>
+    <h1>FinBot IA</h1>
+    <p id="hd-st">online · inteligência local</p>
   </div>
   <div class="hdr-bal">
-    <div class="hdr-val" id="hd-val" onclick="goTab('chat');setTimeout(()=>bot.summary(),100)" title="Ver resumo">R$ 0</div>
+    <div class="hdr-val" id="hd-val" onclick="goTab('chat');setTimeout(()=>bot.summary(),100)">R$ 0</div>
     <div class="hdr-lbl">saldo</div>
   </div>
 </div>
-<div id="inst-bar"><p>📲 Instale o FinBot!</p><button id="inst-btn">Instalar</button></div>
+<div id="inst-bar"><p>📲 Instale o FinBot IA!</p><button id="inst-btn">Instalar</button></div>
 
 <!-- TABS -->
 <div class="tabs">
-  <div class="tab on" onclick="goTab('chat')"   id="tab-chat">  <div class="tab-ic">💬</div><div class="tab-lb">Chat</div></div>
+  <div class="tab on" onclick="goTab('chat')"   id="tab-chat">  <div class="tab-ic">💬</div><div class="tab-lb">IA Chat</div></div>
   <div class="tab"    onclick="goTab('hist')"   id="tab-hist">  <div class="tab-ic">📋</div><div class="tab-lb">Extrato</div></div>
   <div class="tab"    onclick="goTab('graf')"   id="tab-graf">  <div class="tab-ic">📊</div><div class="tab-lb">Gráficos</div></div>
   <div class="tab"    onclick="goTab('export')" id="tab-export"><div class="tab-ic">📤</div><div class="tab-lb">Exportar</div></div>
@@ -287,11 +261,10 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto}
   <div class="pg on" id="pg-chat">
     <div class="chat-scroll" id="chat-scroll">
       <div id="chat-msgs" style="display:flex;flex-direction:column"></div>
-
     </div>
     <div class="input-bar">
       <div class="input-wrap">
-        <input id="chat-input" type="text" placeholder="Fale comigo em linguagem natural..." autocomplete="off"
+        <input id="chat-input" type="text" placeholder="Fale comigo..." autocomplete="off"
           onkeydown="if(event.key==='Enter')sendMsg()">
       </div>
       <button class="send-btn" onclick="sendMsg()">➤</button>
@@ -325,8 +298,8 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto}
       <button class="mnav" onclick="chMonth(1)">›</button>
     </div>
     <div class="scrollable">
-      <div class="c-card"><div class="c-title">Receitas vs Despesas</div><div style="position:relative;height:190px"><canvas id="c-bar" role="img" aria-label="Barras por categoria"></canvas></div><div class="legend" id="bar-leg"></div></div>
-      <div class="c-card"><div class="c-title">Distribuição de Despesas</div><div style="position:relative;height:190px"><canvas id="c-pie" role="img" aria-label="Pizza de despesas"></canvas></div><div class="legend" id="pie-leg"></div></div>
+      <div class="c-card"><div class="c-title">Receitas vs Despesas</div><div style="position:relative;height:190px"><canvas id="c-bar"></canvas></div><div class="legend" id="bar-leg"></div></div>
+      <div class="c-card"><div class="c-title">Distribuição de Despesas</div><div style="position:relative;height:190px"><canvas id="c-pie"></canvas></div><div class="legend" id="pie-leg"></div></div>
       <div class="c-card"><div class="c-title">Por Categoria</div><div id="cat-det"></div></div>
     </div>
   </div>
@@ -335,17 +308,17 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto}
   <div class="pg" id="pg-export" style="overflow:hidden">
     <div class="scrollable">
       <div class="exp-card">
-        <div class="exp-title">🔍 Filtros de exportação</div>
+        <div class="exp-title">🔍 Filtros</div>
         <div class="filter-row"><div><label class="fc-lbl">Mês</label><select class="fc-sel" id="exp-month"></select></div><div><label class="fc-lbl">Tipo</label><select class="fc-sel" id="exp-type"><option value="all">Todos</option><option value="rec">Receitas</option><option value="desp">Despesas</option></select></div></div>
         <label class="fc-lbl">Categoria</label><select class="fc-sel" id="exp-cat"><option value="all">Todas</option></select>
         <div id="exp-preview" style="font-size:12px;color:var(--txt2);padding:8px;background:#f9f9f9;border-radius:8px"></div>
       </div>
-      <div class="exp-card"><div class="exp-title">📊 Excel</div><div class="exp-desc">Planilha com movimentações + totais por categoria.</div><button class="btn-exp btn-xl" onclick="exportExcel()">📊 Baixar Excel (.xlsx)</button></div>
-      <div class="exp-card"><div class="exp-title">📄 PDF</div><div class="exp-desc">Relatório formatado com resumo e todas as movimentações.</div><button class="btn-exp btn-pdf" onclick="exportPDF()">📄 Gerar PDF</button></div>
+      <div class="exp-card"><div class="exp-title">📊 Excel</div><div class="exp-desc">Planilha com movimentações e totais por categoria.</div><button class="btn-exp btn-xl" onclick="exportExcel()">📊 Baixar Excel</button></div>
+      <div class="exp-card"><div class="exp-title">📄 PDF</div><div class="exp-desc">Relatório com resumo e todas as movimentações.</div><button class="btn-exp btn-pdf" onclick="exportPDF()">📄 Gerar PDF</button></div>
       <div class="exp-card">
         <div class="exp-title">💾 Backup & Restauração</div>
-        <div class="exp-desc">Salve todos os seus dados (lançamentos + categorias personalizadas) em um arquivo JSON. Use para migrar de aparelho ou manter um histórico seguro.</div>
-        <button class="btn-exp btn-bk" onclick="exportBackup()">💾 Gerar Backup (.json)</button>
+        <div class="exp-desc">Salve todos os dados em JSON. Use para migrar de aparelho ou manter histórico seguro.</div>
+        <button class="btn-exp btn-bk" onclick="exportBackup()">💾 Gerar Backup</button>
         <button class="btn-exp btn-rb" onclick="document.getElementById('backup-file').click()">📂 Restaurar Backup</button>
         <input type="file" id="backup-file" accept=".json" style="display:none" onchange="importBackup(event)">
         <div id="backup-msg" style="font-size:12px;color:var(--gm);margin-top:6px;text-align:center"></div>
@@ -359,687 +332,473 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 'use strict';
-// ════════════════════════════════════════════
-// CONSTANTS & STORAGE
-// ════════════════════════════════════════════
-const SK = {txs:'fb7_txs', cats:'fb7_cats', name:'fb7_name'};
-const load = k => { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } };
-const save = (k,v) => localStorage.setItem(k, JSON.stringify(v));
+// ══════════════════════════════════════════════════════
+// STORAGE
+// ══════════════════════════════════════════════════════
+const SK={txs:'fb8_txs',cats:'fb8_cats',name:'fb8_name'};
+const load=k=>{try{return JSON.parse(localStorage.getItem(k))}catch{return null}};
+const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
 
-// ════════════════════════════════════════════
+// ══════════════════════════════════════════════════════
 // CATEGORIES
-// ════════════════════════════════════════════
-const DEF_CATS = {
-  salario:     {l:'💼 Salário',       c:'#2e7d32', t:'rec'},
-  freelance:   {l:'💻 Freelance',     c:'#388e3c', t:'rec'},
-  investimento:{l:'📈 Investimentos', c:'#1565c0', t:'rec'},
-  bonus:       {l:'🎁 Bônus',         c:'#00897b', t:'rec'},
-  outros_rec:  {l:'➕ Outras receitas',c:'#26a69a', t:'rec'},
-  alimentacao: {l:'🍔 Alimentação',   c:'#e53935', t:'desp'},
-  moradia:     {l:'🏠 Moradia',       c:'#6d4c41', t:'desp'},
-  transporte:  {l:'🚗 Transporte',    c:'#f57c00', t:'desp'},
-  saude:       {l:'❤️ Saúde',         c:'#d81b60', t:'desp'},
-  lazer:       {l:'🎉 Lazer',         c:'#8e24aa', t:'desp'},
-  educacao:    {l:'📚 Educação',      c:'#0288d1', t:'desp'},
-  pets:        {l:'🐾 Pets',          c:'#43a047', t:'desp'},
-  roupas:      {l:'👕 Roupas',        c:'#5e35b1', t:'desp'},
-  streaming:   {l:'📺 Streaming',     c:'#e64a19', t:'desp'},
-  outros_desp: {l:'📦 Outros gastos', c:'#757575', t:'desp'},
+// ══════════════════════════════════════════════════════
+const DEF_CATS={
+  salario:     {l:'💼 Salário',       c:'#2e7d32',t:'rec'},
+  freelance:   {l:'💻 Freelance',     c:'#388e3c',t:'rec'},
+  investimento:{l:'📈 Investimentos', c:'#1565c0',t:'rec'},
+  bonus:       {l:'🎁 Bônus',         c:'#00897b',t:'rec'},
+  outros_rec:  {l:'➕ Outras receitas',c:'#26a69a',t:'rec'},
+  alimentacao: {l:'🍔 Alimentação',   c:'#e53935',t:'desp'},
+  moradia:     {l:'🏠 Moradia',       c:'#6d4c41',t:'desp'},
+  transporte:  {l:'🚗 Transporte',    c:'#f57c00',t:'desp'},
+  saude:       {l:'❤️ Saúde',         c:'#d81b60',t:'desp'},
+  lazer:       {l:'🎉 Lazer',         c:'#8e24aa',t:'desp'},
+  educacao:    {l:'📚 Educação',      c:'#0288d1',t:'desp'},
+  pets:        {l:'🐾 Pets',          c:'#43a047',t:'desp'},
+  roupas:      {l:'👕 Roupas',        c:'#5e35b1',t:'desp'},
+  streaming:   {l:'📺 Streaming',     c:'#e64a19',t:'desp'},
+  outros_desp: {l:'📦 Outros gastos', c:'#757575',t:'desp'},
 };
-const getCats    = () => ({ ...DEF_CATS, ...(load(SK.cats) || {}) });
-const catInfo    = k  => getCats()[k] || { l:'📦 '+k, c:'#888', t:'desp' };
-const saveCats   = c  => save(SK.cats, c);
-const catEmoji   = k  => catInfo(k).l.split(' ')[0];
-const catLabel   = k  => catInfo(k).l.replace(/^\S+\s/, '');
+const getCats=()=>({...DEF_CATS,...(load(SK.cats)||{})});
+const catInfo=k=>getCats()[k]||{l:'📦 '+k,c:'#888',t:'desp'};
+const saveCats=c=>save(SK.cats,c);
+const catEmoji=k=>catInfo(k).l.split(' ')[0];
+const catLabel=k=>catInfo(k).l.replace(/^\S+\s/,'');
+const EMOJIS=['💰','🎯','🏖️','✈️','🎮','🐕','🐱','🏋️','💊','🧴','🛒','🍕','☕','🚕','🏠','📱','💻','👗','👟','🎁','📚','🎓','🔧','🏥','⚽','🎵','🎨','🌿','🧺','🎪','🚀','🍺','💅','🧩','🎲','🦷','🛵','🌙','⚡','🏦'];
+const COLORS=['#e53935','#d81b60','#8e24aa','#5e35b1','#1565c0','#0288d1','#00897b','#2e7d32','#43a047','#f57c00','#ef6c00','#6d4c41','#757575','#37474f','#e64a19','#388e3c','#00acc1','#039be5','#f06292','#aed581'];
 
-const EMOJIS = ['💰','🎯','🏖️','✈️','🎮','🐕','🐱','🏋️','💊','🧴','🛒','🍕','☕','🚕','🏠','📱','💻','👗','👟','🎁','📚','🎓','🔧','🏥','⚽','🎵','🎨','🌿','🧺','🎪','🚀','🍺','💅','🧩','🎲','🦷','🛵','🌙','⚡','🏦'];
-const COLORS = ['#e53935','#d81b60','#8e24aa','#5e35b1','#1565c0','#0288d1','#00897b','#2e7d32','#43a047','#f57c00','#ef6c00','#6d4c41','#757575','#37474f','#e64a19','#388e3c','#00acc1','#039be5','#f06292','#aed581'];
-
-// ════════════════════════════════════════════
+// ══════════════════════════════════════════════════════
 // TRANSACTIONS
-// ════════════════════════════════════════════
-let TXS = [];
-function loadTxs() {
-  TXS = load(SK.txs) || [];
-  if (!TXS.length) {
-    const n = Date.now();
-    TXS = [
-      {id:1, desc:'Salário',          val:1, cat:'salario',    type:'rec',  ts:n-86400000*20, scheduled:false},
+// ══════════════════════════════════════════════════════
+let TXS=[];
+function loadTxs(){
+  TXS=load(SK.txs)||[];
+  if(!TXS.length){
+    const n=Date.now();
+    TXS=[
+      {id:1,desc:'Salário',        val:1,cat:'salario',    type:'rec', ts:n-86400000*20,scheduled:false},
+    
     ];
     saveTxs();
   }
 }
-const saveTxs = () => save(SK.txs, TXS);
-// Global helpers for onclick handlers inside innerHTML templates
-function delItem(id)         { bot._delTx(id); }
-function schedLiquidar(id)   { bot._do('sched_liquidar|'+id); }
-function schedProrrogar(id)  { bot._do('sched_prorrogar|'+id); }
-function confirmProrrogarBtn(id){ bot.confirmProrrogar('sched_confirmprorrogar|'+id+'|_'); }
+const saveTxs=()=>save(SK.txs,TXS);
+function delItem(id){bot._delTx(id);}
+function schedLiquidar(id){bot.liquidarSched(id);}
+function schedProrrogar(id){bot.prorrogarSched(id);}
 
-// ════════════════════════════════════════════
+// ══════════════════════════════════════════════════════
 // HELPERS
-// ════════════════════════════════════════════
-let curMonth = new Date().getMonth();
-let curYear  = new Date().getFullYear();
-let barChart = null, pieChart = null;
+// ══════════════════════════════════════════════════════
+let curMonth=new Date().getMonth(), curYear=new Date().getFullYear();
+let barChart=null, pieChart=null, deferredPrompt=null;
 
-const fmt     = v => 'R$ ' + Math.abs(v).toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
-const tNow    = () => new Date().toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
-const mName   = (m, y) => new Date(y, m, 1).toLocaleDateString('pt-BR', {month:'long', year:'numeric'}).replace(/^\w/, c => c.toUpperCase());
-const esc     = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-const todayStr= () => new Date().toISOString().split('T')[0];
-const dateStr = ts => new Date(ts).toISOString().split('T')[0];
-
-const confirmedTxs = () => TXS.filter(t => {
-  const d = new Date(t.ts);
-  return d.getMonth() === curMonth && d.getFullYear() === curYear && !t.scheduled;
-});
-const calcM = list => {
-  let r = 0, d = 0;
-  list.forEach(t => t.type === 'rec' ? r += t.val : d += t.val);
-  return { rec: r, desp: d, saldo: r - d };
-};
-function parseDateStr(s) {
-  const r = s.trim().match(/^(\d{1,2})[\/\-\.](\d{1,2})(?:[\/\-\.](\d{2,4}))?$/);
-  if (!r) return null;
-  const d = +r[1], m = +r[2]-1, y = r[3] ? (r[3].length === 2 ? 2000+parseInt(r[3]) : +r[3]) : curYear;
-  const dt = new Date(y, m, d, 23, 59, 59);
-  return isNaN(dt) || m < 0 || m > 11 || d < 1 || d > 31 ? null : dt;
+const fmt=v=>'R$ '+Math.abs(v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const tNow=()=>new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+const mName=(m,y)=>new Date(y,m,1).toLocaleDateString('pt-BR',{month:'long',year:'numeric'}).replace(/^\w/,c=>c.toUpperCase());
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const todayStr=()=>new Date().toISOString().split('T')[0];
+const dateStr=ts=>new Date(ts).toISOString().split('T')[0];
+const confirmedTxs=()=>TXS.filter(t=>{const d=new Date(t.ts);return d.getMonth()===curMonth&&d.getFullYear()===curYear&&!t.scheduled});
+const calcM=list=>{let r=0,d=0;list.forEach(t=>t.type==='rec'?r+=t.val:d+=t.val);return{rec:r,desp:d,saldo:r-d}};
+function parseDateStr(s){
+  const r=s.trim().match(/^(\d{1,2})[\/\-\.](\d{1,2})(?:[\/\-\.](\d{2,4}))?$/);
+  if(!r)return null;
+  const d=+r[1],m=+r[2]-1,y=r[3]?(r[3].length===2?2000+parseInt(r[3]):+r[3]):curYear;
+  const dt=new Date(y,m,d,23,59,59);
+  return isNaN(dt)||m<0||m>11||d<1||d>31?null:dt;
 }
 
-// ════════════════════════════════════════════
-// HEADER
-// ════════════════════════════════════════════
-function updateHeader() {
-  const { rec, desp, saldo } = calcM(confirmedTxs());
-  const el = document.getElementById('hd-val');
-  if (el) { el.textContent = fmt(saldo); el.style.background = saldo >= 0 ? 'var(--gl)' : 'var(--red)'; }
-  const taxa = rec > 0 ? Math.round(desp / rec * 100) : 0;
-  const st = document.getElementById('hd-st');
-  if (!st) return;
-  if      (saldo < 0)   { st.textContent = 'saldo negativo ⚠'; st.style.color = '#ffcdd2'; }
-  else if (taxa > 80)   { st.textContent = 'gastos altos 🚨';   st.style.color = '#ffe082'; }
-  else if (taxa > 60)   { st.textContent = 'atenção nos gastos ⚠'; st.style.color = '#ffe082'; }
-  else                  { st.textContent = 'finanças saudáveis ✔'; st.style.color = '#b2dfdb'; }
-}
-
-// ════════════════════════════════════════════
-// DUE-TODAY
-// ════════════════════════════════════════════
-function checkDueToday() {
-  const today = todayStr();
-  const dismissed = load('fb7_dismissed_' + today) || [];
-  // Include BOTH today AND overdue (past scheduled) items
-  const due = TXS.filter(t => t.scheduled && t.ts <= new Date().setHours(23,59,59,999) && !dismissed.includes(t.id));
-  if (!due.length) return;
-  if ('Notification' in window && Notification.permission === 'granted') {
-    due.forEach(t => { try { new Notification('💰 FinBot — Vence hoje!', { body: `${t.desc}: ${t.type==='rec'?'+':'-'}${fmt(t.val)}`, icon:'icons/icon-192.png', tag:'due-'+t.id }); } catch(e){} });
-  } else if ('Notification' in window && Notification.permission !== 'denied') {
-    Notification.requestPermission();
+// ══════════════════════════════════════════════════════
+// NLP ENGINE — local intent parser
+// ══════════════════════════════════════════════════════
+const NLP={
+  // Keyword maps for intent detection
+  intents:{
+    receita:[/\b(recebi|ganhei|entrou|salário|salario|rendimento|renda|receita|proventos|lucro|dividendo|freelance|bônus|bonus|pagamento recebi)\b/i],
+    despesa:[/\b(gastei|paguei|comprei|gasto|despesa|saída|saida|pagar|compra|conta|fatura|boleto|débito|debito)\b/i],
+    saldo:  [/\b(saldo|quanto tenho|quanto sobrou|quanto resta|situação|situacao|resumo|balanço|balanco|como estou|meu dinheiro)\b/i],
+    excluir:[/\b(excluir|deletar|remover|apagar|delete|cancela|cancelar|desfazer)\b/i],
+    agendados:[/\b(agendado|agendamento|futuro|programado|próximo|proximo|vence|vencimento)\b/i],
+    detalhar:[/\b(detalh|categoria|breakdown|onde gastei|onde estou gastando|análise|analise)\b/i],
+    ajuda:  [/\b(ajuda|help|o que (você|voce|vc) (faz|pode)|comandos|opções|opcoes)\b/i],
+    saudacao:[/^(oi|olá|ola|hey|bom dia|boa tarde|boa noite|e aí|e ai|tudo bem|tudo bom)\b/i],
+    menu:   [/^(menu|inicio|início|voltar|opções|opcoes)$/i],
+  },
+  // Extract money value from text
+  extractValue(text){
+    // "50 reais", "R$ 50", "cinquenta reais", "50,90", "1.500"
+    const patterns=[
+      /R\$\s*([\d.,]+)/i,
+      /([\d.,]+)\s*reais/i,
+      /([\d]+(?:[.,]\d{1,2})?)/,
+    ];
+    for(const p of patterns){
+      const m=text.match(p);
+      if(m){
+        const v=parseFloat(m[1].replace(/\./g,'').replace(',','.'));
+        if(!isNaN(v)&&v>0)return v;
+      }
+    }
+    // Word numbers
+    const words={um:1,uma:1,dois:2,duas:2,três:3,quatro:4,cinco:5,seis:6,sete:7,oito:8,nove:9,dez:10,vinte:20,trinta:30,quarenta:40,cinquenta:50,sessenta:60,setenta:70,oitenta:80,noventa:90,cem:100,cento:100,duzentos:200,trezentos:300,quatrocentos:400,quinhentos:500,seiscentos:600,setecentos:700,oitocentos:800,novecentos:900,mil:1000};
+    for(const[w,v] of Object.entries(words)){if(text.toLowerCase().includes(w))return v;}
+    return null;
+  },
+  // Guess category from description text
+  guessCategory(text,type){
+    const t=text.toLowerCase();
+    const catKeys={
+      // Despesas
+      alimentacao:[/mercado|supermercado|ifood|rappi|uber eats|padaria|restaurante|lanche|almoço|jantar|pizza|comida|açougue|feira|hortifruti|refeição/],
+      moradia:[/aluguel|condomínio|condominio|água|agua|luz|energia|gás|gas|internet|iptu|manutenção|manutencao|reforma|móveis|moveis/],
+      transporte:[/uber|99|taxi|gasolina|combustível|combustivel|estacionamento|pedágio|pedagio|ônibus|onibus|metrô|metro|passagem|carro|moto/],
+      saude:[/farmácia|farmacia|remédio|remedio|médico|medico|dentista|consulta|exame|plano de saúde|saude|hospital|clinica/],
+      lazer:[/cinema|netflix|spotify|amazon prime|disney|show|teatro|viagem|hotel|passeio|bar|balada|jogo|game|streaming lazer/],
+      educacao:[/curso|faculdade|escola|mensalidade|livro|material|aula|professor|inglês|ingles/],
+      pets:[/ração|racao|pet|veterinário|veterinario|banho tosa|shopelo/],
+      roupas:[/roupa|calçado|calcado|tênis|tenis|camisa|calça|calca|vestido|loja|zara|renner/],
+      streaming:[/netflix|spotify|amazon|disney|hbo|youtube|prime|deezer|globoplay/],
+      // Receitas
+      salario:[/salário|salario|salary|pagamento trabalho/],
+      freelance:[/freelance|freela|projeto|cliente|serviço|servico|uber/],
+      investimento:[/investimento|dividendo|rendimento|cdb|tesouro|ação|acao|fundo/],
+      bonus:[/bônus|bonus|gratificação|gratificacao|13|décimo|decimo|prêmio|premio/],
+    };
+    for(const[cat,patterns] of Object.entries(catKeys)){
+      if(patterns.some(p=>p.test(t)))return cat;
+    }
+    return type==='rec'?'outros_rec':'outros_desp';
+  },
+  // Extract description from text (remove values, keywords)
+  extractDesc(text){
+    return text
+      .replace(/R\$\s*[\d.,]+/gi,'')
+      .replace(/[\d.,]+\s*reais/gi,'')
+      .replace(/\b(gastei|paguei|comprei|recebi|ganhei|entrou|no|na|em|de|do|da|com|pra|para|um|uma)\b/gi,' ')
+      .replace(/\s+/g,' ')
+      .trim()
+      .replace(/^\w/,c=>c.toUpperCase())||'Lançamento';
+  },
+  // Main parse function
+  parse(text){
+    const t=text.toLowerCase().trim();
+    // Check intents
+    for(const[intent,patterns] of Object.entries(this.intents)){
+      if(patterns.some(p=>p.test(t)))return{intent};
+    }
+    // Try to extract a transaction from free text
+    const val=this.extractValue(text);
+    if(val){
+      const isRec=/\b(recebi|ganhei|entrou|salário|renda|receita)\b/i.test(text);
+      const isDesp=/\b(gastei|paguei|comprei|gasto|despesa|saída)\b/i.test(text);
+      if(isRec||isDesp){
+        const type=isRec?'rec':'desp';
+        const desc=this.extractDesc(text);
+        const cat=this.guessCategory(text,type);
+        return{intent:'transaction',type,val,desc,cat};
+      }
+      // Has value but unclear type
+      return{intent:'value_unclear',val};
+    }
+    return{intent:'unknown'};
   }
-  const el = document.getElementById('due-items');
-  if (!el) return;
-  el.innerHTML = due.map(t => {
-    const ci = catInfo(t.cat);
-    return `<div class="dmod-item" id="due-${t.id}">
-      <div class="dmod-top">
-        <div class="dmod-ic" style="background:${ci.c}22">${catEmoji(t.cat)}</div>
-        <div class="dmod-info">
-          <div class="dmod-desc">${esc(t.desc)}</div>
-          <div class="dmod-sub">${catLabel(t.cat)} · <span style="color:${dateStr(t.ts)===today?'var(--amb)':'var(--red)'};font-weight:700">${dateStr(t.ts)===today?'vence hoje':'⚠ vencido desde '+new Date(t.ts).toLocaleDateString('pt-BR')}</span></div>
-        </div>
-        <div class="dmod-amt" style="color:${t.type==='rec'?'#2e7d32':'var(--red)'}">${t.type==='rec'?'+':'-'}${fmt(t.val)}</div>
-      </div>
-      <div class="dmod-btns">
-        <button class="dmod-btn yes" onclick="confirmDue(${t.id})">✅ Realizado hoje</button>
-        <button class="dmod-btn no"  onclick="postponeDue(${t.id})">📅 Prorrogar</button>
-      </div>
-    </div>`;
-  }).join('');
-  document.getElementById('due-modal').classList.add('show');
-}
-function _dismissDue(id) {
-  const k = 'fb7_dismissed_' + todayStr();
-  const d = load(k) || [];
-  if (!d.includes(id)) { d.push(id); save(k, d); }
-  const el = document.getElementById('due-' + id);
-  if (el) el.remove();
-  if (!document.querySelector('.dmod-item')) closeDueModal();
-}
-function confirmDue(id) {
-  const t = TXS.find(x => x.id === id); if (!t) return;
-  t.scheduled = false; t.ts = Date.now();
-  saveTxs(); updateHeader(); _dismissDue(id);
-}
-function skipDue(id) { _dismissDue(id); }
-function postponeDue(id) {
-  const tx = TXS.find(t => t.id === id); if (!tx) return;
-  // Show inline date picker inside the modal item
-  const itemEl = document.getElementById('due-' + id);
-  if (!itemEl) return;
-  const existing = itemEl.querySelector('.postpone-form');
-  if (existing) { existing.remove(); return; }
-  const form = document.createElement('div');
-  form.className = 'postpone-form';
-  form.style.cssText = 'margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap';
-  const minDate = new Date().toISOString().split('T')[0]; // allow today or future
-  form.innerHTML = `
-    <input type="date" id="pdate-${id}" min="${minDate}"
-      style="flex:1;padding:8px 10px;border:1.5px solid var(--bdr);border-radius:10px;font-size:13px;font-family:'Nunito',sans-serif;outline:none"
-      value="${minDate}">
-    <button onclick="confirmPostpone(${id})"
-      style="padding:8px 14px;background:var(--gm);color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer">
-      📅 Confirmar
-    </button>
-    <button onclick="this.closest('.postpone-form').remove()"
-      style="padding:8px 12px;background:#eee;color:var(--txt2);border:none;border-radius:10px;font-size:13px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer">
-      ✕
-    </button>`;
-  itemEl.appendChild(form);
-}
-function confirmPostpone(id) {
-  const tx = TXS.find(t => t.id === id); if (!tx) return;
-  const inp = document.getElementById('pdate-' + id);
-  if (!inp || !inp.value) { alert('Selecione uma data!'); return; }
-  const newDate = new Date(inp.value + 'T12:00:00');
-  tx.ts = newDate.getTime();
-  tx.scheduled = true;
-  saveTxs(); updateHeader();
-  _dismissDue(id);
-  // show confirmation in chat
-  _bot(`<div class="b-txt">📅 <strong>"${esc(tx.desc)}"</strong> prorrogado para <strong>${newDate.toLocaleDateString('pt-BR')}</strong>.</div>`,'blue');
-}
-function closeDueModal() { document.getElementById('due-modal').classList.remove('show'); }
+};
 
-// ════════════════════════════════════════════
-// PWA INSTALL
-// ════════════════════════════════════════════
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
-let deferredPrompt = null;
-window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredPrompt = e; if (window._appReady) _showNativeBtn(); });
-window.addEventListener('appinstalled', () => { _hideIBar(); deferredPrompt = null; });
+// ══════════════════════════════════════════════════════
+// RESPONSE GENERATOR — natural language responses
+// ══════════════════════════════════════════════════════
+const RESP={
+  greetings:[
+    'Oi! 😊 Pode me dizer o que quer fazer.',
+    'Olá! Estou aqui para ajudar com suas finanças.',
+    'E aí! O que vou registrar hoje?',
+    'Oi! Pronto para organizar suas finanças 💪',
+  ],
+  unknown:[
+    'Hmm, não entendi bem. Pode reformular? Ou use os botões abaixo 👇',
+    'Não consegui identificar o que você quer. Tente algo como "gastei 50 no mercado" ou use o menu.',
+    'Pode ser mais específico? Tente dizer o valor e o que foi. Ex: "paguei 80 de gasolina"',
+    'Não entendi, mas posso ajudar! Use os botões ou diga algo como "recebi meu salário de 3000".',
+  ],
+  tipsByTaxa(taxa,saldo){
+    if(saldo<0)return`🔴 Seu saldo está negativo em <strong>${fmt(-saldo)}</strong>. É urgente cortar despesas!`;
+    if(taxa>80)return`⚠️ Você comprometeu <strong>${taxa}%</strong> da renda. Tente reduzir gastos supérfluos.`;
+    if(taxa>60)return`💡 <strong>${taxa}%</strong> da renda comprometida. Que tal guardar um pouco mais?`;
+    if(taxa<=30)return`🌟 Excelente! Só <strong>${taxa}%</strong> comprometido. Considere investir o excedente!`;
+    return`✅ Suas finanças estão equilibradas com <strong>${taxa}%</strong> comprometido.`;
+  },
+  rand(arr){return arr[Math.floor(Math.random()*arr.length)]},
+};
 
-function _showIBar(label, fn) {
-  const b = document.getElementById('inst-bar'), btn = document.getElementById('inst-btn');
-  if (!b || !btn) return;
-  btn.textContent = label; btn.onclick = fn; b.classList.add('show');
-}
-function _hideIBar() { const b = document.getElementById('inst-bar'); if (b) b.classList.remove('show'); }
-function _showNativeBtn() {
-  _showIBar('📲 Instalar app', () => {
-    if (!deferredPrompt) { openIM(); return; }
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then(r => { if (r.outcome === 'accepted') _hideIBar(); deferredPrompt = null; });
-  });
-}
-function openIM() {
-  document.getElementById('install-modal').classList.add('show');
-  const ua = navigator.userAgent;
-  switchIT(/iphone|ipad|ipod/i.test(ua) ? 'ios' : /android/i.test(ua) ? 'android' : 'desktop');
-}
-function closeIM() { document.getElementById('install-modal').classList.remove('show'); }
-function switchIT(tab) {
-  ['android','ios','desktop'].forEach(t => {
-    const p = document.getElementById('it-'+t), b = document.getElementById('itab-'+t);
-    if (p) p.style.display = t === tab ? 'flex' : 'none';
-    if (b) b.classList.toggle('on', t === tab);
-  });
-}
-function _initInstallUI() {
-  window._appReady = true;
-  const standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-  if (standalone) return;
-  if (deferredPrompt) { _showNativeBtn(); return; }
-  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-  _showIBar(isIOS ? '📲 Como instalar (Safari)' : '📲 Como instalar', openIM);
-  setTimeout(() => { if (deferredPrompt && !window.matchMedia('(display-mode: standalone)').matches) _showNativeBtn(); }, 4000);
-}
+// ══════════════════════════════════════════════════════
+// CHAT ENGINE
+// ══════════════════════════════════════════════════════
+const M=()=>document.getElementById('chat-msgs');
+const scrollB=()=>{const s=document.getElementById('chat-scroll');if(s)s.scrollTop=s.scrollHeight};
 
-// ════════════════════════════════════════════
-// ════════════════════════════════════════════
-// CHAT ENGINE — state machine, clean
-// ════════════════════════════════════════════
-// ════════════════════════════════════════════
-const M = document.getElementById('chat-msgs');
-const scrollB = () => { const s = document.getElementById('chat-scroll'); if (s) s.scrollTop = s.scrollHeight; };
-
-function _bub(html, side = 'in') {
-  const map = { out:'b-out', warn:'b-warn', danger:'b-danger', ok:'b-ok', blue:'b-blue' };
-  const d = document.createElement('div');
-  d.className = 'bubble ' + (map[side] || 'b-in');
-  d.innerHTML = html;
-  M.appendChild(d); scrollB(); return d;
+function _bub(html,side='in'){
+  const map={out:'b-out',warn:'b-warn',danger:'b-danger',ok:'b-ok',blue:'b-blue'};
+  const d=document.createElement('div');
+  d.className='bubble '+(map[side]||'b-in');
+  d.innerHTML=html;
+  M().appendChild(d);scrollB();return d;
 }
-function _uBub(text) {
-  _bub(`<div class="b-txt">${esc(text)}</div><div class="b-time">${tNow()} <span class="b-ticks">✓✓</span></div>`, 'out');
-}
-function _bot(html, side = 'in', ms = 440) {
-  const tp = document.createElement('div'); tp.className = 'typing'; tp.innerHTML = '<span></span><span></span><span></span>';
-  M.appendChild(tp); scrollB();
-  return new Promise(res => setTimeout(() => {
+function _uBub(text){_bub(`<div class="b-txt">${esc(text)}</div><div class="b-time">${tNow()} <span class="b-ticks">✓✓</span></div>`,'out');}
+function _bot(html,side='in',ms=420){
+  const tp=document.createElement('div');tp.className='typing';tp.innerHTML='<span></span><span></span><span></span>';
+  M().appendChild(tp);scrollB();
+  return new Promise(res=>setTimeout(()=>{
     tp.remove();
-    _bub(`<div class="b-sender">💰 FinBot</div>${html}<div class="b-time">${tNow()}</div>`, side);
+    _bub(`<div class="b-sender">🤖 FinBot IA</div>${html}<div class="b-time">${tNow()}</div>`,side);
     res();
-  }, ms));
+  },ms));
 }
-
-// QR buttons — clean, no state leakage
-let _qrEl = null;
-function _qr(opts) {
-  if (_qrEl) _qrEl.remove();
-  _qrEl = document.createElement('div');
-  _qrEl.className = 'qr-wrap';
-  opts.forEach(o => {
-    const b = document.createElement('button');
-    b.className = 'qr' + (o.r ? ' red' : o.a ? ' amber' : '');
-    b.textContent = o.l;
-    b.onclick = () => { if (_qrEl) { _qrEl.remove(); _qrEl = null; } _uBub(o.l); bot._do(o.v); };
+let _qrEl=null;
+function _qr(opts){
+  if(_qrEl){_qrEl.remove();_qrEl=null;}
+  if(!opts.length)return;
+  _qrEl=document.createElement('div');_qrEl.className='qr-wrap';
+  opts.forEach(o=>{
+    const b=document.createElement('button');b.className='qr'+(o.r?' red':'');b.textContent=o.l;
+    b.onclick=()=>{if(_qrEl){_qrEl.remove();_qrEl=null;}_uBub(o.l);bot._do(o.v);};
     _qrEl.appendChild(b);
   });
-  M.appendChild(_qrEl); scrollB();
+  M().appendChild(_qrEl);scrollB();
 }
-function _clearQR() { if (_qrEl) { _qrEl.remove(); _qrEl = null; } }
+function _clearQR(){if(_qrEl){_qrEl.remove();_qrEl=null;}}
 
-function sendMsg() {
-  const inp = document.getElementById('chat-input');
-  const txt = inp.value.trim(); if (!txt) return;
-  inp.value = ''; _clearQR(); _uBub(txt);
+function sendMsg(){
+  const inp=document.getElementById('chat-input');
+  const txt=inp.value.trim();if(!txt)return;
+  inp.value='';_clearQR();_uBub(txt);
   bot._text(txt);
 }
 
-// ── BOT object — single source of truth ──
-const bot = {
-  _state: 'idle',
-  _d: {}, // draft
+// ── BOT ──────────────────────────────────────────────
+const bot={
+  _state:'idle',
+  _d:{},
 
-  _setState(s) {
-    this._state = s;
-  },
+  _setState(s){this._state=s;},
+  _reset(){this._d={};this._setState('idle');},
 
-  _reset() {
-    this._d = {}; this._setState('idle');
-  },
-
-  // called from QR tap — receives value string
-  async _do(v) {
-    // global always-available actions
-    if (v === '__restart' || v === '__menu') { await this.restart(); return; }
-    if (v === '__saldo')    { await this.summary(); return; }
-    if (v === '__del')      { await this.delFlow(); return; }
-    if (v === '__saldo_hoje'){ await this.saldoDate(new Date()); return; }
-    if (v === '__saldo_data'){ this._setState('saldo_date'); await _bot(`<div class="b-txt">📅 Qual data? <em>DD/MM ou DD/MM/AAAA</em></div>`); _qr([{l:'📅 Hoje',v:'__saldo_hoje'}]); return; }
-    if (v === '__new_cat')   { await this._startCat(); return; }
-    if (v === '__agendados')           { await this.scheduled(); return; }
-    if (v === '__detalhar')            { await this.detalhar(); return; }
-    if (v.startsWith('det|'))          { await this.detalharCat(v.replace('det|','')); return; }
-    if (v.startsWith('sched_liquidar|')){ await this.liquidarSched(parseInt(v.split('|')[1])); return; }
-    if (v.startsWith('sched_prorrogar|')){ await this.prorrogarSched(parseInt(v.split('|')[1])); return; }
-    if (v.startsWith('sched_confirmprorrogar|')){ await this.confirmProrrogar(v); return; }
-
-    // dispatch by state
-    const s = this._state;
-    if (s === 'idle')       return this._doIdle(v);
-    if (s === 'type')       return this._doIdle(v);
-    if (s === 'sched')      return this._doSched(v);
-    if (s === 'sched_date') return; // text only
-    if (s === 'repeat')     return this._doRepeat(v);
-    if (s === 'repeat_qty') return; // text only
-    if (s === 'confirm')    return this._doConfirm(v);
-    if (s === 'saldo_date') { if (v === '__saldo_hoje') await this.saldoDate(new Date()); return; }
-    if (s === 'del_filter') return this._doDelFilter(v);
-    if (s === 'del_date')   return this._doDelFilter(v);
-    if (s === 'nc_type')    return this._doNcType(v);
-    if (s === 'nc_emoji')   return this._doNcEmoji(v);
-    if (s === 'nc_confirm') { if (v === 'nc_yes') await this._saveNewCat(); else { this._reset(); await _bot(`<div class="b-txt">Cancelado!</div>`); this.showMenu(); } return; }
-    // del confirm
-    if (v.startsWith('del|')) { await this._delTx(parseInt(v.split('|')[1])); return; }
-    // cat select
-    if (v.startsWith('cat|')) { await this._pickCat(v.replace('cat|','')); return; }
-    // rq
-    if (v.startsWith('rq|')) { await this._finishRepeat(parseInt(v.replace('rq|',''))); return; }
-    // color pick for new cat
-    if (v.startsWith('cl|')) { await this._doNcColor(v.replace('cl|','')); return; }
-
+  // ── QR tap dispatcher ──
+  async _do(v){
+    if(v==='__menu')              {await this.restart();return;}
+    if(v==='__saldo')             {await this.summary();return;}
+    if(v==='__saldo_hoje')        {await this.saldoDate(new Date());return;}
+    if(v==='__saldo_data')        {this._setState('saldo_date');await _bot(`<div class="b-txt">📅 Qual data? <em>DD/MM ou DD/MM/AAAA</em></div>`);_qr([{l:'📅 Hoje',v:'__saldo_hoje'}]);return;}
+    if(v==='__del')               {await this.delFlow();return;}
+    if(v==='__agendados')         {await this.scheduled();return;}
+    if(v==='__detalhar')          {await this.detalhar();return;}
+    if(v.startsWith('det|'))      {await this.detalharCat(v.replace('det|',''));return;}
+    if(v.startsWith('cat|'))      {await this._pickCat(v.replace('cat|',''));return;}
+    if(v.startsWith('rq|'))       {await this._finishRepeat(parseInt(v.replace('rq|','')));return;}
+    if(v.startsWith('del|'))      {await this._delTx(parseInt(v.replace('del|','')));return;}
+    if(v.startsWith('cl|'))       {await this._ncColor(v.replace('cl|',''));return;}
+    if(v.startsWith('em|'))       {await this._ncEmoji(v.replace('em|',''));return;}
+    if(v==='__nc_rec')            {await this._ncType('rec');return;}
+    if(v==='__nc_desp')           {await this._ncType('desp');return;}
+    if(v==='nc_yes')              {await this._saveNewCat();return;}
+    if(v==='nc_no')               {this._reset();await _bot(`<div class="b-txt">Cancelado!</div>`);this.showMenu();return;}
+    if(v==='sched_hoje')          {this._d.scheduled=false;this._d.ts=Date.now();await this._askRepeat();return;}
+    if(v==='sched_future')        {this._setState('sched_date');await _bot(`<div class="b-txt">📅 Qual a data? <em>DD/MM ou DD/MM/AAAA</em></div>`);_qr([]);return;}
+    if(v==='repeat_yes')          {this._d.repeat='monthly';this._setState('repeat_qty');await _bot(`<div class="b-txt">Por quantos meses?</div>`);_qr([{l:'2x',v:'rq|2'},{l:'3x',v:'rq|3'},{l:'6x',v:'rq|6'},{l:'12x',v:'rq|12'},{l:'Sem limite',v:'rq|0'}]);return;}
+    if(v==='repeat_no')           {this._d.repeat='none';this._d.repeatQty=0;await this._showConfirm();return;}
+    if(v==='confirm_yes')         {await this._save();return;}
+    if(v==='confirm_no')          {this._reset();await _bot(`<div class="b-txt">Cancelado! O que mais?</div>`);this.showMenu();return;}
+    if(v==='del_hoje')            {await this.delFlow('today');return;}
+    if(v==='del_data')            {this._setState('del_date');await _bot(`<div class="b-txt">📅 Qual data?</div>`);_qr([{l:'📅 Hoje',v:'del_hoje'}]);return;}
+    if(v==='del_rec')             {await this._buildDelList(TXS.slice().sort((a,b)=>b.ts-a.ts).slice(0,10),'Últimos 10');return;}
+    if(v==='del_ag')              {await this._buildDelList(TXS.filter(t=>t.scheduled).sort((a,b)=>a.ts-b.ts),'Agendados');return;}
+    if(v==='del_cancel')          {await _bot(`<div class="b-txt">Ok, nada excluído.</div>`);this.showMenu();return;}
     await this.restart();
   },
 
-  // called from keyboard text
-  async _text(raw) {
-    const t = raw.toLowerCase().trim();
-    if (/^(reiniciar|restart|menu|inicio|início|recomeçar|cancelar|voltar)$/i.test(t)) { await this.restart(); return; }
+  // ── TEXT input — NLP processing ──
+  async _text(raw){
+    const t=raw.toLowerCase().trim();
+    // Global: restart
+    if(/^(menu|inicio|início|recomeçar|cancelar tudo|voltar)$/i.test(t)){await this.restart();return;}
 
-    const s = this._state;
-    if (s === 'idle' || s === 'type') { await this._intent(raw, t); return; }
+    // State machine overrides
+    const s=this._state;
+    if(s==='desc')      {this._d.desc=raw;this._setState('val');await _bot(`<div class="b-txt">💰 Qual o valor? <em>ex: 150 ou 49,90</em></div>`);_qr([]);return;}
+    if(s==='val')       {const n=parseFloat(t.replace(',','.'));if(isNaN(n)||n<=0){await _bot(`<div class="b-txt">Não entendi o valor. Ex: <strong>150</strong> ou <strong>49,90</strong></div>`,'warn');return;}this._d.val=n;await this._askCat();return;}
+    if(s==='cat')       {const m=Object.entries(getCats()).find(([k,v])=>v.l.toLowerCase().includes(t)||k.includes(t));if(m)await this._pickCat(m[0]);else await _bot(`<div class="b-txt">Toca em uma categoria acima 👆</div>`,'warn');return;}
+    if(s==='sched_date'){const d=parseDateStr(raw);if(!d){await _bot(`<div class="b-txt">Data inválida. Ex: <strong>25/06</strong></div>`,'warn');return;}this._d.ts=d.getTime();this._d.scheduled=true;this._d.repeat='none';await this._askRepeat();return;}
+    if(s==='repeat_qty'){const n=parseInt(t);if(!isNaN(n)&&n>0)await this._finishRepeat(n);else if(/sem limite|sempre/i.test(t))await this._finishRepeat(0);else await _bot(`<div class="b-txt">Digite o número de meses, ex: <strong>3</strong></div>`,'warn');return;}
+    if(s==='confirm')   {if(/^(sim|s|ok|conf|yes)$/i.test(t))await this._save();else if(/^(não|nao|n|cancel)$/i.test(t)){this._reset();await _bot(`<div class="b-txt">Cancelado!</div>`);this.showMenu();}else await _bot(`<div class="b-txt">Confirma? <strong>Sim</strong> ou <strong>Não</strong></div>`);return;}
+    if(s==='saldo_date'){if(/^hoje$/i.test(t)){this._reset();await this.saldoDate(new Date());return;}const d=parseDateStr(raw);if(!d){await _bot(`<div class="b-txt">Data inválida. Ex: <strong>25/06</strong></div>`,'warn');return;}this._reset();await this.saldoDate(d);return;}
+    if(s==='del_date')  {if(/^hoje$/i.test(t)){this._reset();await this.delFlow('today');return;}const d=parseDateStr(raw);if(!d){await _bot(`<div class="b-txt">Data inválida. Ex: <strong>25/06</strong></div>`,'warn');return;}this._reset();await this.delFlow(null,d);return;}
+    if(s==='nc_name')   {this._d.nc_name=raw;this._setState('nc_type');await _bot(`<div class="b-txt">É <strong>Receita</strong> ou <strong>Despesa</strong>?</div>`);_qr([{l:'💚 Receita',v:'__nc_rec'},{l:'❤️ Despesa',v:'__nc_desp'}]);return;}
+    if(s==='prorrogar_date'){const d=parseDateStr(raw);if(!d){await _bot(`<div class="b-txt">Data inválida. Ex: <strong>25/06</strong></div>`,'warn');return;}await this._applyProrrogar(this._d._pid,d);return;}
 
-    if (s === 'desc') {
-      this._d.desc = raw; this._setState('val');
-      await _bot(`<div class="b-txt">💰 Qual o valor? <em>ex: 150 ou 49,90</em><br><small style="color:var(--txt2)">Digite <strong>menu</strong> para cancelar.</small></div>`);
-      _qr([]); return;
+    // ── NLP PARSE ──
+    const parsed=NLP.parse(raw);
+
+    switch(parsed.intent){
+      case 'saudacao':
+        await _bot(`<div class="b-txt">${RESP.rand(RESP.greetings)}</div>`);
+        this.showMenu(); return;
+      case 'menu':
+        await this.restart(); return;
+      case 'saldo':
+        await this.summary(); return;
+      case 'excluir':
+        await this.delFlow(); return;
+      case 'agendados':
+        await this.scheduled(); return;
+      case 'detalhar':
+        await this.detalhar(); return;
+      case 'ajuda':
+        await this.help(); return;
+      case 'receita':
+        this._d={type:'rec'};this._setState('desc');
+        await _bot(`<div class="b-txt">💚 <strong>Receita</strong>! Qual a descrição? <em>ex: Salário, Freelance, Bônus...</em></div>`);
+        _qr([]); return;
+      case 'despesa':
+        this._d={type:'desp'};this._setState('desc');
+        await _bot(`<div class="b-txt">❤️ <strong>Despesa</strong>! Qual a descrição? <em>ex: Mercado, iFood, Aluguel...</em></div>`);
+        _qr([]); return;
+      case 'transaction':
+        // Full transaction detected from free text — smart fill
+        await this._smartTransaction(parsed); return;
+      case 'value_unclear':
+        await _bot(`<div class="b-txt">Notei o valor <strong>${fmt(parsed.val)}</strong>. É uma receita ou despesa?</div>`);
+        this._d={val:parsed.val};
+        _qr([{l:'💚 Receita',v:'__force_rec'},{l:'❤️ Despesa',v:'__force_desp'}]);
+        return;
+      default:
+        // Check if it contains a value anyway (might be a casual mention)
+        const val=NLP.extractValue(raw);
+        if(val&&val>0){
+          await _bot(`<div class="b-txt">Vi o valor <strong>${fmt(val)}</strong>. O que foi isso?</div>`);
+          this._d={val};
+          _qr([{l:'💚 Receita',v:'__force_rec'},{l:'❤️ Despesa',v:'__force_desp'}]);
+          return;
+        }
+        await _bot(`<div class="b-txt">${RESP.rand(RESP.unknown)}</div>`,'warn');
+        this.showMenu(); return;
     }
-    if (s === 'val') {
-      const n = parseFloat(t.replace(',','.'));
-      if (isNaN(n) || n <= 0) { await _bot(`<div class="b-txt">Não entendi. Tenta: <strong>150</strong> ou <strong>49,90</strong> 😊</div>`,'warn'); return; }
-      this._d.val = n; this._setState('cat');
-      const cats = getCats();
-      const opts = Object.entries(cats).filter(([,v]) => v.t === this._d.type).map(([k,v]) => ({l:v.l, v:'cat|'+k}));
-      await _bot(`<div class="b-txt">Qual a categoria?</div>`);
-      _qr(opts); return;
-    }
-    if (s === 'cat') {
-      const cats = getCats();
-      const m = Object.entries(cats).find(([k,v]) => v.l.toLowerCase().includes(t) || k.includes(t));
-      if (m) { await this._pickCat(m[0]); }
-      else await _bot(`<div class="b-txt">Toca em uma categoria acima 👆</div>`,'warn');
-      return;
-    }
-    if (s === 'sched_date') {
-      const d = parseDateStr(raw);
-      if (!d) { await _bot(`<div class="b-txt">Data inválida. Ex: <strong>25/06</strong></div>`,'warn'); return; }
-      this._d.ts = d.getTime(); this._d.scheduled = true; this._d.repeat = 'none';
-      await this._askRepeat(); return;
-    }
-    if (s === 'repeat_qty') {
-      const n = parseInt(t);
-      if (!isNaN(n) && n > 0) { await this._finishRepeat(n); }
-      else if (/sem limite|sempre|indeter/i.test(t)) { await this._finishRepeat(0); }
-      else await _bot(`<div class="b-txt">Digite o número de meses, ex: <strong>3</strong></div>`,'warn');
-      return;
-    }
-    if (s === 'confirm') {
-      if (/^(sim|s|ok|conf|yes|isso)$/i.test(t)) await this._save();
-      else if (/^(não|nao|n|corrig|cancel|erro)$/i.test(t)) { this._reset(); await _bot(`<div class="b-txt">Cancelado!</div>`); this.showMenu(); }
-      else await _bot(`<div class="b-txt">Confirma? <strong>Sim</strong> ou <strong>Não</strong></div>`);
-      return;
-    }
-    if (s === 'saldo_date') {
-      if (/^hoje$/i.test(t)) { this._reset(); await this.saldoDate(new Date()); return; }
-      const d = parseDateStr(raw);
-      if (!d) { await _bot(`<div class="b-txt">Data inválida. Ex: <strong>25/06</strong></div>`,'warn'); return; }
-      this._reset(); await this.saldoDate(d); return;
-    }
-    if (s === 'prorrogar_date') {
-      const d = parseDateStr(raw);
-      if (!d) { await _bot(`<div class="b-txt">Data inválida. Ex: <strong>25/06</strong></div>`,'warn'); return; }
-      const id = this._d._prorrogarId;
-      await this._applyProrrogar(id, d); return;
-    }
-    if (s === 'del_date') {
-      if (/^hoje$/i.test(t)) { this._reset(); await this.delFlow('today'); return; }
-      const d = parseDateStr(raw);
-      if (!d) { await _bot(`<div class="b-txt">Data inválida. Ex: <strong>25/06</strong></div>`,'warn'); return; }
-      this._reset(); await this.delFlow(null, d); return;
-    }
-    if (s === 'nc_name') {
-      this._d.nc_name = raw; this._setState('nc_type');
-      await _bot(`<div class="b-txt">É <strong>Receita</strong> ou <strong>Despesa</strong>?</div>`);
-      _qr([{l:'💚 Receita',v:'nc_rec'},{l:'❤️ Despesa',v:'nc_desp'}]); return;
-    }
-    if (s === 'nc_type') { await this._doNcType(/rec/i.test(t)?'nc_rec':'nc_desp'); return; }
-    if (s === 'nc_confirm') {
-      if (/sim|ok|conf/i.test(t)) await this._saveNewCat();
-      else { this._reset(); await _bot(`<div class="b-txt">Cancelado!</div>`); this.showMenu(); }
-      return;
-    }
-    await this._intent(raw, t);
   },
 
-  async restart() {
-    this._reset();
-    await _bot(`<div class="b-txt">🔄 Pronto! O que quer fazer?</div>`);
-    this.showMenu();
+  // ── Smart transaction from free text ──
+  async _smartTransaction({type,val,desc,cat}){
+    // Show detected info as confirmation
+    const ci=catInfo(cat);
+    this._d={type,val,desc,cat,scheduled:false,ts:Date.now(),repeat:'none',repeatQty:0};
+    this._setState('confirm');
+    await _bot(`<div class="b-txt">
+      Entendi! 🧠 Detectei:<br><br>
+      <strong>${type==='rec'?'💚 Receita':'❤️ Despesa'}</strong><br>
+      📝 ${esc(desc)}<br>
+      💰 ${fmt(val)}<br>
+      ${ci.l} · 📅 Hoje<br><br>
+      Está correto?
+    </div>`);
+    _qr([{l:'✅ Sim, salvar!',v:'confirm_yes'},{l:'✏️ Corrigir',v:'confirm_no'}]);
   },
 
-  showMenu() {
+  showMenu(){
     this._setState('idle');
     _qr([
-      {l:'💚 Receita',   v:'__rec'},
-      {l:'❤️ Despesa',   v:'__desp'},
+      {l:'💚 Receita',   v:'__rec_flow'},
+      {l:'❤️ Despesa',   v:'__desp_flow'},
       {l:'📊 Resumo',    v:'__saldo'},
       {l:'📅 Saldo hoje',v:'__saldo_hoje'},
       {l:'🔍 Detalhar',  v:'__detalhar'},
-      {l:'📅 Saldo data',v:'__saldo_data'},
-      {l:'🗑️ Excluir',   v:'__del'},
-      {l:'🏷️ Categoria', v:'__new_cat'},
       {l:'📅 Agendados', v:'__agendados'},
+      {l:'🗑️ Excluir',   v:'__del'},
+      {l:'🏷️ Categoria', v:'__nc_start'},
     ]);
+    // handle extra menu items
+    document.querySelectorAll('.qr').forEach(b=>{
+      if(b.textContent==='💚 Receita')b.onclick=()=>{_clearQR();_uBub('💚 Receita');this._d={type:'rec'};this._setState('desc');_bot(`<div class="b-txt">💚 Qual a descrição da receita? <em>ex: Salário, Freelance...</em></div>`).then(()=>_qr([]));};
+      if(b.textContent==='❤️ Despesa')b.onclick=()=>{_clearQR();_uBub('❤️ Despesa');this._d={type:'desp'};this._setState('desc');_bot(`<div class="b-txt">❤️ Qual a descrição da despesa? <em>ex: Mercado, Aluguel...</em></div>`).then(()=>_qr([]));};
+      if(b.textContent==='🏷️ Categoria')b.onclick=()=>{_clearQR();_uBub('🏷️ Categoria');this._startCat();};
+    });
   },
 
-  async _doIdle(v) {
-    if (v==='__rec'||v==='rec')  { this._d={type:'rec'};  this._setState('desc'); await _bot(`<div class="b-txt">💚 <strong>Receita</strong>! Qual a descrição? <em>ex: Salário, Freelance, Bônus...</em></div>`); _qr([]); }
-    else if (v==='__desp'||v==='desp') { this._d={type:'desp'}; this._setState('desc'); await _bot(`<div class="b-txt">❤️ <strong>Despesa</strong>! Qual a descrição? <em>ex: Mercado, iFood, Aluguel...</em></div>`); _qr([]); }
-    else await this.restart();
+  async restart(){
+    this._reset();
+    await _bot(`<div class="b-txt">🔄 Olá! O que posso fazer por você?<br><br><small style="color:var(--txt2)">💡 Pode digitar livremente, ex: <em>"gastei 80 no mercado"</em> ou <em>"recebi meu salário"</em></small></div>`);
+    this.showMenu();
   },
 
-  async _intent(raw, t) {
-    // First try local shortcuts for speed
-    if (/\b(excluir|deletar|remover|apagar)\b/i.test(raw))  { await this.delFlow(); return; }
-    if (/\b(saldo|resumo|quanto|situação)\b/i.test(raw))     { await this.summary(); return; }
-    if (/\b(agendad|agenda)\b/i.test(raw))                   { await this.scheduled(); return; }
-    if (/\b(detalh)\b/i.test(raw))                           { await this.detalhar(); return; }
-    if (/\b(ajuda|help)\b/i.test(raw))                       { await this.help(); return; }
-    // For everything else — call Claude IA
-    await this._askClaude(raw);
+  async _askCat(){
+    this._setState('cat');
+    const opts=Object.entries(getCats()).filter(([,v])=>v.t===this._d.type).map(([k,v])=>({l:v.l,v:'cat|'+k}));
+    await _bot(`<div class="b-txt">Qual a categoria?</div>`);
+    _qr(opts);
   },
 
-  // ── CLAUDE IA — interprets free-form messages ──
-  async _askClaude(userMsg) {
-    const name = load(SK.name) || 'você';
-    const list = confirmedTxs();
-    const {rec, desp, saldo} = calcM(list);
-    const taxa = rec > 0 ? Math.round(desp/rec*100) : 0;
-    const sched = TXS.filter(t=>t.scheduled);
-    const overdue = sched.filter(t=>t.ts < Date.now() - 86400000);
-
-    // Build context summary for Claude
-    const ctx = `
-Você é o FinBot IA, assistente financeiro pessoal do usuário ${name}.
-Dados financeiros ATUAIS do usuário (${mName(curMonth, curYear)}):
-- Receitas confirmadas: ${fmt(rec)}
-- Despesas confirmadas: ${fmt(desp)}
-- Saldo: ${fmt(saldo)}
-- Renda comprometida: ${taxa}%
-- Lançamentos agendados: ${sched.length} (${overdue.length} vencidos)
-
-Categorias disponíveis:
-${Object.entries(getCats()).map(([k,v])=>`- ${v.l} (${v.t==='rec'?'receita':'despesa'})`).join('\n')}
-
-AÇÕES QUE VOCÊ PODE EXECUTAR (responda com JSON quando detectar intenção):
-- Registrar receita: {"action":"rec","desc":"descrição","val":valor,"cat":"chave_categoria"}
-- Registrar despesa: {"action":"desp","desc":"descrição","val":valor,"cat":"chave_categoria"}
-- Ver saldo: {"action":"saldo"}
-- Ver agendados: {"action":"agendados"}
-- Detalhar categorias: {"action":"detalhar"}
-- Excluir lançamento: {"action":"excluir"}
-
-REGRAS:
-1. Se o usuário quiser registrar algo E você tiver TODOS os dados (descrição, valor, categoria), responda com o JSON acima.
-2. Se faltar algum dado, pergunte de forma natural e amigável em PT-BR.
-3. Para perguntas sobre finanças pessoais, análises ou dicas, responda de forma útil e direta.
-4. Seja conciso, amigável e use emojis com moderação.
-5. Resposta em texto simples (sem markdown) quando não for JSON.
-6. Chaves de categoria válidas: ${Object.keys(getCats()).join(', ')}
-`;
-
-    // Show typing
-    const tp = document.createElement('div'); tp.className='typing'; tp.innerHTML='<span></span><span></span><span></span>';
-    M.appendChild(tp); scrollB();
-
-    try {
-      // Chama o proxy Netlify Function (evita CORS e esconde a chave)
-      const resp = await fetch('/ai', {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({
-          messages:[
-            {role:'system', content: ctx},
-            {role:'user',   content: userMsg}
-          ]
-        })
-      });
-      tp.remove();
-      const data = await resp.json();
-      const reply = data.choices?.[0]?.message?.content || '';
-
-      // Try to parse as action JSON
-      const jsonMatch = reply.match(/\{[\s\S]*"action"[\s\S]*\}/);
-      if (jsonMatch) {
-        try {
-          const action = JSON.parse(jsonMatch[0]);
-          await this._executeAIAction(action, reply);
-          return;
-        } catch(e) {}
-      }
-
-      // Plain text response
-      const safe = reply.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
-      addBubble(`<div class="b-sender">🤖 FinBot IA</div><div class="b-txt">${safe}</div><div class="b-time">${tNow()}</div>`,'in');
-      scrollB();
-      this.showMenu();
-
-    } catch(err) {
-      tp.remove();
-      // Fallback to local intent on error
-      console.warn('AI error, falling back:', err);
-      await _bot(`<div class="b-txt">🤔 Não entendi bem. Use os botões abaixo ou tente de outra forma!</div>`,'warn');
-      this.showMenu();
-    }
-  },
-
-  async _executeAIAction(action, rawReply) {
-    switch(action.action) {
-      case 'saldo':    await this.summary(); return;
-      case 'agendados': await this.scheduled(); return;
-      case 'detalhar': await this.detalhar(); return;
-      case 'excluir':  await this.delFlow(); return;
-      case 'rec':
-      case 'desp': {
-        const type = action.action;
-        const desc = action.desc;
-        const val  = parseFloat(action.val);
-        const cat  = action.cat;
-        // Validate
-        if (!desc || !val || val <= 0 || !getCats()[cat]) {
-          // Missing data — ask naturally
-          const safe = rawReply.replace(/\{[\s\S]*\}/,'').trim()
-            .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
-          addBubble(`<div class="b-sender">🤖 FinBot IA</div><div class="b-txt">${safe||'Pode me dar mais detalhes?'}</div><div class="b-time">${tNow()}</div>`,'in');
-          // Fall into normal flow
-          this._d = { type };
-          this._setState('desc');
-          _qr([]);
-          return;
-        }
-        // All data present — confirm with user
-        this._d = { type, desc, val, cat, scheduled:false, ts:Date.now(), repeat:'none', repeatQty:0 };
-        this._setState('confirm');
-        const ci = getCats()[cat];
-        addBubble(`<div class="b-sender">🤖 FinBot IA</div><div class="b-txt">Entendi! Vou registrar:<br><br><strong>${type==='rec'?'💚 Receita':'❤️ Despesa'}</strong><br>📝 ${esc(desc)}<br>💰 ${fmt(val)}<br>${ci.l} 📅 Hoje<br><br>Confirma?</div><div class="b-time">${tNow()}</div>`,'in');
-        _qr([{l:'✅ Confirmar',v:'confirm_yes'},{l:'✏️ Corrigir',v:'confirm_no'}]);
-        return;
-      }
-      default:
-        await _bot(`<div class="b-txt">🤖 ${rawReply.replace(/\{[\s\S]*\}/,'').trim()||'Como posso ajudar?'}</div>`,'in');
-        this.showMenu();
-    }
-  },
-
-  async _pickCat(key) {
-    if (!getCats()[key]) { await _bot(`<div class="b-txt">Categoria não encontrada. Toca em uma opção acima 👆</div>`,'warn'); return; }
-    this._d.cat = key;
+  async _pickCat(key){
+    if(!getCats()[key]){await _bot(`<div class="b-txt">Toca em uma categoria 👆</div>`,'warn');return;}
+    this._d.cat=key;
     this._setState('sched');
     await _bot(`<div class="b-txt">📅 Quando é esse lançamento?</div>`);
     _qr([{l:'📅 Hoje',v:'sched_hoje'},{l:'🗓️ Outra data',v:'sched_future'}]);
   },
 
-  async _doSched(v) {
-    if (v === 'sched_hoje')   { this._d.scheduled = false; this._d.ts = Date.now(); await this._askRepeat(); }
-    else if (v === 'sched_future') { this._setState('sched_date'); await _bot(`<div class="b-txt">📅 Qual a data? <em>DD/MM ou DD/MM/AAAA</em></div>`); _qr([]); }
-  },
-
-  async _askRepeat() {
+  async _askRepeat(){
     this._setState('repeat');
-    await _bot(`<div class="b-txt">🔁 Esse lançamento se repete mensalmente?</div>`);
+    await _bot(`<div class="b-txt">🔁 Esse lançamento se repete?</div>`);
     _qr([{l:'🔁 Todo mês',v:'repeat_yes'},{l:'Não repetir',v:'repeat_no'}]);
   },
 
-  async _doRepeat(v) {
-    if (v === 'repeat_yes') {
-      this._d.repeat = 'monthly'; this._setState('repeat_qty');
-      await _bot(`<div class="b-txt">🔁 Por quantos meses?</div>`);
-      _qr([{l:'2x',v:'rq|2'},{l:'3x',v:'rq|3'},{l:'6x',v:'rq|6'},{l:'12x',v:'rq|12'},{l:'Sem limite',v:'rq|0'}]);
-    } else {
-      this._d.repeat = 'none'; this._d.repeatQty = 0; await this._showConfirm();
-    }
-  },
+  async _finishRepeat(qty){this._d.repeatQty=qty;await this._showConfirm();},
 
-  async _finishRepeat(qty) { this._d.repeatQty = qty; await this._showConfirm(); },
-
-  async _showConfirm() {
+  async _showConfirm(){
     this._setState('confirm');
-    const ci = catInfo(this._d.cat);
-    const rep = this._d.repeat === 'monthly' ? ` · repete ${this._d.repeatQty === 0 ? 'sem limite' : this._d.repeatQty+'x'}` : '';
-    const dateLbl = this._d.scheduled ? `📅 ${new Date(this._d.ts).toLocaleDateString('pt-BR')} (agendado${rep})` : '📅 Hoje';
-    await _bot(`<div class="b-txt">
-      Confira antes de salvar:<br><br>
-      <strong>${this._d.type==='rec'?'💚 Receita':'❤️ Despesa'}</strong><br>
-      📝 ${esc(this._d.desc)}<br>
-      💰 ${fmt(this._d.val)}<br>
-      ${ci.l} ${dateLbl}<br><br>
-      Confirma?
-    </div>`);
+    const ci=catInfo(this._d.cat);
+    const rep=this._d.repeat==='monthly'?` · repete ${this._d.repeatQty===0?'sem limite':this._d.repeatQty+'x'}`:'';
+    const dateLbl=this._d.scheduled?`📅 ${new Date(this._d.ts).toLocaleDateString('pt-BR')} (agendado${rep})`:'📅 Hoje';
+    await _bot(`<div class="b-txt">Confira:<br><br><strong>${this._d.type==='rec'?'💚 Receita':'❤️ Despesa'}</strong><br>📝 ${esc(this._d.desc)}<br>💰 ${fmt(this._d.val)}<br>${ci.l} ${dateLbl}<br><br>Confirma?</div>`);
     _qr([{l:'✅ Confirmar',v:'confirm_yes'},{l:'✏️ Corrigir',v:'confirm_no'}]);
   },
 
-  async _doConfirm(v) {
-    if (v === 'confirm_yes') await this._save();
-    else { this._reset(); await _bot(`<div class="b-txt">Cancelado! O que mais?</div>`); this.showMenu(); }
-  },
-
-  async _save() {
-    const base = this._d.ts || Date.now();
-    const tx = { id: Date.now(), desc: this._d.desc, val: this._d.val, cat: this._d.cat,
-      type: this._d.type, ts: base, scheduled: this._d.scheduled || false,
-      repeat: this._d.repeat || 'none', repeatQty: this._d.repeatQty || 0 };
+  async _save(){
+    const base=this._d.ts||Date.now();
+    const tx={id:Date.now(),desc:this._d.desc,val:this._d.val,cat:this._d.cat,type:this._d.type,ts:base,scheduled:this._d.scheduled||false,repeat:this._d.repeat||'none',repeatQty:this._d.repeatQty||0};
     TXS.push(tx);
-    if (this._d.repeat === 'monthly' && this._d.repeatQty > 0) {
-      for (let i = 1; i < this._d.repeatQty; i++) {
-        const nd = new Date(base); nd.setMonth(nd.getMonth() + i);
-        TXS.push({ id: Date.now()+i, desc: this._d.desc, val: this._d.val, cat: this._d.cat,
-          type: this._d.type, ts: nd.getTime(), scheduled: true, repeat: 'instance', repeatQty: 0 });
+    if(this._d.repeat==='monthly'&&this._d.repeatQty>0){
+      for(let i=1;i<this._d.repeatQty;i++){
+        const nd=new Date(base);nd.setMonth(nd.getMonth()+i);
+        TXS.push({id:Date.now()+i,desc:this._d.desc,val:this._d.val,cat:this._d.cat,type:this._d.type,ts:nd.getTime(),scheduled:true,repeat:'instance',repeatQty:0});
       }
     }
-    saveTxs(); updateHeader(); this._reset();
-    const { rec, desp, saldo } = calcM(confirmedTxs());
-    const taxa = rec > 0 ? Math.round(desp/rec*100) : 0;
-    let tip = '';
-    if (tx.scheduled)            tip = `<br><br>📅 Agendado para <strong>${new Date(tx.ts).toLocaleDateString('pt-BR')}</strong>.`;
-    else if (tx.type==='desp' && taxa>80) tip = `<br><br>⚠️ <strong>${taxa}%</strong> da renda comprometida!`;
-    else if (tx.type==='rec')    tip = `<br>Saldo: <strong>${fmt(saldo)}</strong> 🎉`;
-    else                          tip = `<br>Saldo: <strong>${fmt(saldo)}</strong>`;
-    await _bot(`<div class="b-txt">✅ Salvo!${tip}</div>`, tx.scheduled?'blue':tx.type==='rec'?'ok':'in');
-    setTimeout(() => _bot(`<div class="b-txt">Mais alguma coisa?</div>`).then(() => this.showMenu()), 900);
+    saveTxs();updateHeader();this._reset();
+    const {rec,desp,saldo}=calcM(confirmedTxs());
+    const taxa=rec>0?Math.round(desp/rec*100):0;
+    let tip=tx.scheduled?`<br><br>📅 Agendado para <strong>${new Date(tx.ts).toLocaleDateString('pt-BR')}</strong>.`
+      :tx.type==='desp'&&taxa>80?`<br><br>⚠️ Atenção: <strong>${taxa}%</strong> da renda comprometida!`
+      :tx.type==='rec'?`<br>Saldo atual: <strong>${fmt(saldo)}</strong> 🎉`
+      :`<br>Saldo atual: <strong>${fmt(saldo)}</strong>`;
+    await _bot(`<div class="b-txt">✅ Salvo com sucesso!${tip}</div>`,tx.scheduled?'blue':tx.type==='rec'?'ok':'in');
+    setTimeout(()=>_bot(`<div class="b-txt">Mais alguma coisa?</div>`).then(()=>this.showMenu()),900);
   },
 
-  // ── SUMMARY ──
-  async summary() {
+  async summary(){
     this._reset();
-    const list = confirmedTxs();
-    const { rec, desp, saldo } = calcM(list);
-    const taxa = rec > 0 ? Math.round(desp/rec*100) : 0;
-    const barCol = taxa > 80 ? '#e53935' : taxa > 60 ? '#f57c00' : '#43a047';
-    const sched = TXS.filter(t => t.scheduled);
-    const futRec  = sched.filter(t=>t.type==='rec').reduce((s,t)=>s+t.val,0);
-    const futDesp = sched.filter(t=>t.type==='desp').reduce((s,t)=>s+t.val,0);
+    const list=confirmedTxs();
+    const{rec,desp,saldo}=calcM(list);
+    const taxa=rec>0?Math.round(desp/rec*100):0;
+    const barCol=taxa>80?'#e53935':taxa>60?'#f57c00':'#43a047';
+    const sched=TXS.filter(t=>t.scheduled);
+    const futRec=sched.filter(t=>t.type==='rec').reduce((s,t)=>s+t.val,0);
+    const futDesp=sched.filter(t=>t.type==='desp').reduce((s,t)=>s+t.val,0);
     await _bot(`
-      <div class="b-txt" style="margin-bottom:8px"><strong>${mName(curMonth,curYear)}</strong></div>
+      <div class="b-txt" style="margin-bottom:8px"><strong>📊 ${mName(curMonth,curYear)}</strong></div>
       <div class="m-row">
         <div class="mc"><div class="mc-val">${fmt(rec)}</div><div class="mc-lbl">Receitas</div></div>
         <div class="mc neg"><div class="mc-val">${fmt(desp)}</div><div class="mc-lbl">Despesas</div></div>
       </div>
-      ${sched.length ? `<div class="m-row">
+      ${sched.length?`<div class="m-row">
         <div class="mc blue"><div class="mc-val">${fmt(futRec)}</div><div class="mc-lbl">Rec. ag.</div></div>
         <div class="mc blue"><div class="mc-val">${fmt(futDesp)}</div><div class="mc-lbl">Desp. ag.</div></div>
-      </div>` : ''}
+      </div>`:''}
       <div class="prog">
         <div class="prog-hd"><span>Renda comprometida</span><span style="font-weight:800;color:${barCol}">${taxa}%</span></div>
         <div class="prog-bg"><div class="prog-fill" style="width:${Math.min(taxa,100)}%;background:${barCol}"></div></div>
@@ -1048,147 +807,126 @@ REGRAS:
         <span style="font-size:12px;color:var(--txt2);font-weight:600">Saldo confirmado</span>
         <span style="font-size:18px;font-weight:800;color:${saldo>=0?'#2e7d32':'var(--red)'}">${saldo>=0?'+':''}${fmt(saldo)}</span>
       </div>`);
-    if (saldo < 0)      await _bot(`<div class="b-txt">🔴 Saldo negativo de <strong>${fmt(-saldo)}</strong>! Reduza gastos urgente.</div>`,'danger');
-    else if (taxa > 80) await _bot(`<div class="b-txt">🚨 <strong>${taxa}%</strong> da renda comprometida! Revise os gastos.</div>`,'danger');
-    else if (taxa > 60) await _bot(`<div class="b-txt">⚠️ <strong>${taxa}%</strong> comprometido. Tente ficar abaixo de 60%.</div>`,'warn');
-    else if (rec > 0)   await _bot(`<div class="b-txt">✅ Apenas <strong>${taxa}%</strong> comprometido. Finanças equilibradas!</div>`,'ok');
-    _qr([{l:'📅 Saldo hoje',v:'__saldo_hoje'},{l:'📅 Saldo data',v:'__saldo_data'},{l:'💚 Receita',v:'__rec'},{l:'❤️ Despesa',v:'__desp'}]);
+    const tip=RESP.tipsByTaxa(taxa,saldo);
+    await _bot(`<div class="b-txt">${tip}</div>`,saldo<0||taxa>80?'danger':taxa>60?'warn':'ok');
+    _qr([{l:'📅 Saldo hoje',v:'__saldo_hoje'},{l:'📅 Saldo data',v:'__saldo_data'},{l:'🔍 Detalhar',v:'__detalhar'},{l:'💚 Receita',v:'rec_direct'},{l:'❤️ Despesa',v:'desp_direct'}]);
+    document.querySelectorAll('.qr').forEach(b=>{
+      if(b.textContent==='💚 Receita'){b.onclick=()=>{_clearQR();_uBub('💚 Receita');this._d={type:'rec'};this._setState('desc');_bot(`<div class="b-txt">💚 Qual a descrição?</div>`).then(()=>_qr([]));};}
+      if(b.textContent==='❤️ Despesa'){b.onclick=()=>{_clearQR();_uBub('❤️ Despesa');this._d={type:'desp'};this._setState('desc');_bot(`<div class="b-txt">❤️ Qual a descrição?</div>`).then(()=>_qr([]));};}
+    });
   },
 
-  // ── SALDO POR DATA ──
-  async saldoDate(targetDate) {
+  async saldoDate(targetDate){
     this._reset();
-    const ts = targetDate.getTime();
-    const lbl = targetDate.toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
-    const past  = TXS.filter(t => !t.scheduled && t.ts <= ts);
-    const sched = TXS.filter(t =>  t.scheduled && t.ts <= ts);
-    const {rec:pR,desp:pD,saldo:pS} = calcM(past);
-    const {rec:sR,desp:sD}           = calcM(sched);
-    const proj = pS + (sR - sD);
-    const isPast = ts < Date.now();
+    const ts=targetDate.getTime();
+    const lbl=targetDate.toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
+    const past=TXS.filter(t=>!t.scheduled&&t.ts<=ts);
+    const sched=TXS.filter(t=>t.scheduled&&t.ts<=ts);
+    const{rec:pR,desp:pD,saldo:pS}=calcM(past);
+    const{rec:sR,desp:sD}=calcM(sched);
+    const proj=pS+(sR-sD);
     await _bot(`
-      <div class="b-txt"><strong>📅 ${isPast?'Saldo em':'Projeção para'} ${lbl}</strong></div>
+      <div class="b-txt"><strong>📅 ${ts<Date.now()?'Saldo em':'Projeção para'} ${lbl}</strong></div>
       <div class="m-row">
         <div class="mc"><div class="mc-val">${fmt(pR)}</div><div class="mc-lbl">Rec. conf.</div></div>
         <div class="mc neg"><div class="mc-val">${fmt(pD)}</div><div class="mc-lbl">Desp. conf.</div></div>
       </div>
-      ${sched.length ? `<div class="m-row">
+      ${sched.length?`<div class="m-row">
         <div class="mc blue"><div class="mc-val">${fmt(sR)}</div><div class="mc-lbl">Rec. ag.</div></div>
         <div class="mc blue"><div class="mc-val">${fmt(sD)}</div><div class="mc-lbl">Desp. ag.</div></div>
-      </div>` : ''}
-      <div style="display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:1px solid #eee;margin-top:6px">
+      </div>`:''}
+      <div style="display:flex;justify-content:space-between;padding-top:8px;border-top:1px solid #eee;margin-top:6px;align-items:center">
         <span style="font-size:12px;color:var(--txt2);font-weight:600">${sched.length?'Saldo projetado':'Saldo'}</span>
         <span style="font-size:18px;font-weight:800;color:${proj>=0?'#2e7d32':'var(--red)'}">${proj>=0?'+':''}${fmt(proj)}</span>
-      </div>
-      ${sched.length?`<div style="font-size:10px;color:var(--txt2);margin-top:4px">${sched.length} lançamento(s) agendado(s) incluídos.</div>`:''}`,'blue');
-    if (proj < 0) await _bot(`<div class="b-txt">⚠️ Projeção negativa nessa data! Atenção.</div>`,'danger');
-    _qr([{l:'📅 Outra data',v:'__saldo_data'},{l:'📅 Hoje',v:'__saldo_hoje'},{l:'📊 Mês atual',v:'__saldo'}]);
+      </div>`,'blue');
+    if(proj<0)await _bot(`<div class="b-txt">⚠️ Projeção negativa nessa data! Atenção.</div>`,'danger');
+    _qr([{l:'📅 Outra data',v:'__saldo_data'},{l:'📅 Hoje',v:'__saldo_hoje'},{l:'📊 Resumo',v:'__saldo'}]);
   },
 
-  // ── SCHEDULED LIST ──
-  async scheduled() {
+  async scheduled(){
     this._reset();
-    const list = TXS.filter(t => t.scheduled).sort((a,b) => a.ts - b.ts);
-    if (!list.length) {
-      await _bot(`<div class="b-txt">📅 Sem lançamentos agendados.<br>Para criar, registre e escolha "Outra data".</div>`);
-      this.showMenu(); return;
-    }
-    const now = Date.now();
-    const overdue = list.filter(t => t.ts < now - 86400000); // past days only
-    const dueToday = list.filter(t => dateStr(t.ts) === todayStr());
-    const future   = list.filter(t => t.ts > now && dateStr(t.ts) !== todayStr());
-
-    const buildRow = (t, showActions) => {
-      const ov = t.ts < now - 86400000;
-      const isToday = dateStr(t.ts) === todayStr();
-      const statusLbl = ov
-        ? `<span style="color:#c62828;font-weight:700">⚠ vencido ${new Date(t.ts).toLocaleDateString('pt-BR')}</span>`
-        : isToday
-          ? `<span style="color:var(--amb);font-weight:700">📅 vence hoje</span>`
-          : new Date(t.ts).toLocaleDateString('pt-BR');
-      const actions = showActions ? `
-        <div style="display:flex;gap:6px;margin-top:8px">
-          <button onclick="schedLiquidar(${t.id})"
-            style="flex:1;padding:7px 0;background:var(--gm);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer">
-            ✅ Liquidar
-          </button>
-          <button onclick="schedProrrogar(${t.id})"
-            style="flex:1;padding:7px 0;background:var(--amb);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer">
-            📅 Prorrogar
-          </button>
-        </div>` : '';
-      return `<div style="background:${ov?'#fce4ec':isToday?'#fff8e1':'#f9f9f9'};border-radius:10px;padding:10px;margin-bottom:8px">
+    const list=TXS.filter(t=>t.scheduled).sort((a,b)=>a.ts-b.ts);
+    if(!list.length){await _bot(`<div class="b-txt">📅 Sem lançamentos agendados.</div>`);this.showMenu();return;}
+    const now=Date.now();
+    const overdue=list.filter(t=>t.ts<now-86400000);
+    const dueToday=list.filter(t=>dateStr(t.ts)===todayStr());
+    const future=list.filter(t=>t.ts>now&&dateStr(t.ts)!==todayStr());
+    const buildRow=(t,act)=>{
+      const ov=t.ts<now-86400000,isT=dateStr(t.ts)===todayStr();
+      const sl=ov?`<span style="color:#c62828;font-weight:700">⚠ vencido ${new Date(t.ts).toLocaleDateString('pt-BR')}</span>`:isT?`<span style="color:var(--amb);font-weight:700">📅 vence hoje</span>`:new Date(t.ts).toLocaleDateString('pt-BR');
+      const ab=act?`<div style="display:flex;gap:6px;margin-top:8px">
+        <button onclick="schedLiquidar(${t.id})" style="flex:1;padding:7px 0;background:var(--gm);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer">✅ Liquidar</button>
+        <button onclick="schedProrrogar(${t.id})" style="flex:1;padding:7px 0;background:var(--amb);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer">📅 Prorrogar</button>
+      </div>`:'';
+      return`<div style="background:${ov?'#fce4ec22':isT?'#fff8e122':'#f9f9f9'};border-radius:10px;padding:10px;margin-bottom:8px">
         <div style="display:flex;align-items:center;gap:8px">
           <div style="width:32px;height:32px;border-radius:50%;background:${catInfo(t.cat).c}22;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">${catEmoji(t.cat)}</div>
-          <div style="flex:1">
-            <div style="font-size:13px;font-weight:700">${esc(t.desc)} ${t.repeat==='monthly'?'🔁':''}</div>
-            <div style="font-size:11px;margin-top:2px">${statusLbl}</div>
-          </div>
+          <div style="flex:1"><div style="font-size:13px;font-weight:700">${esc(t.desc)} ${t.repeat==='monthly'?'🔁':''}</div><div style="font-size:11px;margin-top:2px">${sl}</div></div>
           <span style="font-size:14px;font-weight:800;color:${t.type==='rec'?'#2e7d32':'var(--red)'}">${t.type==='rec'?'+':'-'}${fmt(t.val)}</span>
-        </div>${actions}
+        </div>${ab}
       </div>`;
     };
-
-    let html = '';
-    if (overdue.length) {
-      html += `<div style="font-size:10px;font-weight:700;color:#c62828;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">⚠ Vencidos (${overdue.length})</div>`;
-      html += overdue.map(t => buildRow(t, true)).join('');
-    }
-    if (dueToday.length) {
-      html += `<div style="font-size:10px;font-weight:700;color:var(--amb);text-transform:uppercase;letter-spacing:.5px;margin:${overdue.length?'12px':0} 0 6px">📅 Vence hoje (${dueToday.length})</div>`;
-      html += dueToday.map(t => buildRow(t, true)).join('');
-    }
-    if (future.length) {
-      html += `<div style="font-size:10px;font-weight:700;color:var(--gm);text-transform:uppercase;letter-spacing:.5px;margin:${(overdue.length||dueToday.length)?'12px':0} 0 6px">📆 Próximos (${future.length})</div>`;
-      html += future.map(t => buildRow(t, false)).join('');
-    }
-
-    await _bot(`<div class="b-txt">${html}</div>`, overdue.length ? 'danger' : 'blue');
+    let html='';
+    if(overdue.length)html+=`<div style="font-size:10px;font-weight:700;color:#c62828;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">⚠ Vencidos (${overdue.length})</div>`+overdue.map(t=>buildRow(t,true)).join('');
+    if(dueToday.length)html+=`<div style="font-size:10px;font-weight:700;color:var(--amb);text-transform:uppercase;letter-spacing:.5px;margin:${overdue.length?'12px':0} 0 6px">📅 Vence hoje (${dueToday.length})</div>`+dueToday.map(t=>buildRow(t,true)).join('');
+    if(future.length)html+=`<div style="font-size:10px;font-weight:700;color:var(--gm);text-transform:uppercase;letter-spacing:.5px;margin:${(overdue.length||dueToday.length)?'12px':0} 0 6px">📆 Próximos (${future.length})</div>`+future.map(t=>buildRow(t,false)).join('');
+    await _bot(`<div class="b-txt">${html}</div>`,overdue.length?'danger':'blue');
     this.showMenu();
   },
 
-  // ── DELETE FLOW ──
-  async delFlow(filter=null, filterDate=null) {
+  async liquidarSched(id){
+    const tx=TXS.find(t=>t.id===id);if(!tx)return;
+    tx.scheduled=false;tx.ts=Date.now();saveTxs();updateHeader();
+    await _bot(`<div class="b-txt">✅ <strong>"${esc(tx.desc)}"</strong> (${tx.type==='rec'?'+':'-'}${fmt(tx.val)}) liquidado hoje!</div>`,'ok');
+    setTimeout(()=>this.showMenu(),600);
+  },
+
+  async prorrogarSched(id){
+    const tx=TXS.find(t=>t.id===id);if(!tx)return;
+    const defDate=new Date();defDate.setDate(defDate.getDate()+7);
+    const minDate=new Date().toISOString().split('T')[0];
+    await _bot(`<div class="b-txt">📅 Prorrogar <strong>"${esc(tx.desc)}"</strong><br><br>
+      <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap">
+        <input type="date" id="pd-${id}" min="${minDate}" value="${defDate.toISOString().split('T')[0]}"
+          style="flex:1;padding:9px 12px;border:1.5px solid var(--bdr);border-radius:10px;font-size:14px;font-family:'Nunito',sans-serif;outline:none;min-width:160px">
+        <button onclick="bot._applyProrrogar(${id},new Date(document.getElementById('pd-${id}').value+'T12:00:00'))"
+          style="padding:9px 16px;background:var(--gm);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer">Confirmar 📅</button>
+      </div>
+      <div style="font-size:11px;color:var(--txt2);margin-top:8px">Ou diga a data: <em>25/06 ou 25/06/2025</em></div>
+    </div>`);
+    this._d._pid=id;this._setState('prorrogar_date');
+  },
+
+  async _applyProrrogar(id,newDate){
+    const tx=TXS.find(t=>t.id===id);if(!tx)return;
+    const old=new Date(tx.ts).toLocaleDateString('pt-BR');
+    tx.ts=newDate.getTime();tx.scheduled=true;saveTxs();updateHeader();this._reset();
+    await _bot(`<div class="b-txt">📅 <strong>"${esc(tx.desc)}"</strong> prorrogado de <strong>${old}</strong> para <strong>${newDate.toLocaleDateString('pt-BR')}</strong>.</div>`,'blue');
+    setTimeout(()=>this.showMenu(),600);
+  },
+
+  async delFlow(filter=null,filterDate=null){
     this._reset();
-    if (filter === 'today' || filterDate) {
-      const target = filterDate ? dateStr(filterDate.getTime()) : todayStr();
-      const list = TXS.filter(t => dateStr(t.ts) === target).sort((a,b) => b.ts-a.ts);
-      const lbl = filterDate ? new Date(filterDate).toLocaleDateString('pt-BR') : 'hoje';
-      if (!list.length) { await _bot(`<div class="b-txt">Nenhum lançamento em <strong>${lbl}</strong>.</div>`,'warn'); this._showDelMenu(); return; }
-      await this._buildDelList(list, `Lançamentos de ${lbl}`); return;
+    if(filter==='today'||filterDate){
+      const target=filterDate?dateStr(filterDate.getTime()):todayStr();
+      const list=TXS.filter(t=>dateStr(t.ts)===target).sort((a,b)=>b.ts-a.ts);
+      const lbl=filterDate?new Date(filterDate).toLocaleDateString('pt-BR'):'hoje';
+      if(!list.length){await _bot(`<div class="b-txt">Nenhum lançamento em <strong>${lbl}</strong>.</div>`,'warn');this._showDelMenu();return;}
+      await this._buildDelList(list,`Lançamentos de ${lbl}`);return;
     }
     this._setState('del_filter');
     await _bot(`<div class="b-txt">🗑️ Quais lançamentos quer ver?</div>`);
     this._showDelMenu();
   },
 
-  _showDelMenu() {
-    _qr([
-      {l:'📅 Hoje',          v:'del_hoje'},
-      {l:'📅 Escolher data', v:'del_data'},
-      {l:'📋 Recentes (10)', v:'del_rec'},
-      {l:'📅 Agendados',     v:'del_ag'},
-      {l:'❌ Cancelar',      v:'del_cancel', r:1},
-    ]);
-  },
+  _showDelMenu(){_qr([{l:'📅 Hoje',v:'del_hoje'},{l:'📅 Escolher data',v:'del_data'},{l:'📋 Recentes (10)',v:'del_rec'},{l:'📅 Agendados',v:'del_ag'},{l:'❌ Cancelar',v:'del_cancel',r:1}]);},
 
-  async _doDelFilter(v) {
-    this._setState('idle');
-    if (v === 'del_hoje')   await this.delFlow('today');
-    else if (v === 'del_data') { this._setState('del_date'); await _bot(`<div class="b-txt">📅 Qual data? <em>DD/MM ou DD/MM/AAAA</em></div>`); _qr([{l:'📅 Hoje',v:'del_hoje'}]); }
-    else if (v === 'del_rec')  await this._buildDelList(TXS.slice().sort((a,b)=>b.ts-a.ts).slice(0,10), 'Últimos 10');
-    else if (v === 'del_ag')   await this._buildDelList(TXS.filter(t=>t.scheduled).sort((a,b)=>a.ts-b.ts), 'Agendados');
-    else if (v === 'del_cancel') { await _bot(`<div class="b-txt">Ok! Nada excluído.</div>`); this.showMenu(); }
-  },
-
-  async _buildDelList(list, title) {
-    if (!list.length) { await _bot(`<div class="b-txt">Nenhum lançamento encontrado.</div>`,'warn'); this.showMenu(); return; }
-    const rows = list.slice(0,12).map(t => `<div class="del-item">
+  async _buildDelList(list,title){
+    if(!list.length){await _bot(`<div class="b-txt">Nenhum encontrado.</div>`,'warn');this.showMenu();return;}
+    const rows=list.slice(0,12).map(t=>`<div class="del-item">
       <div class="del-ic" style="background:${catInfo(t.cat).c}22">${catEmoji(t.cat)}</div>
-      <div class="del-info">
-        <div class="del-desc">${esc(t.desc)}${t.scheduled?'<span class="badge bs">ag.</span>':''}</div>
-        <div class="del-sub">${catLabel(t.cat)} · ${new Date(t.ts).toLocaleDateString('pt-BR')}</div>
-      </div>
+      <div class="del-info"><div class="del-desc">${esc(t.desc)}${t.scheduled?'<span class="badge bs">ag.</span>':''}</div>
+      <div class="del-sub">${catLabel(t.cat)} · ${new Date(t.ts).toLocaleDateString('pt-BR')}</div></div>
       <span class="del-amt" style="color:${t.type==='rec'?'#2e7d32':'var(--red)'}">${t.type==='rec'?'+':'-'}${fmt(t.val)}</span>
       <button class="del-btn" onclick="delItem(${t.id})">🗑️</button>
     </div>`).join('');
@@ -1196,403 +934,353 @@ REGRAS:
     _qr([{l:'📅 Outra data',v:'del_data'},{l:'📋 Recentes',v:'del_rec'},{l:'❌ Cancelar',v:'del_cancel',r:1}]);
   },
 
-  async _delTx(id) {
-    const tx = TXS.find(t => t.id === id); if (!tx) return;
-    TXS = TXS.filter(t => t.id !== id); saveTxs(); updateHeader();
+  async _delTx(id){
+    const tx=TXS.find(t=>t.id===id);if(!tx)return;
+    TXS=TXS.filter(t=>t.id!==id);saveTxs();updateHeader();
     await _bot(`<div class="b-txt">✅ <strong>"${esc(tx.desc)}"</strong> (${tx.type==='rec'?'+':'-'}${fmt(tx.val)}) excluído!</div>`,'ok');
-    setTimeout(() => _bot(`<div class="b-txt">Excluir mais?</div>`).then(() => this._showDelMenu()), 700);
+    setTimeout(()=>_bot(`<div class="b-txt">Quer excluir mais?</div>`).then(()=>this._showDelMenu()),700);
   },
 
-  // ── NEW CATEGORY ──
-  async _startCat() {
-    this._d = {}; this._setState('nc_name');
+  async detalhar(){
+    this._reset();
+    const list=confirmedTxs();
+    if(!list.length){await _bot(`<div class="b-txt">Nenhum lançamento confirmado este mês.</div>`,'warn');this.showMenu();return;}
+    const groups={};
+    list.forEach(t=>{if(!groups[t.cat])groups[t.cat]={cat:t.cat,rec:0,desp:0,items:[]};t.type==='rec'?groups[t.cat].rec+=t.val:groups[t.cat].desp+=t.val;groups[t.cat].items.push(t);});
+    const{rec,desp,saldo}=calcM(list);
+    const rows=Object.entries(groups).sort((a,b)=>(b[1].desp+b[1].rec)-(a[1].desp+a[1].rec)).map(([k,g])=>{
+      const ci=catInfo(k);
+      return`<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid #eee;cursor:pointer" onclick="bot._do('det|${k}')">
+        <div style="width:32px;height:32px;border-radius:50%;background:${ci.c}22;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">${catEmoji(k)}</div>
+        <div style="flex:1"><div style="font-size:13px;font-weight:700">${catLabel(k)}</div>
+        <div style="font-size:10px;color:var(--txt2)">${g.items.length} lançamento(s) · toque para ver</div></div>
+        <div style="text-align:right">${g.rec?`<div style="font-size:12px;font-weight:700;color:#2e7d32">+${fmt(g.rec)}</div>`:''}${g.desp?`<div style="font-size:12px;font-weight:700;color:var(--red)">-${fmt(g.desp)}</div>`:''}</div>
+      </div>`;
+    }).join('');
+    await _bot(`<div class="b-txt"><strong>🔍 Detalhe — ${mName(curMonth,curYear)}</strong><br><div style="font-size:11px;color:var(--txt2);margin-bottom:8px">${list.length} lançamentos · Saldo: <strong style="color:${saldo>=0?'#2e7d32':'var(--red)'}">${fmt(saldo)}</strong></div>${rows}<div style="font-size:10px;color:var(--txt3);margin-top:6px">Toque em uma categoria para ver os lançamentos</div></div>`);
+    this.showMenu();
+  },
+
+  async detalharCat(catKey){
+    this._reset();
+    const list=confirmedTxs().filter(t=>t.cat===catKey);
+    const ci=catInfo(catKey);
+    if(!list.length){await _bot(`<div class="b-txt">Nenhum lançamento em ${ci.l} este mês.</div>`,'warn');this.showMenu();return;}
+    const{rec,desp}=calcM(list);
+    const rows=list.slice().sort((a,b)=>b.ts-a.ts).map(t=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #eee">
+      <div><div style="font-size:13px;font-weight:600">${esc(t.desc)}</div><div style="font-size:10px;color:var(--txt2)">${new Date(t.ts).toLocaleDateString('pt-BR',{day:'2-digit',month:'short'})}</div></div>
+      <span style="font-size:13px;font-weight:800;color:${t.type==='rec'?'#2e7d32':'var(--red)'}">${t.type==='rec'?'+':'-'}${fmt(t.val)}</span>
+    </div>`).join('');
+    await _bot(`<div class="b-txt"><strong>${ci.l}</strong> — ${mName(curMonth,curYear)}<br>${rec?`<span style="color:#2e7d32;font-weight:700">+${fmt(rec)}</span> `:''}${desp?`<span style="color:var(--red);font-weight:700">-${fmt(desp)}</span>`:''}<br><br>${rows}</div>`);
+    _qr([{l:'🔍 Todas categorias',v:'__detalhar'}]);
+  },
+
+  async _startCat(){
+    this._d={};this._setState('nc_name');
     await _bot(`<div class="b-txt">🏷️ Qual o <strong>nome</strong> da nova categoria? <em>ex: Viagem, Academia...</em></div>`);
     _qr([]);
   },
-  async _doNcType(v) {
-    this._d.nc_type = v === 'nc_rec' ? 'rec' : 'desp';
-    this._setState('nc_emoji');
+  async _ncType(t){
+    this._d.nc_type=t;this._setState('nc_emoji');
     await _bot(`<div class="b-txt">Escolha um <strong>emoji</strong>:</div>`);
-    _qr([...EMOJIS.map(e => ({l:e, v:'em|'+e}))]);
+    _qr(EMOJIS.map(e=>({l:e,v:'em|'+e})));
   },
-  async _doNcEmoji(v) {
-    const em = v.startsWith('em|') ? v.replace('em|','') : v;
-    this._d.nc_emoji = em; this._setState('nc_color');
+  async _ncEmoji(em){
+    this._d.nc_emoji=em;this._setState('nc_color');
     await _bot(`<div class="b-txt">Escolha uma <strong>cor</strong>:<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">${COLORS.map(c=>`<div style="width:28px;height:28px;border-radius:50%;background:${c};cursor:pointer" onclick="bot._do('cl|${c}')"></div>`).join('')}</div></div>`);
   },
-  async _doNcColor(cl) {
-    this._d.nc_color = cl; this._setState('nc_confirm');
+  async _ncColor(cl){
+    this._d.nc_color=cl;this._setState('nc_confirm');
     await _bot(`<div class="b-txt">Confirma?<br><br><span style="font-size:22px">${this._d.nc_emoji}</span> <strong>${esc(this._d.nc_name)}</strong><br>Tipo: ${this._d.nc_type==='rec'?'Receita 💚':'Despesa ❤️'}<br>Cor: <span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:${cl};vertical-align:middle;margin-left:4px"></span></div>`);
     _qr([{l:'✅ Criar categoria',v:'nc_yes'},{l:'❌ Cancelar',v:'nc_no',r:1}]);
   },
-  async _saveNewCat() {
-    const customs = load(SK.cats) || {};
-    const key = 'c_' + this._d.nc_name.toLowerCase().replace(/\s+/g,'_') + Date.now();
-    customs[key] = {l:`${this._d.nc_emoji} ${this._d.nc_name}`, c:this._d.nc_color, t:this._d.nc_type};
-    saveCats(customs); this._reset();
-    await _bot(`<div class="b-txt">🏷️ Categoria <strong>"${esc(customs[key].l)}"</strong> criada! Já aparece quando lançar.</div>`,'ok');
-    setTimeout(() => _bot(`<div class="b-txt">O que mais?</div>`).then(() => this.showMenu()), 800);
+  async _saveNewCat(){
+    const customs=load(SK.cats)||{};
+    const key='c_'+this._d.nc_name.toLowerCase().replace(/\s+/g,'_')+Date.now();
+    customs[key]={l:`${this._d.nc_emoji} ${this._d.nc_name}`,c:this._d.nc_color,t:this._d.nc_type};
+    saveCats(customs);this._reset();
+    await _bot(`<div class="b-txt">🏷️ Categoria <strong>"${esc(customs[key].l)}"</strong> criada!</div>`,'ok');
+    setTimeout(()=>this.showMenu(),700);
   },
 
-  // ── LIQUIDAR / PRORROGAR AGENDADO ──
-  async liquidarSched(id) {
-    const tx = TXS.find(t => t.id === id); if (!tx) return;
-    tx.scheduled = false; tx.ts = Date.now();
-    saveTxs(); updateHeader();
-    const sinal = tx.type === 'rec' ? '+' : '-';
-    await _bot(`<div class="b-txt">✅ <strong>"${esc(tx.desc)}"</strong> (${sinal}${fmt(tx.val)}) liquidado e registrado como realizado hoje!</div>`,'ok');
-    // refresh scheduled list if it's still open
-    const {rec,desp,saldo} = calcM(confirmedTxs());
-    setTimeout(() => _bot(`<div class="b-txt">Saldo atual: <strong style="color:${saldo>=0?'#2e7d32':'var(--red)'}">${fmt(saldo)}</strong>. Mais alguma coisa?</div>`).then(()=>this.showMenu()), 800);
-  },
-
-  async prorrogarSched(id) {
-    const tx = TXS.find(t => t.id === id); if (!tx) return;
-    // Show inline date picker via bubble
-    const minDate = new Date().toISOString().split('T')[0];
-    const defDate = (() => { const d = new Date(); d.setDate(d.getDate()+7); return d.toISOString().split('T')[0]; })();
-    await _bot(`<div class="b-txt">
-      📅 Prorrogar <strong>"${esc(tx.desc)}"</strong><br><br>
-      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:4px">
-        <input type="date" id="prorrogar-date-${id}" min="${minDate}" value="${defDate}"
-          style="flex:1;padding:9px 12px;border:1.5px solid var(--bdr);border-radius:10px;font-size:14px;font-family:'Nunito',sans-serif;outline:none;min-width:160px">
-        <button onclick="confirmProrrogarBtn(${id})"
-          style="padding:9px 16px;background:var(--gm);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer">
-          Confirmar 📅
-        </button>
-      </div>
-      <div style="font-size:11px;color:var(--txt2);margin-top:8px">Ou digite a data: <em>DD/MM ou DD/MM/AAAA</em></div>
-    </div>`);
-    this._setState('prorrogar_date');
-    this._d._prorrogarId = id;
-  },
-
-  async confirmProrrogar(v) {
-    // called from button inside bubble
-    const id = parseInt(v.split('|')[1]);
-    const inp = document.getElementById('prorrogar-date-' + id);
-    let newDate;
-    if (inp && inp.value) {
-      newDate = new Date(inp.value + 'T12:00:00');
-    } else {
-      await _bot(`<div class="b-txt">Selecione uma data válida.</div>`,'warn'); return;
-    }
-    await this._applyProrrogar(id, newDate);
-  },
-
-  async _applyProrrogar(id, newDate) {
-    const tx = TXS.find(t => t.id === id); if (!tx) return;
-    const oldDate = new Date(tx.ts).toLocaleDateString('pt-BR');
-    tx.ts = newDate.getTime(); tx.scheduled = true;
-    saveTxs(); updateHeader(); this._reset();
-    await _bot(`<div class="b-txt">📅 <strong>"${esc(tx.desc)}"</strong> prorrogado de <strong>${oldDate}</strong> para <strong>${newDate.toLocaleDateString('pt-BR')}</strong>.</div>`,'blue');
-    setTimeout(() => this.showMenu(), 600);
-  },
-
-  // ── DETALHAR ──
-  async detalhar() {
-    this._reset();
-    const list = confirmedTxs();
-    if (!list.length) {
-      await _bot(`<div class="b-txt">Nenhum lançamento confirmado este mês.</div>`,'warn');
-      this.showMenu(); return;
-    }
-    // Group by category
-    const groups = {};
-    list.forEach(t => {
-      if (!groups[t.cat]) groups[t.cat] = { cat:t.cat, rec:0, desp:0, items:[] };
-      t.type==='rec' ? groups[t.cat].rec+=t.val : groups[t.cat].desp+=t.val;
-      groups[t.cat].items.push(t);
-    });
-    const { rec, desp, saldo } = calcM(list);
-    const rows = Object.entries(groups)
-      .sort((a,b) => (b[1].desp+b[1].rec) - (a[1].desp+a[1].rec))
-      .map(([k,g]) => {
-        const ci = catInfo(k);
-        const total = g.rec - g.desp;
-        return `<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #eee;cursor:pointer" onclick="bot._do('det|${k}')">
-          <div style="width:32px;height:32px;border-radius:50%;background:${ci.c}22;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">${catEmoji(k)}</div>
-          <div style="flex:1">
-            <div style="font-size:13px;font-weight:700">${catLabel(k)}</div>
-            <div style="font-size:10px;color:var(--txt2)">${g.items.length} lançamento(s) · toque para ver</div>
-          </div>
-          <div style="text-align:right">
-            ${g.rec?`<div style="font-size:12px;font-weight:700;color:#2e7d32">+${fmt(g.rec)}</div>`:''}
-            ${g.desp?`<div style="font-size:12px;font-weight:700;color:var(--red)">-${fmt(g.desp)}</div>`:''}
-          </div>
-        </div>`;
-      }).join('');
-    await _bot(`
-      <div class="b-txt">
-        <strong>🔍 Detalhe de ${mName(curMonth,curYear)}</strong><br>
-        <div style="font-size:11px;color:var(--txt2);margin-bottom:8px">${list.length} lançamentos · Saldo: <strong style="color:${saldo>=0?'#2e7d32':'var(--red)'}">${fmt(saldo)}</strong></div>
-        ${rows}
-        <div style="font-size:10px;color:var(--txt3);margin-top:6px">Toque em uma categoria para ver os lançamentos</div>
-      </div>`);
+  async help(){
+    await _bot(`<div class="b-txt">🤖 <strong>FinBot IA</strong> entende linguagem natural!<br><br>
+      Experimente dizer:<br>
+      <em>"Gastei 80 reais no mercado"</em><br>
+      <em>"Recebi meu salário de 3.500"</em><br>
+      <em>"Paguei 120 de conta de luz"</em><br>
+      <em>"Quanto tenho de saldo?"</em><br>
+      <em>"Onde estou gastando mais?"</em><br><br>
+      <small style="color:var(--txt2)">💡 Digite <strong>menu</strong> para voltar ao início</small></div>`);
     this.showMenu();
   },
+};
 
-  async detalharCat(catKey) {
-    this._reset();
-    const list = confirmedTxs().filter(t => t.cat === catKey);
-    const ci = catInfo(catKey);
-    if (!list.length) { await _bot(`<div class="b-txt">Nenhum lançamento em ${ci.l} este mês.</div>`,'warn'); this.showMenu(); return; }
-    const { rec, desp, saldo } = calcM(list);
-    const rows = list.slice().sort((a,b)=>b.ts-a.ts).map(t => `
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #eee">
-        <div>
-          <div style="font-size:13px;font-weight:600">${esc(t.desc)}</div>
-          <div style="font-size:10px;color:var(--txt2)">${new Date(t.ts).toLocaleDateString('pt-BR',{day:'2-digit',month:'short'})}</div>
+// ══════════════════════════════════════════════════════
+// HEADER
+// ══════════════════════════════════════════════════════
+function updateHeader(){
+  const{rec,desp,saldo}=calcM(confirmedTxs());
+  const el=document.getElementById('hd-val');
+  if(el){el.textContent=fmt(saldo);el.style.background=saldo>=0?'var(--gl)':'var(--red)';}
+  const taxa=rec>0?Math.round(desp/rec*100):0;
+  const st=document.getElementById('hd-st');if(!st)return;
+  if(saldo<0){st.textContent='saldo negativo ⚠';st.style.color='#ffcdd2';}
+  else if(taxa>80){st.textContent='gastos altos 🚨';st.style.color='#ffe082';}
+  else if(taxa>60){st.textContent='atenção nos gastos ⚠';st.style.color='#ffe082';}
+  else{st.textContent='online · inteligência local';st.style.color='#b2dfdb';}
+}
+
+// ══════════════════════════════════════════════════════
+// DUE TODAY
+// ══════════════════════════════════════════════════════
+function checkDueToday(){
+  const today=todayStr();
+  const dismissed=load('fb8_dismissed_'+today)||[];
+  const due=TXS.filter(t=>t.scheduled&&t.ts<=new Date().setHours(23,59,59,999)&&!dismissed.includes(t.id));
+  if(!due.length)return;
+  if('Notification' in window&&Notification.permission==='granted')
+    due.forEach(t=>{try{new Notification('💰 FinBot IA',{body:`${t.desc}: ${t.type==='rec'?'+':'-'}${fmt(t.val)}`,icon:'icons/icon-192.png',tag:'due-'+t.id})}catch(e){}});
+  else if('Notification' in window&&Notification.permission!=='denied')Notification.requestPermission();
+  const el=document.getElementById('due-items');if(!el)return;
+  el.innerHTML=due.map(t=>{
+    const ci=catInfo(t.cat);
+    const ov=t.ts<Date.now()-86400000;
+    return`<div class="dmod-item${ov?' overdue':''}" id="due-${t.id}">
+      <div class="dmod-top">
+        <div class="dmod-ic" style="background:${ci.c}22">${catEmoji(t.cat)}</div>
+        <div class="dmod-info">
+          <div class="dmod-desc">${esc(t.desc)}</div>
+          <div class="dmod-sub" style="color:${ov?'var(--red)':'var(--amb)'}">${ov?'⚠ Vencido desde '+new Date(t.ts).toLocaleDateString('pt-BR'):'Vence hoje'}</div>
         </div>
-        <span style="font-size:13px;font-weight:800;color:${t.type==='rec'?'#2e7d32':'var(--red)'}">${t.type==='rec'?'+':'-'}${fmt(t.val)}</span>
-      </div>`).join('');
-    await _bot(`
-      <div class="b-txt">
-        <strong>${ci.l} — ${mName(curMonth,curYear)}</strong><br>
-        ${rec?`<span style="color:#2e7d32;font-weight:700">+${fmt(rec)}</span> `:''}${desp?`<span style="color:var(--red);font-weight:700">-${fmt(desp)}</span>`:''}<br><br>
-        ${rows}
-      </div>`);
-    _qr([{l:'🔍 Ver todas categorias',v:'__detalhar'}]);
-  },
+        <div class="dmod-amt" style="color:${t.type==='rec'?'#2e7d32':'var(--red)'}">${t.type==='rec'?'+':'-'}${fmt(t.val)}</div>
+      </div>
+      <div class="dmod-btns">
+        <button class="dmod-btn yes" onclick="confirmDue(${t.id})">✅ Liquidar</button>
+        <button class="dmod-btn no"  onclick="postponeDue(${t.id})">📅 Prorrogar</button>
+        <button class="dmod-btn skip" onclick="skipDue(${t.id})">Depois</button>
+      </div>
+      <div id="pf-${t.id}"></div>
+    </div>`;
+  }).join('');
+  document.getElementById('due-modal').classList.add('show');
+}
+function _dismissDue(id){
+  const k='fb8_dismissed_'+todayStr(),d=load(k)||[];
+  if(!d.includes(id)){d.push(id);save(k,d);}
+  const el=document.getElementById('due-'+id);if(el)el.remove();
+  if(!document.querySelector('.dmod-item'))closeDueModal();
+}
+function confirmDue(id){const t=TXS.find(x=>x.id===id);if(!t)return;t.scheduled=false;t.ts=Date.now();saveTxs();updateHeader();_dismissDue(id);}
+function postponeDue(id){
+  const el=document.getElementById('pf-'+id);if(!el)return;
+  const min=new Date().toISOString().split('T')[0];
+  const def=new Date();def.setDate(def.getDate()+7);
+  el.innerHTML=`<div class="postpone-form">
+    <input type="date" id="ppd-${id}" min="${min}" value="${def.toISOString().split('T')[0]}">
+    <button onclick="applyPostponeDue(${id})" style="background:var(--gm);color:#fff">Confirmar</button>
+    <button onclick="document.getElementById('pf-${id}').innerHTML=''" style="background:#eee;color:var(--txt2)">✕</button>
+  </div>`;
+}
+function applyPostponeDue(id){
+  const inp=document.getElementById('ppd-'+id);if(!inp||!inp.value){alert('Selecione uma data!');return;}
+  const tx=TXS.find(t=>t.id===id);if(!tx)return;
+  tx.ts=new Date(inp.value+'T12:00:00').getTime();tx.scheduled=true;saveTxs();updateHeader();_dismissDue(id);
+}
+function skipDue(id){_dismissDue(id);}
+function closeDueModal(){document.getElementById('due-modal').classList.remove('show');}
 
-  // ── HELP ──
-  async help() {
-    await _bot(`<div class="b-txt"><strong>💰 O que posso fazer:</strong><br><br>
-      💚 "Recebi meu salário"<br>❤️ "Gastei no mercado"<br>
-      📅 "Saldo no dia 30/06"<br>🗑️ "Excluir lançamento"<br>
-      🏷️ "Criar categoria"<br>📊 "Ver meu saldo"<br><br>
-      Ou use os botões abaixo 👇</div>`);
-    this.showMenu();
-  },
-}; // end bot
+// ══════════════════════════════════════════════════════
+// PWA INSTALL
+// ══════════════════════════════════════════════════════
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;if(window._appReady)_showNativeBtn();});
+window.addEventListener('appinstalled',()=>{_hideIBar();deferredPrompt=null;});
+function _showIBar(lbl,fn){const b=document.getElementById('inst-bar'),btn=document.getElementById('inst-btn');if(!b||!btn)return;btn.textContent=lbl;btn.onclick=fn;b.classList.add('show');}
+function _hideIBar(){const b=document.getElementById('inst-bar');if(b)b.classList.remove('show');}
+function _showNativeBtn(){_showIBar('📲 Instalar app',()=>{if(!deferredPrompt){openIM();return;}deferredPrompt.prompt();deferredPrompt.userChoice.then(r=>{if(r.outcome==='accepted')_hideIBar();deferredPrompt=null;});});}
+function openIM(){document.getElementById('install-modal').classList.add('show');switchIT(/iphone|ipad|ipod/i.test(navigator.userAgent)?'ios':/android/i.test(navigator.userAgent)?'android':'desktop');}
+function closeIM(){document.getElementById('install-modal').classList.remove('show');}
+function switchIT(tab){['android','ios','desktop'].forEach(t=>{const p=document.getElementById('it-'+t),b=document.getElementById('itab-'+t);if(p)p.style.display=t===tab?'flex':'none';if(b)b.classList.toggle('on',t===tab);});}
+function _initInstallUI(){
+  window._appReady=true;
+  const standalone=window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true;
+  if(standalone)return;
+  if(deferredPrompt){_showNativeBtn();return;}
+  _showIBar(/iphone|ipad|ipod/i.test(navigator.userAgent)?'📲 Como instalar (Safari)':'📲 Como instalar',openIM);
+  setTimeout(()=>{if(deferredPrompt&&!window.matchMedia('(display-mode: standalone)').matches)_showNativeBtn();},4000);
+}
 
-// ════════════════════════════════════════════
+// ══════════════════════════════════════════════════════
 // HISTORY
-// ════════════════════════════════════════════
-function initHistMonthSel() {
-  const sel = document.getElementById('hf-month');
-  sel.innerHTML = '';
-  for (let i = 0; i < 12; i++) {
-    const o = document.createElement('option');
-    o.value = i;
-    o.text = new Date(curYear, i, 1).toLocaleDateString('pt-BR',{month:'short'}).replace(/^\w/,c=>c.toUpperCase());
-    if (i === curMonth) o.selected = true;
-    sel.appendChild(o);
-  }
+// ══════════════════════════════════════════════════════
+function initHistMonthSel(){
+  const sel=document.getElementById('hf-month');sel.innerHTML='';
+  for(let i=0;i<12;i++){const o=document.createElement('option');o.value=i;o.text=new Date(curYear,i,1).toLocaleDateString('pt-BR',{month:'short'}).replace(/^\w/,c=>c.toUpperCase());if(i===curMonth)o.selected=true;sel.appendChild(o);}
 }
-function renderHist() {
+function renderHist(){
   initHistMonthSel();
-  const m      = parseInt(document.getElementById('hf-month').value);
-  const typeF  = document.getElementById('hf-type').value;
-  const statusF= document.getElementById('hf-status').value;
-  document.getElementById('hist-title').textContent = mName(m, curYear);
-
-  const list = TXS.filter(t => {
-    const d = new Date(t.ts);
-    return d.getMonth() === m && d.getFullYear() === curYear
-      && (typeF   === 'all' || t.type === typeF)
-      && (statusF === 'all' || (statusF==='done'&&!t.scheduled) || (statusF==='sched'&&t.scheduled));
-  }).sort((a,b) => b.ts - a.ts);
-
-  const el = document.getElementById('hist-list');
-  if (!list.length) { el.innerHTML = `<div class="empty-st"><div class="big">📭</div><strong>Nenhum lançamento</strong><p style="font-size:13px;margin-top:6px">Sem resultados para esse filtro.</p></div>`; return; }
-
-  const conf  = list.filter(t => !t.scheduled);
-  const sched = list.filter(t =>  t.scheduled);
-  let html = '';
-  if (sched.length) html += `<div class="sec-lbl">📅 Agendados (${sched.length})</div>` + sched.map(txRow).join('');
-  if (conf.length)  html += `<div class="sec-lbl" style="margin-top:${sched.length?12:4}px">✅ Realizados (${conf.length})</div>` + conf.map(txRow).join('');
-  el.innerHTML = html;
+  const m=parseInt(document.getElementById('hf-month').value);
+  const typeF=document.getElementById('hf-type').value;
+  const statusF=document.getElementById('hf-status').value;
+  document.getElementById('hist-title').textContent=mName(m,curYear);
+  const list=TXS.filter(t=>{const d=new Date(t.ts);return d.getMonth()===m&&d.getFullYear()===curYear&&(typeF==='all'||t.type===typeF)&&(statusF==='all'||(statusF==='done'&&!t.scheduled)||(statusF==='sched'&&t.scheduled));}).sort((a,b)=>b.ts-a.ts);
+  const el=document.getElementById('hist-list');
+  if(!list.length){el.innerHTML=`<div class="empty-st"><div class="big">📭</div><strong>Nenhum lançamento</strong><p style="font-size:13px;margin-top:6px">Sem resultados para esse filtro.</p></div>`;return;}
+  const conf=list.filter(t=>!t.scheduled),sched=list.filter(t=>t.scheduled);
+  let html='';
+  if(sched.length)html+=`<div class="sec-lbl">📅 Agendados (${sched.length})</div>`+sched.map(txRow).join('');
+  if(conf.length)html+=`<div class="sec-lbl" style="margin-top:${sched.length?12:4}px">✅ Realizados (${conf.length})</div>`+conf.map(txRow).join('');
+  el.innerHTML=html;
 }
-function txRow(t) {
-  const ci = catInfo(t.cat);
-  const ov  = t.scheduled && t.ts < Date.now() - 60000; // 1 min buffer
-  const isToday = dateStr(t.ts) === todayStr();
-  const badge = t.scheduled ? (ov ? '<span class="badge bo">vencido</span>' : isToday ? '<span class="badge bd">hoje!</span>' : '<span class="badge bs">agendado</span>') : '';
-  const needsAction = t.scheduled && (ov || isToday);
-  const actionBtns = needsAction ? `
-    <div style="display:flex;gap:5px;margin-top:7px;margin-left:43px">
-      <button onclick="goTab('chat');setTimeout(()=>schedLiquidar(${t.id}),200)"
-        style="flex:1;padding:6px 0;background:var(--gm);color:#fff;border:none;border-radius:8px;font-size:11px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer">
-        ✅ Liquidar
-      </button>
-      <button onclick="goTab('chat');setTimeout(()=>schedProrrogar(${t.id}),200)"
-        style="flex:1;padding:6px 0;background:var(--amb);color:#fff;border:none;border-radius:8px;font-size:11px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer">
-        📅 Prorrogar
-      </button>
-    </div>` : '';
-  return `<div class="tx-item" style="${needsAction?'flex-wrap:wrap;background:'+(ov?'#fce4ec22':'#fff8e122'):''};border-radius:8px;padding:8px ${needsAction?'8px':'0'}">
+function txRow(t){
+  const ci=catInfo(t.cat);
+  const ov=t.scheduled&&t.ts<Date.now()-60000,isT=dateStr(t.ts)===todayStr();
+  const badge=t.scheduled?(ov?'<span class="badge bo">vencido</span>':isT?'<span class="badge bd">hoje!</span>':'<span class="badge bs">agendado</span>'):'';
+  const act=t.scheduled&&(ov||isT)?`<div style="width:100%;display:flex;gap:5px;margin-top:7px;padding-left:43px">
+    <button onclick="goTab('chat');setTimeout(()=>schedLiquidar(${t.id}),200)" style="flex:1;padding:6px 0;background:var(--gm);color:#fff;border:none;border-radius:8px;font-size:11px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer">✅ Liquidar</button>
+    <button onclick="goTab('chat');setTimeout(()=>schedProrrogar(${t.id}),200)" style="flex:1;padding:6px 0;background:var(--amb);color:#fff;border:none;border-radius:8px;font-size:11px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer">📅 Prorrogar</button>
+  </div>`:'';
+  return`<div class="tx-item" style="flex-wrap:wrap;background:${ov?'#fce4ec22':isT?'#fff8e122':''}">
     <div class="tx-ic" style="background:${ci.c}22">${catEmoji(t.cat)}</div>
-    <div class="tx-info">
-      <div class="tx-desc">${esc(t.desc)}${badge}</div>
-      <div class="tx-sub">${catLabel(t.cat)} · ${new Date(t.ts).toLocaleDateString('pt-BR')}${t.repeat==='monthly'?' 🔁':''}</div>
-    </div>
+    <div class="tx-info"><div class="tx-desc">${esc(t.desc)}${badge}</div><div class="tx-sub">${catLabel(t.cat)} · ${new Date(t.ts).toLocaleDateString('pt-BR')}${t.repeat==='monthly'?' 🔁':''}</div></div>
     <span class="tx-amt" style="color:${t.type==='rec'?'#2e7d32':'var(--red)'}">${t.type==='rec'?'+':'-'}${fmt(t.val)}</span>
     <button class="tx-del-btn" onclick="if(confirm('Excluir?')){TXS=TXS.filter(x=>x.id!==${t.id});saveTxs();updateHeader();renderHist()}" title="Excluir">✕</button>
-    ${actionBtns ? `<div style="width:100%">${actionBtns}</div>` : ''}
+    ${act}
   </div>`;
 }
 
-// ════════════════════════════════════════════
+// ══════════════════════════════════════════════════════
 // CHARTS
-// ════════════════════════════════════════════
-function renderGraf() {
-  document.getElementById('graf-title').textContent = mName(curMonth, curYear);
-  const list = confirmedTxs();
-  const cR={}, cD={};
-  list.forEach(t => t.type==='rec' ? cR[t.cat]=(cR[t.cat]||0)+t.val : cD[t.cat]=(cD[t.cat]||0)+t.val);
-  const allC = [...new Set(list.map(t=>t.cat))];
-  if (barChart) barChart.destroy();
-  barChart = new Chart(document.getElementById('c-bar'), {
-    type:'bar', data:{
-      labels: allC.map(c => catLabel(c).substring(0,10)),
-      datasets:[{label:'Receita',data:allC.map(c=>cR[c]||0),backgroundColor:'#43a04788',borderRadius:4},
-                {label:'Despesa',data:allC.map(c=>cD[c]||0),backgroundColor:'#e5393588',borderRadius:4}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
-      scales:{x:{ticks:{font:{size:9},autoSkip:false,maxRotation:45}},y:{ticks:{callback:v=>'R$'+Math.round(v),font:{size:10}}}}}
-  });
-  document.getElementById('bar-leg').innerHTML = `<div class="leg-i"><div class="leg-dot" style="background:#43a047"></div>Receita</div><div class="leg-i"><div class="leg-dot" style="background:#e53935"></div>Despesa</div>`;
-  const dE = Object.entries(cD).sort((a,b)=>b[1]-a[1]);
-  if (pieChart) pieChart.destroy();
-  if (dE.length) {
-    pieChart = new Chart(document.getElementById('c-pie'), {
-      type:'doughnut', data:{labels:dE.map(([c])=>catLabel(c)),datasets:[{data:dE.map(([,v])=>v),backgroundColor:dE.map(([c])=>catInfo(c).c||'#888'),borderWidth:2,borderColor:'#fff'}]},
-      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},cutout:'55%'}
-    });
-    document.getElementById('pie-leg').innerHTML = dE.map(([c,v])=>`<div class="leg-i"><div class="leg-dot" style="background:${catInfo(c).c}"></div>${catLabel(c)} ${fmt(v)}</div>`).join('');
-  }
-  const tot = dE.reduce((s,[,v])=>s+v,0);
-  document.getElementById('cat-det').innerHTML = dE.map(([c,v]) => {
-    const p = tot>0?Math.round(v/tot*100):0;
-    return `<div class="cat-row2"><div class="cat-dot2" style="background:${catInfo(c).c}"></div><span class="cat-nm2">${catLabel(c)}</span><div class="cat-bw2"><div class="cat-bf2" style="width:${p}%;background:${catInfo(c).c}"></div></div><span class="cat-am2" style="color:${catInfo(c).c}">${fmt(v)}</span></div>`;
-  }).join('') || '<p style="font-size:13px;color:var(--txt3);padding:8px 0">Sem despesas este mês.</p>';
+// ══════════════════════════════════════════════════════
+function renderGraf(){
+  document.getElementById('graf-title').textContent=mName(curMonth,curYear);
+  const list=confirmedTxs();
+  const cR={},cD={};list.forEach(t=>t.type==='rec'?cR[t.cat]=(cR[t.cat]||0)+t.val:cD[t.cat]=(cD[t.cat]||0)+t.val);
+  const allC=[...new Set(list.map(t=>t.cat))];
+  if(barChart)barChart.destroy();
+  barChart=new Chart(document.getElementById('c-bar'),{type:'bar',data:{labels:allC.map(c=>catLabel(c).substring(0,10)),datasets:[{label:'Receita',data:allC.map(c=>cR[c]||0),backgroundColor:'#43a04788',borderRadius:4},{label:'Despesa',data:allC.map(c=>cD[c]||0),backgroundColor:'#e5393588',borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:9},autoSkip:false,maxRotation:45}},y:{ticks:{callback:v=>'R$'+Math.round(v),font:{size:10}}}}}});
+  document.getElementById('bar-leg').innerHTML=`<div class="leg-i"><div class="leg-dot" style="background:#43a047"></div>Receita</div><div class="leg-i"><div class="leg-dot" style="background:#e53935"></div>Despesa</div>`;
+  const dE=Object.entries(cD).sort((a,b)=>b[1]-a[1]);
+  if(pieChart)pieChart.destroy();
+  if(dE.length){pieChart=new Chart(document.getElementById('c-pie'),{type:'doughnut',data:{labels:dE.map(([c])=>catLabel(c)),datasets:[{data:dE.map(([,v])=>v),backgroundColor:dE.map(([c])=>catInfo(c).c||'#888'),borderWidth:2,borderColor:'#fff'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},cutout:'55%'}});
+  document.getElementById('pie-leg').innerHTML=dE.map(([c,v])=>`<div class="leg-i"><div class="leg-dot" style="background:${catInfo(c).c}"></div>${catLabel(c)} ${fmt(v)}</div>`).join('');}
+  const tot=dE.reduce((s,[,v])=>s+v,0);
+  document.getElementById('cat-det').innerHTML=dE.map(([c,v])=>{const p=tot>0?Math.round(v/tot*100):0;return`<div class="cat-row2"><div class="cat-dot2" style="background:${catInfo(c).c}"></div><span class="cat-nm2">${catLabel(c)}</span><div class="cat-bw2"><div class="cat-bf2" style="width:${p}%;background:${catInfo(c).c}"></div></div><span class="cat-am2" style="color:${catInfo(c).c}">${fmt(v)}</span></div>`;}).join('')||'<p style="font-size:13px;color:var(--txt3);padding:8px 0">Sem despesas.</p>';
 }
 
-// ════════════════════════════════════════════
+// ══════════════════════════════════════════════════════
 // EXPORT
-// ════════════════════════════════════════════
-function initExportPage() {
-  const mSel = document.getElementById('exp-month');
-  if (!mSel.options.length) {
-    for (let i=0;i<12;i++) { const o=document.createElement('option');o.value=i;o.text=new Date(curYear,i,1).toLocaleDateString('pt-BR',{month:'long'}).replace(/^\w/,c=>c.toUpperCase());if(i===curMonth)o.selected=true;mSel.appendChild(o); }
-  }
-  const cSel = document.getElementById('exp-cat');
-  cSel.innerHTML = '<option value="all">Todas</option>';
-  Object.entries(getCats()).forEach(([k,v]) => { const o=document.createElement('option');o.value=k;o.text=v.l;cSel.appendChild(o); });
+// ══════════════════════════════════════════════════════
+function initExportPage(){
+  const mSel=document.getElementById('exp-month');
+  if(!mSel.options.length)for(let i=0;i<12;i++){const o=document.createElement('option');o.value=i;o.text=new Date(curYear,i,1).toLocaleDateString('pt-BR',{month:'long'}).replace(/^\w/,c=>c.toUpperCase());if(i===curMonth)o.selected=true;mSel.appendChild(o);}
+  const cSel=document.getElementById('exp-cat');cSel.innerHTML='<option value="all">Todas</option>';
+  Object.entries(getCats()).forEach(([k,v])=>{const o=document.createElement('option');o.value=k;o.text=v.l;cSel.appendChild(o);});
   updateExpPreview();
-  ['exp-month','exp-type','exp-cat'].forEach(id => document.getElementById(id).onchange=updateExpPreview);
+  ['exp-month','exp-type','exp-cat'].forEach(id=>document.getElementById(id).onchange=updateExpPreview);
 }
-function getExpTxs() {
-  const m = parseInt(document.getElementById('exp-month').value);
-  const type = document.getElementById('exp-type').value;
-  const cat  = document.getElementById('exp-cat').value;
-  return TXS.filter(t => { const d=new Date(t.ts); return d.getMonth()===m&&d.getFullYear()===curYear&&(type==='all'||t.type===type)&&(cat==='all'||t.cat===cat)&&!t.scheduled; });
-}
-function updateExpPreview() {
-  const list = getExpTxs(); const {rec,desp,saldo}=calcM(list);
-  document.getElementById('exp-preview').innerHTML = `<strong>${list.length}</strong> lançamentos · <strong style="color:#2e7d32">${fmt(rec)}</strong> entradas · <strong style="color:var(--red)">${fmt(desp)}</strong> saídas · Saldo: <strong style="color:${saldo>=0?'#2e7d32':'var(--red)'}">${fmt(saldo)}</strong>`;
-}
-function exportExcel() {
+function getExpTxs(){const m=parseInt(document.getElementById('exp-month').value),type=document.getElementById('exp-type').value,cat=document.getElementById('exp-cat').value;return TXS.filter(t=>{const d=new Date(t.ts);return d.getMonth()===m&&d.getFullYear()===curYear&&(type==='all'||t.type===type)&&(cat==='all'||t.cat===cat)&&!t.scheduled;});}
+function updateExpPreview(){const list=getExpTxs();const{rec,desp,saldo}=calcM(list);document.getElementById('exp-preview').innerHTML=`<strong>${list.length}</strong> lançamentos · <strong style="color:#2e7d32">${fmt(rec)}</strong> entradas · <strong style="color:var(--red)">${fmt(desp)}</strong> saídas · Saldo: <strong style="color:${saldo>=0?'#2e7d32':'var(--red)'}">${fmt(saldo)}</strong>`;}
+function exportExcel(){
   const list=getExpTxs().sort((a,b)=>a.ts-b.ts);if(!list.length){alert('Nenhum lançamento.');return;}
   const wb=XLSX.utils.book_new();
-  const rows=[['Data','Descrição','Tipo','Categoria','Valor (R$)']];
-  list.forEach(t=>rows.push([new Date(t.ts).toLocaleDateString('pt-BR'),t.desc,t.type==='rec'?'Receita':'Despesa',catLabel(t.cat),(t.type==='rec'?1:-1)*t.val]));
+  const rows=[['Data','Descrição','Tipo','Categoria','Valor (R$)']];list.forEach(t=>rows.push([new Date(t.ts).toLocaleDateString('pt-BR'),t.desc,t.type==='rec'?'Receita':'Despesa',catLabel(t.cat),(t.type==='rec'?1:-1)*t.val]));
   const{rec,desp,saldo}=calcM(list);rows.push([],[],['',' ','','Total Receitas',rec],['',' ','','Total Despesas',-desp],['',' ','','Saldo',saldo]);
   const ws=XLSX.utils.aoa_to_sheet(rows);ws['!cols']=[{wch:12},{wch:28},{wch:10},{wch:18},{wch:14}];XLSX.utils.book_append_sheet(wb,ws,'Movimentações');
   const catData={};list.forEach(t=>{catData[t.cat]=catData[t.cat]||{rec:0,desp:0};t.type==='rec'?catData[t.cat].rec+=t.val:catData[t.cat].desp+=t.val;});
   const cr=[['Categoria','Tipo','Total (R$)']];Object.entries(catData).forEach(([k,v])=>{if(v.rec)cr.push([catLabel(k),'Receita',v.rec]);if(v.desp)cr.push([catLabel(k),'Despesa',-v.desp]);});
   const ws2=XLSX.utils.aoa_to_sheet(cr);ws2['!cols']=[{wch:20},{wch:12},{wch:14}];XLSX.utils.book_append_sheet(wb,ws2,'Por Categoria');
-  XLSX.writeFile(wb, `FinBot-${new Date(curYear,parseInt(document.getElementById('exp-month').value),1).toLocaleDateString('pt-BR',{month:'long',year:'numeric'}).replace(/\s/g,'-')}.xlsx`);
+  XLSX.writeFile(wb,`FinBot-${new Date(curYear,parseInt(document.getElementById('exp-month').value),1).toLocaleDateString('pt-BR',{month:'long',year:'numeric'}).replace(/\s/g,'-')}.xlsx`);
 }
-function exportPDF() {
+function exportPDF(){
   const list=getExpTxs().sort((a,b)=>a.ts-b.ts);if(!list.length){alert('Nenhum lançamento.');return;}
   const{rec,desp,saldo}=calcM(list);
   const catData={};list.forEach(t=>{catData[t.cat]=catData[t.cat]||{rec:0,desp:0};t.type==='rec'?catData[t.cat].rec+=t.val:catData[t.cat].desp+=t.val;});
   const ml=new Date(curYear,parseInt(document.getElementById('exp-month').value),1).toLocaleDateString('pt-BR',{month:'long',year:'numeric'}).replace(/^\w/,c=>c.toUpperCase());
   const catRows=Object.entries(catData).map(([k,v])=>[v.rec?`<tr><td>${catLabel(k)}</td><td style="color:#2e7d32">Receita</td><td style="text-align:right;color:#2e7d32;font-weight:700">+${fmt(v.rec)}</td></tr>`:'',v.desp?`<tr><td>${catLabel(k)}</td><td style="color:#c62828">Despesa</td><td style="text-align:right;color:#c62828;font-weight:700">-${fmt(v.desp)}</td></tr>`:''].join('')).join('');
   const txRows=list.map(t=>`<tr><td>${new Date(t.ts).toLocaleDateString('pt-BR')}</td><td>${esc(t.desc)}</td><td>${catLabel(t.cat)}</td><td style="text-align:right;color:${t.type==='rec'?'#2e7d32':'#c62828'};font-weight:700">${t.type==='rec'?'+':'-'}${fmt(t.val)}</td></tr>`).join('');
-  const html=`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>FinBot — ${ml}</title><style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Segoe UI',sans-serif;color:#111;padding:32px;font-size:13px}h1{font-size:22px;color:#075e54;margin-bottom:4px}.sub{color:#667781;font-size:13px;margin-bottom:24px}.sum{display:flex;gap:16px;margin-bottom:24px}.sc{flex:1;border-radius:10px;padding:12px;text-align:center}.g{background:#e8f5e9;border:1px solid #a5d6a7}.r{background:#fce4ec;border:1px solid #f48fb1}.b{background:#e3f2fd;border:1px solid #90caf9}.sv{font-size:18px;font-weight:700}.sl{font-size:11px;color:#667781;margin-top:4px}h2{font-size:14px;color:#075e54;margin:20px 0 10px;border-bottom:2px solid #e0e0e0;padding-bottom:6px}table{width:100%;border-collapse:collapse}th{background:#075e54;color:#fff;padding:8px 10px;text-align:left;font-size:12px}td{padding:7px 10px;border-bottom:1px solid #f0f0f0;font-size:12px}tr:nth-child(even) td{background:#fafafa}.ft{margin-top:32px;text-align:center;color:#aaa;font-size:11px;border-top:1px solid #eee;padding-top:12px}</style></head><body>
-  <h1>💰 FinBot — Relatório Financeiro</h1><div class="sub">Período: ${ml} · Gerado em ${new Date().toLocaleDateString('pt-BR')}</div>
+  const html=`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>FinBot IA — ${ml}</title><style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Segoe UI',sans-serif;color:#111;padding:32px;font-size:13px}h1{font-size:22px;color:#075e54;margin-bottom:4px}.sub{color:#667781;font-size:13px;margin-bottom:24px}.sum{display:flex;gap:16px;margin-bottom:24px}.sc{flex:1;border-radius:10px;padding:12px;text-align:center}.g{background:#e8f5e9;border:1px solid #a5d6a7}.r{background:#fce4ec;border:1px solid #f48fb1}.b{background:#e3f2fd;border:1px solid #90caf9}.sv{font-size:18px;font-weight:700}.sl{font-size:11px;color:#667781;margin-top:4px}h2{font-size:14px;color:#075e54;margin:20px 0 10px;border-bottom:2px solid #e0e0e0;padding-bottom:6px}table{width:100%;border-collapse:collapse}th{background:#075e54;color:#fff;padding:8px 10px;text-align:left;font-size:12px}td{padding:7px 10px;border-bottom:1px solid #f0f0f0;font-size:12px}tr:nth-child(even) td{background:#fafafa}.ft{margin-top:32px;text-align:center;color:#aaa;font-size:11px;border-top:1px solid #eee;padding-top:12px}</style></head><body>
+  <h1>🤖 FinBot IA — Relatório Financeiro</h1><div class="sub">Período: ${ml} · ${new Date().toLocaleDateString('pt-BR')}</div>
   <div class="sum"><div class="sc g"><div class="sv">${fmt(rec)}</div><div class="sl">Receitas</div></div><div class="sc r"><div class="sv">${fmt(desp)}</div><div class="sl">Despesas</div></div><div class="sc b"><div class="sv">${fmt(saldo)}</div><div class="sl">Saldo</div></div></div>
   <h2>Por Categoria</h2><table><tr><th>Categoria</th><th>Tipo</th><th style="text-align:right">Valor</th></tr>${catRows}</table>
   <h2>Movimentações (${list.length})</h2><table><tr><th>Data</th><th>Descrição</th><th>Categoria</th><th style="text-align:right">Valor</th></tr>${txRows}</table>
-  <div class="ft">FinBot Pessoal · ${new Date().toLocaleDateString('pt-BR',{year:'numeric',month:'long',day:'numeric'})}</div></body></html>`;
+  <div class="ft">FinBot IA · ${new Date().toLocaleDateString('pt-BR',{year:'numeric',month:'long',day:'numeric'})}</div></body></html>`;
   const w=window.open(URL.createObjectURL(new Blob([html],{type:'text/html'})),'_blank');
   if(w)w.onload=()=>setTimeout(()=>w.print(),400);
 }
-
-// ── BACKUP ──
-function exportBackup() {
-  const bk = { version:1, ts:Date.now(), txs:TXS, cats:load(SK.cats)||{}, name:load(SK.name)||'' };
-  const blob = new Blob([JSON.stringify(bk,null,2)], {type:'application/json'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href=url; a.download=`FinBot-backup-${new Date().toISOString().split('T')[0]}.json`; a.click();
-  setTimeout(()=>URL.revokeObjectURL(url),5000);
-  document.getElementById('backup-msg').textContent='✅ Backup gerado com sucesso!';
-  setTimeout(()=>document.getElementById('backup-msg').textContent='',3000);
+function exportBackup(){
+  const bk={version:2,ts:Date.now(),txs:TXS,cats:load(SK.cats)||{},name:load(SK.name)||''};
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(bk,null,2)],{type:'application/json'}));a.download=`FinBot-backup-${new Date().toISOString().split('T')[0]}.json`;a.click();
+  document.getElementById('backup-msg').textContent='✅ Backup gerado!';setTimeout(()=>document.getElementById('backup-msg').textContent='',3000);
 }
-function importBackup(event) {
-  const file = event.target.files[0]; if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    try {
-      const bk = JSON.parse(e.target.result);
-      if (!bk.txs || !Array.isArray(bk.txs)) throw new Error('Formato inválido');
-      if (!confirm(`Restaurar backup de ${new Date(bk.ts).toLocaleDateString('pt-BR')} com ${bk.txs.length} lançamentos?\n\nISTO IRÁ SUBSTITUIR TODOS OS DADOS ATUAIS.`)) return;
-      TXS = bk.txs; save(SK.txs, TXS);
-      if (bk.cats) save(SK.cats, bk.cats);
-      if (bk.name) save(SK.name, bk.name);
+function importBackup(e){
+  const file=e.target.files[0];if(!file)return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    try{
+      const bk=JSON.parse(ev.target.result);
+      if(!bk.txs||!Array.isArray(bk.txs))throw new Error('Formato inválido');
+      if(!confirm(`Restaurar ${bk.txs.length} lançamentos de ${new Date(bk.ts).toLocaleDateString('pt-BR')}?\n\nISTO SUBSTITUI TODOS OS DADOS ATUAIS.`))return;
+      TXS=bk.txs;save(SK.txs,TXS);
+      if(bk.cats)save(SK.cats,bk.cats);
+      if(bk.name)save(SK.name,bk.name);
       updateHeader();
-      document.getElementById('backup-msg').textContent = `✅ ${TXS.length} lançamentos restaurados!`;
-      document.getElementById('backup-msg').style.color = '#2e7d32';
+      document.getElementById('backup-msg').textContent=`✅ ${TXS.length} lançamentos restaurados!`;
+      document.getElementById('backup-msg').style.color='var(--gm)';
       setTimeout(()=>document.getElementById('backup-msg').textContent='',4000);
-    } catch(err) {
-      document.getElementById('backup-msg').textContent = '❌ Arquivo inválido. Use um backup gerado pelo FinBot.';
-      document.getElementById('backup-msg').style.color = 'var(--red)';
-    }
+    }catch(err){document.getElementById('backup-msg').textContent='❌ Arquivo inválido.';document.getElementById('backup-msg').style.color='var(--red)';}
   };
-  reader.readAsText(file);
-  event.target.value = '';
+  r.readAsText(file);e.target.value='';
 }
 
-// ════════════════════════════════════════════
+// ══════════════════════════════════════════════════════
 // NAVIGATION
-// ════════════════════════════════════════════
-function goTab(name) {
-  ['chat','hist','graf','export'].forEach(t => {
-    document.getElementById('pg-'+t).classList.toggle('on', t===name);
-    document.getElementById('tab-'+t).classList.toggle('on', t===name);
-  });
-  if (name==='hist')   renderHist();
-  if (name==='graf')   renderGraf();
-  if (name==='export') initExportPage();
+// ══════════════════════════════════════════════════════
+function goTab(name){
+  ['chat','hist','graf','export'].forEach(t=>{document.getElementById('pg-'+t).classList.toggle('on',t===name);document.getElementById('tab-'+t).classList.toggle('on',t===name);});
+  if(name==='hist')renderHist();
+  if(name==='graf')renderGraf();
+  if(name==='export')initExportPage();
 }
-function chMonth(d) {
-  curMonth += d;
-  if (curMonth > 11) { curMonth = 0; curYear++; }
-  if (curMonth < 0)  { curMonth = 11; curYear--; }
+function chMonth(d){
+  curMonth+=d;if(curMonth>11){curMonth=0;curYear++;}if(curMonth<0){curMonth=11;curYear--;}
   initHistMonthSel();
-  if (document.getElementById('pg-hist').classList.contains('on')) renderHist();
-  if (document.getElementById('pg-graf').classList.contains('on')) renderGraf();
+  if(document.getElementById('pg-hist').classList.contains('on'))renderHist();
+  if(document.getElementById('pg-graf').classList.contains('on'))renderGraf();
   updateHeader();
 }
 
-// ════════════════════════════════════════════
-// INIT — no activation key until 31/05/2026
-// ════════════════════════════════════════════
-function initApp() {
-  loadTxs();
-  updateHeader();
-  _initInstallUI();
-  setTimeout(checkDueToday, 1200);
-
-  const name = load(SK.name) || 'você';
-  setTimeout(async () => {
-    await _bot(`<div class="b-txt">Olá, <strong>${name}</strong>! 👋 Sou o <strong>FinBot IA</strong> — seu assistente financeiro com inteligência artificial.<br><br>Pode me dizer o que quiser em linguagem natural:<br><em>"Gastei 50 reais no mercado hoje"<br>"Quanto estou gastando em alimentação?"<br>"Recebi meu salário de 3000"</em><br><br><small style="color:var(--txt2)">💡 Digite <strong>menu</strong> a qualquer momento para ver as opções.</small></div>`);
-    bot.showMenu();
-  }, 400);
+// ══════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════
+function initApp(){
+  loadTxs();updateHeader();_initInstallUI();
+  setTimeout(checkDueToday,1200);
+  const name=load(SK.name)||null;
+  setTimeout(async()=>{
+    if(!name){
+      await _bot(`<div class="b-txt">Olá! 👋 Sou o <strong>FinBot IA</strong>.<br>Qual o seu nome?</div>`);
+      bot._setState('get_name');
+      document.getElementById('chat-input').focus();
+      // intercept name entry
+      const orig=bot._text.bind(bot);
+      bot._text=async function(raw){
+        if(this._state==='get_name'){
+          const n=raw.trim();if(n.length<2){await _bot(`<div class="b-txt">Digite pelo menos 2 letras 😊</div>`,'warn');return;}
+          save(SK.name,n);this._setState('idle');
+          await _bot(`<div class="b-txt">Prazer, <strong>${esc(n)}</strong>! 🤖 Sou seu assistente financeiro com inteligência local.<br><br>Pode falar comigo naturalmente:<br><em>"Gastei 80 no mercado hoje"</em><br><em>"Recebi meu salário de 3.500"</em><br><em>"Quanto tenho de saldo?"</em><br><br><small style="color:var(--txt2)">💡 Digite <strong>menu</strong> para ver todas as opções</small></div>`);
+          bot._text=orig;
+          this.showMenu();return;
+        }
+        return orig(raw);
+      };
+    } else {
+      await _bot(`<div class="b-txt">Olá, <strong>${esc(name)}</strong>! 🤖 Pronto para ajudar.<br><br>Pode falar naturalmente: <em>"gastei 50 no mercado"</em>, <em>"recebi salário"</em>, <em>"ver saldo"</em>...<br><br><small style="color:var(--txt2)">💡 Digite <strong>menu</strong> para ver todas as opções</small></div>`);
+      bot.showMenu();
+    }
+  },400);
 }
-
 initApp();
 </script>
 </body>
