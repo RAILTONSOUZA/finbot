@@ -193,6 +193,30 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto}
 .imod-step p{font-size:12px;color:var(--txt2);line-height:1.5}
 .imod-pill{display:inline-block;background:#f0f2f5;border:1px solid var(--bdr);border-radius:6px;padding:2px 7px;font-size:12px;font-weight:700}
 .imod-note{font-size:11px;color:var(--txt2);text-align:center;padding:10px 0 0;border-top:1px solid var(--bdr);margin-top:10px;line-height:1.5}
+
+
+/* PAYWALL / ATIVAÇÃO */
+#license-modal{position:fixed;inset:0;z-index:99999;background:linear-gradient(180deg,#075e54 0%,#128c7e 100%);display:none;align-items:center;justify-content:center;max-width:480px;margin:0 auto;padding:18px;font-family:'Nunito',sans-serif;color:#111b21}
+#license-modal.show{display:flex}
+.lic-card{background:#fff;width:100%;border-radius:22px;padding:20px 16px 18px;box-shadow:0 18px 50px rgba(0,0,0,.28);max-height:94vh;overflow-y:auto}
+.lic-logo{width:62px;height:62px;border-radius:50%;background:#25d366;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:31px;box-shadow:0 8px 18px rgba(37,211,102,.25)}
+.lic-title{text-align:center;font-size:20px;font-weight:800;color:#075e54;margin-bottom:4px}
+.lic-sub{text-align:center;font-size:13px;color:#667781;line-height:1.45;margin-bottom:14px}
+.lic-alert{background:#fff8e1;border:1px solid #ffe082;border-radius:14px;padding:11px;font-size:12px;line-height:1.45;margin-bottom:10px;color:#5d4037}
+.lic-pix{background:#e8f5e9;border:1px solid #a5d6a7;border-radius:14px;padding:12px;margin:10px 0;text-align:center}
+.lic-pix small{display:block;color:#2e7d32;font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+.lic-pix strong{font-size:15px;color:#075e54;word-break:break-all}
+.lic-row{display:flex;gap:8px;margin:10px 0}
+.lic-row button,.lic-main-btn{border:none;border-radius:12px;padding:11px 10px;font-size:13px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer}
+.lic-copy{flex:1;background:#128c7e;color:#fff}
+.lic-whats{flex:1;background:#25d366;color:#fff}
+.lic-input{width:100%;border:1.7px solid #e9edef;border-radius:13px;padding:12px;font-size:14px;font-family:'Nunito',sans-serif;outline:none;text-align:center;text-transform:uppercase;margin-top:8px}
+.lic-main-btn{width:100%;background:#075e54;color:#fff;margin-top:9px}
+.lic-demo{width:100%;border:none;background:#f0f2f5;color:#075e54;border-radius:12px;padding:11px;font-weight:800;margin-top:8px;font-family:'Nunito',sans-serif;cursor:pointer}
+.lic-msg{text-align:center;font-size:12px;font-weight:700;margin-top:9px;min-height:18px}
+.lic-foot{text-align:center;font-size:10px;color:#667781;margin-top:12px;line-height:1.4}
+.lic-badge{display:inline-block;background:#e3f2fd;color:#1565c0;border-radius:999px;padding:4px 9px;font-size:11px;font-weight:800;margin-bottom:9px}
+
 </style>
 </head>
 <body>
@@ -230,6 +254,39 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto}
     <div id="it-desktop" class="imod-steps" style="display:none">
       <div class="imod-step"><div class="imod-num">1</div><div><h3>Chrome ou Edge</h3><p>Abra o FinBot IA no <strong>Chrome</strong> ou <strong>Edge</strong>.</p></div></div>
       <div class="imod-step"><div class="imod-num">2</div><div><h3>Ícone <span class="imod-pill">⊕</span> na barra de endereço</h3><p>Clique nele e depois em <strong>Instalar</strong>. 🎉</p></div></div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- LICENSE / PAYWALL MODAL -->
+<div id="license-modal">
+  <div class="lic-card">
+    <div class="lic-logo">🤖</div>
+    <div class="lic-title">FinBot IA Premium</div>
+    <div class="lic-sub" id="lic-status">Teste grátis de 7 dias liberado.</div>
+
+    <div class="lic-alert">
+      🔒 Após o período grátis, o acesso é liberado com um <strong>código de ativação</strong> enviado depois da confirmação do PIX.
+    </div>
+
+    <div class="lic-pix">
+      <small>Chave PIX</small>
+      <strong id="pix-key">shopeloslz@gmail.com</strong>
+    </div>
+
+    <div class="lic-row">
+      <button class="lic-copy" onclick="copyPixKey()">📋 Copiar PIX</button>
+      <button class="lic-whats" onclick="sendPixProof()">💬 Enviar comprovante</button>
+    </div>
+
+    <input id="lic-code" class="lic-input" placeholder="Digite o código de ativação">
+    <button class="lic-main-btn" onclick="activateLicense()">✅ Ativar acesso</button>
+    <button class="lic-demo" id="lic-demo-btn" onclick="continueTrial()">🎁 Continuar teste grátis</button>
+    <div class="lic-msg" id="lic-msg"></div>
+    <div class="lic-foot">
+      Códigos de exemplo ficam dentro do arquivo para teste. Para venda profissional, use validação online em servidor/banco de dados.
     </div>
   </div>
 </div>
@@ -569,6 +626,7 @@ function _qr(opts){
 function _clearQR(){if(_qrEl){_qrEl.remove();_qrEl=null;}}
 
 function sendMsg(){
+  if(!checkLicenseAccess())return;
   const inp=document.getElementById('chat-input');
   const txt=inp.value.trim();if(!txt)return;
   inp.value='';_clearQR();_uBub(txt);
@@ -1200,7 +1258,31 @@ function exportPDF(){
   const ml=new Date(curYear,parseInt(document.getElementById('exp-month').value),1).toLocaleDateString('pt-BR',{month:'long',year:'numeric'}).replace(/^\w/,c=>c.toUpperCase());
   const catRows=Object.entries(catData).map(([k,v])=>[v.rec?`<tr><td>${catLabel(k)}</td><td style="color:#2e7d32">Receita</td><td style="text-align:right;color:#2e7d32;font-weight:700">+${fmt(v.rec)}</td></tr>`:'',v.desp?`<tr><td>${catLabel(k)}</td><td style="color:#c62828">Despesa</td><td style="text-align:right;color:#c62828;font-weight:700">-${fmt(v.desp)}</td></tr>`:''].join('')).join('');
   const txRows=list.map(t=>`<tr><td>${new Date(t.ts).toLocaleDateString('pt-BR')}</td><td>${esc(t.desc)}</td><td>${catLabel(t.cat)}</td><td style="text-align:right;color:${t.type==='rec'?'#2e7d32':'#c62828'};font-weight:700">${t.type==='rec'?'+':'-'}${fmt(t.val)}</td></tr>`).join('');
-  const html=`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>FinBot IA — ${ml}</title><style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Segoe UI',sans-serif;color:#111;padding:32px;font-size:13px}h1{font-size:22px;color:#075e54;margin-bottom:4px}.sub{color:#667781;font-size:13px;margin-bottom:24px}.sum{display:flex;gap:16px;margin-bottom:24px}.sc{flex:1;border-radius:10px;padding:12px;text-align:center}.g{background:#e8f5e9;border:1px solid #a5d6a7}.r{background:#fce4ec;border:1px solid #f48fb1}.b{background:#e3f2fd;border:1px solid #90caf9}.sv{font-size:18px;font-weight:700}.sl{font-size:11px;color:#667781;margin-top:4px}h2{font-size:14px;color:#075e54;margin:20px 0 10px;border-bottom:2px solid #e0e0e0;padding-bottom:6px}table{width:100%;border-collapse:collapse}th{background:#075e54;color:#fff;padding:8px 10px;text-align:left;font-size:12px}td{padding:7px 10px;border-bottom:1px solid #f0f0f0;font-size:12px}tr:nth-child(even) td{background:#fafafa}.ft{margin-top:32px;text-align:center;color:#aaa;font-size:11px;border-top:1px solid #eee;padding-top:12px}</style></head><body>
+  const html=`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>FinBot IA — ${ml}</title><style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Segoe UI',sans-serif;color:#111;padding:32px;font-size:13px}h1{font-size:22px;color:#075e54;margin-bottom:4px}.sub{color:#667781;font-size:13px;margin-bottom:24px}.sum{display:flex;gap:16px;margin-bottom:24px}.sc{flex:1;border-radius:10px;padding:12px;text-align:center}.g{background:#e8f5e9;border:1px solid #a5d6a7}.r{background:#fce4ec;border:1px solid #f48fb1}.b{background:#e3f2fd;border:1px solid #90caf9}.sv{font-size:18px;font-weight:700}.sl{font-size:11px;color:#667781;margin-top:4px}h2{font-size:14px;color:#075e54;margin:20px 0 10px;border-bottom:2px solid #e0e0e0;padding-bottom:6px}table{width:100%;border-collapse:collapse}th{background:#075e54;color:#fff;padding:8px 10px;text-align:left;font-size:12px}td{padding:7px 10px;border-bottom:1px solid #f0f0f0;font-size:12px}tr:nth-child(even) td{background:#fafafa}.ft{margin-top:32px;text-align:center;color:#aaa;font-size:11px;border-top:1px solid #eee;padding-top:12px}
+
+/* PAYWALL / ATIVAÇÃO */
+#license-modal{position:fixed;inset:0;z-index:99999;background:linear-gradient(180deg,#075e54 0%,#128c7e 100%);display:none;align-items:center;justify-content:center;max-width:480px;margin:0 auto;padding:18px;font-family:'Nunito',sans-serif;color:#111b21}
+#license-modal.show{display:flex}
+.lic-card{background:#fff;width:100%;border-radius:22px;padding:20px 16px 18px;box-shadow:0 18px 50px rgba(0,0,0,.28);max-height:94vh;overflow-y:auto}
+.lic-logo{width:62px;height:62px;border-radius:50%;background:#25d366;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:31px;box-shadow:0 8px 18px rgba(37,211,102,.25)}
+.lic-title{text-align:center;font-size:20px;font-weight:800;color:#075e54;margin-bottom:4px}
+.lic-sub{text-align:center;font-size:13px;color:#667781;line-height:1.45;margin-bottom:14px}
+.lic-alert{background:#fff8e1;border:1px solid #ffe082;border-radius:14px;padding:11px;font-size:12px;line-height:1.45;margin-bottom:10px;color:#5d4037}
+.lic-pix{background:#e8f5e9;border:1px solid #a5d6a7;border-radius:14px;padding:12px;margin:10px 0;text-align:center}
+.lic-pix small{display:block;color:#2e7d32;font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+.lic-pix strong{font-size:15px;color:#075e54;word-break:break-all}
+.lic-row{display:flex;gap:8px;margin:10px 0}
+.lic-row button,.lic-main-btn{border:none;border-radius:12px;padding:11px 10px;font-size:13px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer}
+.lic-copy{flex:1;background:#128c7e;color:#fff}
+.lic-whats{flex:1;background:#25d366;color:#fff}
+.lic-input{width:100%;border:1.7px solid #e9edef;border-radius:13px;padding:12px;font-size:14px;font-family:'Nunito',sans-serif;outline:none;text-align:center;text-transform:uppercase;margin-top:8px}
+.lic-main-btn{width:100%;background:#075e54;color:#fff;margin-top:9px}
+.lic-demo{width:100%;border:none;background:#f0f2f5;color:#075e54;border-radius:12px;padding:11px;font-weight:800;margin-top:8px;font-family:'Nunito',sans-serif;cursor:pointer}
+.lic-msg{text-align:center;font-size:12px;font-weight:700;margin-top:9px;min-height:18px}
+.lic-foot{text-align:center;font-size:10px;color:#667781;margin-top:12px;line-height:1.4}
+.lic-badge{display:inline-block;background:#e3f2fd;color:#1565c0;border-radius:999px;padding:4px 9px;font-size:11px;font-weight:800;margin-bottom:9px}
+
+</style></head><body>
   <h1>🤖 FinBot IA — Relatório Financeiro</h1><div class="sub">Período: ${ml} · ${new Date().toLocaleDateString('pt-BR')}</div>
   <div class="sum"><div class="sc g"><div class="sv">${fmt(rec)}</div><div class="sl">Receitas</div></div><div class="sc r"><div class="sv">${fmt(desp)}</div><div class="sl">Despesas</div></div><div class="sc b"><div class="sv">${fmt(saldo)}</div><div class="sl">Saldo</div></div></div>
   <h2>Por Categoria</h2><table><tr><th>Categoria</th><th>Tipo</th><th style="text-align:right">Valor</th></tr>${catRows}</table>
@@ -1251,11 +1333,172 @@ function chMonth(d){
   updateHeader();
 }
 
+
+
+// ══════════════════════════════════════════════════════
+// LICENSE / TRIAL — 7 DIAS + ATIVAÇÃO ONLINE
+// ══════════════════════════════════════════════════════
+const LICENSE={
+  pix:'shopeloslz@gmail.com',
+  trialDays:7,
+  keys:{
+    trialStart:'finbot_trial_start',
+    activated:'finbot_activated',
+    code:'finbot_activation_code',
+    activatedAt:'finbot_activated_at'
+  }
+};
+
+const API_URL = 'https://script.google.com/macros/s/AKfycbzNv2qcImYdDzzBVe5SRO9B_B3cmTSCd5Fy5E0wpe3X8zlsNcQ0BRmMXTEjc7S73TnvSw/exec';
+
+function licDaysUsed(){
+  let start=localStorage.getItem(LICENSE.keys.trialStart);
+  if(!start){
+    start=new Date().toISOString();
+    localStorage.setItem(LICENSE.keys.trialStart,start);
+  }
+  const used=Math.floor((Date.now()-new Date(start).getTime())/86400000);
+  return Math.max(0,used);
+}
+function licDaysLeft(){return Math.max(0,LICENSE.trialDays-licDaysUsed());}
+function isLicenseActive(){return localStorage.getItem(LICENSE.keys.activated)==='yes';}
+function hideLicenseModal(){
+  const modal=document.getElementById('license-modal');
+  if(modal)modal.classList.remove('show');
+}
+function showLicenseModal(blocked=false){
+  const modal=document.getElementById('license-modal');
+  const status=document.getElementById('lic-status');
+  const btn=document.getElementById('lic-demo-btn');
+  const left=licDaysLeft();
+  if(!modal)return;
+  modal.classList.add('show');
+  if(blocked||left<=0){
+    if(status)status.innerHTML='Seu teste grátis terminou. Ative para continuar usando.';
+    if(btn)btn.style.display='none';
+  }else{
+    if(status)status.innerHTML=`Você ainda tem <span class="lic-badge">${left} dia${left===1?'':'s'} grátis</span>`;
+    if(btn)btn.style.display='block';
+  }
+}
+function checkLicenseAccess(){
+  if(isLicenseActive()){
+    const hd=document.getElementById('hd-st');
+    if(hd)hd.textContent='online · premium ativado';
+    return true;
+  }
+  const left=licDaysLeft();
+  if(left<=0){showLicenseModal(true);return false;}
+  const hd=document.getElementById('hd-st');
+  if(hd)hd.textContent=`teste grátis · ${left} dia${left===1?'':'s'} restante${left===1?'':'s'}`;
+  return true;
+}
+function continueTrial(){hideLicenseModal();}
+function copyPixKey(){
+  const msg=document.getElementById('lic-msg');
+  try{
+    navigator.clipboard?.writeText(LICENSE.pix);
+    if(msg){msg.style.color='#075e54';msg.textContent='✅ Chave PIX copiada!';}
+  }catch(e){
+    if(msg){msg.style.color='#075e54';msg.textContent='Chave PIX: '+LICENSE.pix;}
+  }
+}
+function sendPixProof(){
+  const txt=encodeURIComponent(`Olá! Fiz o PIX para ativar o FinBot IA. Chave PIX: ${LICENSE.pix}. Vou enviar o comprovante.`);
+  window.open(`https://wa.me/?text=${txt}`,'_blank');
+}
+function getDeviceId(){
+  let id=localStorage.getItem('finbot_device_id');
+  if(!id){
+    id='DEV-'+Math.random().toString(36).substring(2)+Date.now();
+    localStorage.setItem('finbot_device_id',id);
+  }
+  return id;
+}
+
+// Usa JSONP para evitar bloqueio de CORS no Apps Script.
+function validarCodigoOnline(code){
+  return new Promise((resolve,reject)=>{
+    const callbackName='finbotLicCb_'+Date.now()+'_'+Math.random().toString(36).slice(2);
+    let finished=false;
+    const timer=setTimeout(()=>{
+      if(finished)return;
+      finished=true;
+      cleanup();
+      reject(new Error('Tempo esgotado ao conectar no Apps Script.'));
+    },15000);
+    function cleanup(){
+      clearTimeout(timer);
+      delete window[callbackName];
+      const old=document.getElementById(callbackName);
+      if(old)old.remove();
+    }
+    window[callbackName]=function(data){
+      if(finished)return;
+      finished=true;
+      cleanup();
+      resolve(data||{ok:false,msg:'Resposta vazia do Apps Script.'});
+    };
+    const script=document.createElement('script');
+    script.id=callbackName;
+    script.src=API_URL+
+      '?codigo='+encodeURIComponent(code)+
+      '&dispositivo='+encodeURIComponent(getDeviceId())+
+      '&callback='+encodeURIComponent(callbackName)+
+      '&_='+Date.now();
+    script.onerror=function(){
+      if(finished)return;
+      finished=true;
+      cleanup();
+      reject(new Error('Falha ao carregar a validação online.'));
+    };
+    document.body.appendChild(script);
+  });
+}
+
+async function activateLicense(){
+  const input=document.getElementById('lic-code');
+  const msg=document.getElementById('lic-msg');
+  const code=(input?.value||'').trim().toUpperCase();
+
+  if(!code){
+    if(msg){msg.style.color='#e53935';msg.textContent='❌ Digite o código de ativação.';}
+    return;
+  }
+
+  if(msg){msg.style.color='#667781';msg.textContent='⏳ Validando código online...';}
+
+  try{
+    const result=await validarCodigoOnline(code);
+    if(!result.ok){
+      if(msg){msg.style.color='#e53935';msg.textContent='❌ '+(result.msg||'Código inválido.');}
+      return;
+    }
+
+    localStorage.setItem(LICENSE.keys.activated,'yes');
+    localStorage.setItem(LICENSE.keys.code,code);
+    localStorage.setItem(LICENSE.keys.activatedAt,new Date().toISOString());
+    localStorage.setItem('finbot_cliente',result.cliente||'');
+    localStorage.setItem('finbot_vencimento',result.vence||'');
+
+    if(msg){msg.style.color='#075e54';msg.textContent='✅ Ativado com sucesso!';}
+    setTimeout(()=>{
+      hideLicenseModal();
+      const hd=document.getElementById('hd-st');
+      if(hd)hd.textContent='online · premium ativado';
+      if(typeof checkDueToday==='function')setTimeout(checkDueToday,800);
+    },700);
+  }catch(e){
+    console.error('Erro ao validar licença:',e);
+    if(msg){msg.style.color='#e53935';msg.textContent='❌ Erro: '+(e.message||'falha ao validar.');}
+  }
+}
 // ══════════════════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════════════════
 function initApp(){
   loadTxs();updateHeader();_initInstallUI();
+  if(!checkLicenseAccess())return;
   setTimeout(checkDueToday,1200);
   const name=load(SK.name)||null;
   setTimeout(async()=>{
