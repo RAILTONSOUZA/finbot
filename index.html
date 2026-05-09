@@ -217,6 +217,26 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto}
 .lic-foot{text-align:center;font-size:10px;color:#667781;margin-top:12px;line-height:1.4}
 .lic-badge{display:inline-block;background:#e3f2fd;color:#1565c0;border-radius:999px;padding:4px 9px;font-size:11px;font-weight:800;margin-bottom:9px}
 
+
+/* AFILIADOS DISCRETOS */
+.aff-chat-card{border:1px solid #90caf9;background:linear-gradient(135deg,#f3f9ff,#ffffff);border-radius:12px;padding:10px;max-width:100%}
+.aff-chat-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;font-size:11px;color:#667781}
+.aff-chat-title{font-size:13px;font-weight:800;color:#1565c0}
+.aff-chat-body{display:flex;gap:10px;align-items:center}
+.aff-chat-ic{width:48px;height:48px;border-radius:12px;background:#e3f2fd;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.aff-chat-text{font-size:13px;line-height:1.45;color:var(--txt)}
+.aff-chat-btn{display:inline-block;margin-top:8px;background:#1565c0;color:#fff!important;text-decoration:none;border-radius:9px;padding:7px 12px;font-size:12px;font-weight:800}
+.aff-note{font-size:10px;color:#667781;margin-top:7px}
+.aff-export-grid{display:flex;flex-direction:column;gap:9px;margin-top:10px}
+.aff-export-item{border:1px solid #a5d6a7;background:linear-gradient(135deg,#f1fff6,#ffffff);border-radius:12px;padding:10px;display:flex;align-items:center;gap:10px}
+.aff-export-item:nth-child(2){border-color:#ce93d8;background:linear-gradient(135deg,#fbf5ff,#ffffff)}
+.aff-export-item:nth-child(3){border-color:#ffcc80;background:linear-gradient(135deg,#fff8ef,#ffffff)}
+.aff-export-ic{width:42px;height:42px;border-radius:11px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:23px;box-shadow:var(--sh);flex-shrink:0}
+.aff-export-info{flex:1;min-width:0}
+.aff-export-title{font-size:13px;font-weight:800;color:var(--txt)}
+.aff-export-desc{font-size:11px;color:var(--txt2);line-height:1.35;margin-top:2px}
+.aff-export-btn{border:none;border-radius:9px;background:#128c7e;color:#fff;padding:7px 10px;font-size:11px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer;flex-shrink:0}
+
 </style>
 </head>
 <body>
@@ -260,36 +280,8 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto}
 
 
 
-<!-- LICENSE / PAYWALL MODAL -->
-<div id="license-modal">
-  <div class="lic-card">
-    <div class="lic-logo">🤖</div>
-    <div class="lic-title">FinBot IA Premium</div>
-    <div class="lic-sub" id="lic-status">Teste grátis de 7 dias liberado.</div>
-
-    <div class="lic-alert">
-      🔒 Após o período grátis, o acesso é liberado com um <strong>código de ativação</strong> enviado depois da confirmação do PIX.
-    </div>
-
-    <div class="lic-pix">
-      <small>Chave PIX</small>
-      <strong id="pix-key">shopeloslz@gmail.com</strong>
-    </div>
-
-    <div class="lic-row">
-      <button class="lic-copy" onclick="copyPixKey()">📋 Copiar PIX</button>
-      <button class="lic-whats" onclick="sendPixProof()">💬 Enviar comprovante</button>
-    </div>
-
-    <input id="lic-code" class="lic-input" placeholder="Digite o código de ativação">
-    <button class="lic-main-btn" onclick="activateLicense()">✅ Ativar acesso</button>
-    <button class="lic-demo" id="lic-demo-btn" onclick="continueTrial()">🎁 Continuar teste grátis</button>
-    <div class="lic-msg" id="lic-msg"></div>
-    <div class="lic-foot">
-      Códigos de exemplo ficam dentro do arquivo para teste. Para venda profissional, use validação online em servidor/banco de dados.
-    </div>
-  </div>
-</div>
+<!-- APP GRATUITO: licença removida -->
+<div id="license-modal" aria-hidden="true" style="display:none"></div>
 
 <!-- HEADER -->
 <div class="hdr">
@@ -370,6 +362,30 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto}
         <label class="fc-lbl">Categoria</label><select class="fc-sel" id="exp-cat"><option value="all">Todas</option></select>
         <div id="exp-preview" style="font-size:12px;color:var(--txt2);padding:8px;background:#f9f9f9;border-radius:8px"></div>
       </div>
+
+      <div class="exp-card">
+        <div class="exp-title">⭐ Ofertas que podem ajudar</div>
+        <div class="exp-desc">Recomendações úteis para economizar, organizar dinheiro e aproveitar benefícios. O app continua gratuito para você.</div>
+        <div class="aff-export-grid">
+          <div class="aff-export-item">
+            <div class="aff-export-ic">💳</div>
+            <div class="aff-export-info"><div class="aff-export-title">Conta digital gratuita</div><div class="aff-export-desc">Opção para organizar seu dinheiro e acompanhar gastos.</div></div>
+            <button class="aff-export-btn" onclick="openAffiliate('conta')">Ver</button>
+          </div>
+          <div class="aff-export-item">
+            <div class="aff-export-ic">🛍️</div>
+            <div class="aff-export-info"><div class="aff-export-title">Cupons e cashback</div><div class="aff-export-desc">Economize em compras do dia a dia com ofertas selecionadas.</div></div>
+            <button class="aff-export-btn" onclick="openAffiliate('cashback')">Ver</button>
+          </div>
+          <div class="aff-export-item">
+            <div class="aff-export-ic">📘</div>
+            <div class="aff-export-info"><div class="aff-export-title">Controle financeiro</div><div class="aff-export-desc">Conteúdo e ferramentas para organizar melhor sua vida financeira.</div></div>
+            <button class="aff-export-btn" onclick="openAffiliate('curso')">Ver</button>
+          </div>
+        </div>
+        <div class="aff-note">🛡️ Links de afiliado. Você não paga nada a mais por isso.</div>
+      </div>
+
       <div class="exp-card"><div class="exp-title">📊 Excel</div><div class="exp-desc">Planilha com movimentações e totais por categoria.</div><button class="btn-exp btn-xl" onclick="exportExcel()">📊 Baixar Excel</button></div>
       <div class="exp-card"><div class="exp-title">📄 PDF</div><div class="exp-desc">Relatório com resumo e todas as movimentações.</div><button class="btn-exp btn-pdf" onclick="exportPDF()">📄 Gerar PDF</button></div>
       <div class="exp-card">
@@ -630,7 +646,9 @@ function sendMsg(){
   const inp=document.getElementById('chat-input');
   const txt=inp.value.trim();if(!txt)return;
   inp.value='';_clearQR();_uBub(txt);
+  window.finbotAffiliateCount=(window.finbotAffiliateCount||0)+1;
   bot._text(txt);
+  if(window.finbotAffiliateCount % 4 === 0){setTimeout(showAffiliateTip,1800);}
 }
 
 // ── BOT ──────────────────────────────────────────────
@@ -1282,6 +1300,26 @@ function exportPDF(){
 .lic-foot{text-align:center;font-size:10px;color:#667781;margin-top:12px;line-height:1.4}
 .lic-badge{display:inline-block;background:#e3f2fd;color:#1565c0;border-radius:999px;padding:4px 9px;font-size:11px;font-weight:800;margin-bottom:9px}
 
+
+/* AFILIADOS DISCRETOS */
+.aff-chat-card{border:1px solid #90caf9;background:linear-gradient(135deg,#f3f9ff,#ffffff);border-radius:12px;padding:10px;max-width:100%}
+.aff-chat-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;font-size:11px;color:#667781}
+.aff-chat-title{font-size:13px;font-weight:800;color:#1565c0}
+.aff-chat-body{display:flex;gap:10px;align-items:center}
+.aff-chat-ic{width:48px;height:48px;border-radius:12px;background:#e3f2fd;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.aff-chat-text{font-size:13px;line-height:1.45;color:var(--txt)}
+.aff-chat-btn{display:inline-block;margin-top:8px;background:#1565c0;color:#fff!important;text-decoration:none;border-radius:9px;padding:7px 12px;font-size:12px;font-weight:800}
+.aff-note{font-size:10px;color:#667781;margin-top:7px}
+.aff-export-grid{display:flex;flex-direction:column;gap:9px;margin-top:10px}
+.aff-export-item{border:1px solid #a5d6a7;background:linear-gradient(135deg,#f1fff6,#ffffff);border-radius:12px;padding:10px;display:flex;align-items:center;gap:10px}
+.aff-export-item:nth-child(2){border-color:#ce93d8;background:linear-gradient(135deg,#fbf5ff,#ffffff)}
+.aff-export-item:nth-child(3){border-color:#ffcc80;background:linear-gradient(135deg,#fff8ef,#ffffff)}
+.aff-export-ic{width:42px;height:42px;border-radius:11px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:23px;box-shadow:var(--sh);flex-shrink:0}
+.aff-export-info{flex:1;min-width:0}
+.aff-export-title{font-size:13px;font-weight:800;color:var(--txt)}
+.aff-export-desc{font-size:11px;color:var(--txt2);line-height:1.35;margin-top:2px}
+.aff-export-btn{border:none;border-radius:9px;background:#128c7e;color:#fff;padding:7px 10px;font-size:11px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer;flex-shrink:0}
+
 </style></head><body>
   <h1>🤖 FinBot IA — Relatório Financeiro</h1><div class="sub">Período: ${ml} · ${new Date().toLocaleDateString('pt-BR')}</div>
   <div class="sum"><div class="sc g"><div class="sv">${fmt(rec)}</div><div class="sl">Receitas</div></div><div class="sc r"><div class="sv">${fmt(desp)}</div><div class="sl">Despesas</div></div><div class="sc b"><div class="sv">${fmt(saldo)}</div><div class="sl">Saldo</div></div></div>
@@ -1382,15 +1420,8 @@ function showLicenseModal(blocked=false){
   }
 }
 function checkLicenseAccess(){
-  if(isLicenseActive()){
-    const hd=document.getElementById('hd-st');
-    if(hd)hd.textContent='online · premium ativado';
-    return true;
-  }
-  const left=licDaysLeft();
-  if(left<=0){showLicenseModal(true);return false;}
   const hd=document.getElementById('hd-st');
-  if(hd)hd.textContent=`teste grátis · ${left} dia${left===1?'':'s'} restante${left===1?'':'s'}`;
+  if(hd)hd.textContent='online · gratuito';
   return true;
 }
 function continueTrial(){hideLicenseModal();}
@@ -1493,6 +1524,40 @@ async function activateLicense(){
     if(msg){msg.style.color='#e53935';msg.textContent='❌ Erro: '+(e.message||'falha ao validar.');}
   }
 }
+
+// ══════════════════════════════════════════════════════
+// AFILIADOS DISCRETOS — app gratuito
+// Troque os links abaixo pelos seus links de afiliado.
+// ══════════════════════════════════════════════════════
+const AFFILIATE_LINKS={
+  conta:'https://SEU_LINK_AFILIADO_CONTA_AQUI',
+  cashback:'https://SEU_LINK_AFILIADO_CASHBACK_AQUI',
+  curso:'https://SEU_LINK_AFILIADO_CURSO_AQUI'
+};
+const AFFILIATE_TIPS=[
+  {id:'conta', icon:'💳', title:'Dica do FinBot', text:'Uma conta digital gratuita pode ajudar a separar seus gastos e controlar melhor seu dinheiro.'},
+  {id:'cashback', icon:'🛍️', title:'Economia rápida', text:'Antes de comprar, vale conferir cupons e cashback para gastar menos no mês.'},
+  {id:'curso', icon:'📘', title:'Organização financeira', text:'Planilhas e conteúdos simples podem facilitar seu controle financeiro.'}
+];
+function openAffiliate(id){
+  const url=AFFILIATE_LINKS[id]||AFFILIATE_LINKS.conta;
+  window.open(url,'_blank','noopener,noreferrer');
+}
+function showAffiliateTip(){
+  if(typeof _bot!=='function')return;
+  const tip=AFFILIATE_TIPS[Math.floor(Math.random()*AFFILIATE_TIPS.length)];
+  _bot(`<div class="aff-chat-card">
+    <div class="aff-chat-top"><span class="aff-chat-title">${tip.icon} ${tip.title}</span><span>Recomendado</span></div>
+    <div class="aff-chat-body">
+      <div class="aff-chat-ic">${tip.icon}</div>
+      <div class="aff-chat-text">${tip.text}<br>
+        <a class="aff-chat-btn" href="${AFFILIATE_LINKS[tip.id]}" target="_blank" rel="noopener noreferrer">Ver recomendação ↗</a>
+      </div>
+    </div>
+    <div class="aff-note">Mantemos o FinBot gratuito com recomendações selecionadas.</div>
+  </div>`,'blue',300);
+}
+
 // ══════════════════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════════════════
@@ -1525,6 +1590,45 @@ function initApp(){
   },400);
 }
 initApp();
+
+// ===== CHAT AFILIADO DISCRETO =====
+const CHAT_AFFILIATE_LINKS = [
+  {texto:"💡 Dica do FinBot: achei uma ferramenta útil para economizar mais no dia a dia.", link:"https://SEU_LINK_AFILIADO_AQUI"},
+  {texto:"📦 Recomendação inteligente: oferta útil para quem quer gastar melhor.", link:"https://SEU_LINK_AFILIADO_AQUI"},
+  {texto:"🔥 Oportunidade rápida: pode ajudar no seu controle financeiro.", link:"https://SEU_LINK_AFILIADO_AQUI"}
+];
+
+function mostrarDicaAfiliadoChat(){
+  if(typeof _bot !== 'function') return;
+  const item = CHAT_AFFILIATE_LINKS[Math.floor(Math.random()*CHAT_AFFILIATE_LINKS.length)];
+
+  _bot(`<div class="b-txt">
+    ${item.texto}<br><br>
+    <a href="${item.link}" target="_blank" style="color:#1565c0;font-weight:700;text-decoration:none">
+      Ver dica
+    </a>
+  </div>`, 'blue', 900);
+}
+
+// Intercepta mensagens para aparecer de forma natural
+(function(){
+  if(typeof sendMsg !== 'function') return;
+
+  const originalSendMsg = sendMsg;
+  let afiliadoMsgCount = 0;
+
+  window.sendMsg = function(){
+    originalSendMsg();
+    afiliadoMsgCount++;
+
+    // A cada 3 mensagens, chance de recomendação
+    if(afiliadoMsgCount % 3 === 0){
+      setTimeout(()=>{
+        mostrarDicaAfiliadoChat();
+      }, 1800);
+    }
+  };
+})();
 </script>
 </body>
 </html>
